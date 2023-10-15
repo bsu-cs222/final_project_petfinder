@@ -30,21 +30,36 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.inversePrimary,
+    );
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(
-          'Find A Pet',
-        ),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        title: Text('Find A Pet'),
       ),
       body: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Let us see where this gets us '),
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          SizedBox(
+            width: 200,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                style: style,
+                decoration: InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Enter your location',
+                  contentPadding: EdgeInsets.all(8),
+                ),
+              ),
+            ),
           ),
+          Padding(
+              padding: const EdgeInsets.all(20), child: Text('Option 2 Test'))
         ]),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
