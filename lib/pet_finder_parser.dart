@@ -2,13 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class PetFinderParser{
-    void main(){
-        makeRequestToAPI();
-    }
-
-    Future<void> makeRequestToAPI() async {
-      const String clientId = 'YOUR_CLIENT_ID';
-      const String clientSecret = 'YOUR_CLIENT_SECRET';
+    Future<String> makeRequestToAPI() async{
+      const String clientId = 'WP27Mq8UDXUpKodCbHgDRHGIvTaz7pTfTTHPPP8ZBzOJrlO3AZ';
+      const String clientSecret = 'Ana1nynvKNyQtKbJAm5mTQISlrtaaYeA8ao4gjm3';
       const String apiUrl = 'https://api.petfinder.com/v2/oauth2/token';
 
       final Map<String, String> requestBody = {
@@ -26,17 +22,16 @@ class PetFinderParser{
         final Map<String, dynamic> data = json.decode(response.body);
         final String accessToken = data['access_token'];
         final queryResponse = await http.get(
-          Uri.parse('//api.petfinder.com/v2/animals/?{limit}={1}'),
+          Uri.parse('https://api.petfinder.com/v2/animals/?limit=1'),
           headers: {
             'Authorization': 'Bearer $accessToken',
           },
         );
-
-        print(queryResponse.body);
+        final Map<String, dynamic> apiResponse = json.decode(queryResponse.body);
+        final animal = apiResponse['animals'][0]['species'];
+        return(animal);
       } else {
-        print('Error: ${response.statusCode}');
+        return('Error: ${response.statusCode}');
       }
-
-
     }
 }
