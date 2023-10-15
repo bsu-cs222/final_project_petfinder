@@ -22,7 +22,7 @@ class PetFinderParser{
         final Map<String, dynamic> data = json.decode(response.body);
         final String accessToken = data['access_token'];
         final queryResponse = await http.get(
-          Uri.parse('https://api.petfinder.com/v2/animals/?limit=1'),
+          Uri.parse('https://api.petfinder.com/v2/animals/?limit=1&type=rabbit'),
           headers: {
             'Authorization': 'Bearer $accessToken',
           },
