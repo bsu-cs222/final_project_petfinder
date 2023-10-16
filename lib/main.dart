@@ -24,6 +24,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class MyAppState extends ChangeNotifier {
+  void enterLocation(input) {
+    var keyboardMaybe = input;
+    print(keyboardMaybe);
+  }
+}
+
 class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -35,34 +42,56 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.inversePrimary,
+      color: theme.colorScheme.primaryContainer,
     );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         title: Text('Find A Pet'),
       ),
-      body: Center(
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      body: Column(
+        children: [
           SizedBox(
-            width: 200,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                style: style,
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Enter your location',
-                  contentPadding: EdgeInsets.all(8),
+            child: Text(
+                'Welcome to Petfinder, here you\'ll *insert instructions later'),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 200,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    style: style,
+                    decoration: InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Enter your location',
+                      contentPadding: EdgeInsets.all(8),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Text('Option 2 Test'))
+            ],
           ),
-          Padding(
-              padding: const EdgeInsets.all(20), child: Text('Option 2 Test'))
-        ]),
+          SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: ElevatedButton(
+                  onPressed: () {
+                    initiateSearchAndFind;
+                  },
+                  child: Text('Search')),
+            ),
+          )
+        ],
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  void initiateSearchAndFind() {}
 }
