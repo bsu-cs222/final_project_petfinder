@@ -4,4 +4,6 @@ void main() async{
     final parser = PetFinderParser();
     final result = await parser.makeRequestToAPI();
     print(result);
+
+    final testList = await parser.findFive();
 }
