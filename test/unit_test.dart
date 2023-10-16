@@ -9,11 +9,11 @@ void main() async{
     expect(result, '47306');
   });
   // This is going to decode the JSON into variables
-  test ('When I enter Indiana, I receive the JSON code for the top five pets in the area', () async{
+  test ('When I enter Indiana, I receive the JSON code for the top five pets in the area', () {
     final parser = PetFinderParser();
     final File petTestFile = File('test/apiResponse.json');
-    final fileContents = petTestFile.readAsString();
-    final result = await parser.findFive(fileContents);
+    final fileContents = petTestFile.readAsStringSync();
+    final result = parser.findFive(fileContents);
     expect(result, '47306');
   });
 }

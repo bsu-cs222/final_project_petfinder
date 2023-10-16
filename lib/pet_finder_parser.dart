@@ -35,7 +35,7 @@ class PetFinderParser{
       }
     }
 
-    Future<String> findFive(queryResponse) async{
+    String findFive(queryResponse) {
       // const String clientId = 'WP27Mq8UDXUpKodCbHgDRHGIvTaz7pTfTTHPPP8ZBzOJrlO3AZ';
       // const String clientSecret = 'Ana1nynvKNyQtKbJAm5mTQISlrtaaYeA8ao4gjm3';
       // const String apiUrl = 'https://api.petfinder.com/v2/oauth2/token';
