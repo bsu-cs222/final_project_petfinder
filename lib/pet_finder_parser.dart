@@ -48,7 +48,7 @@ class PetFinderParser{
       final listOfReturnedAnimals = decodedAPIResponse['animals'];
 
       List<Pet> pets = List<Pet>.generate(5, (index){
-        return Pet(name: listOfReturnedAnimals[index]['name'], species:listOfReturnedAnimals[index]['name'], breed: listOfReturnedAnimals[index]['name'] );
+        return Pet(name: listOfReturnedAnimals[index]['name'], species:listOfReturnedAnimals[index]['species'], breed: listOfReturnedAnimals[index]['breeds']['primary']);
       });
 
       return pets;

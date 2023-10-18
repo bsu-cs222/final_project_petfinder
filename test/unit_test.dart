@@ -25,8 +25,12 @@ void main() async{
     final results = parser.findFive(fileContents);
     var petNames = '';
     for (var result in results){
-      petNames += '${result.name}, ';
+      petNames += 'Pet Name: ${result.name}, Species: ${result.species}, Breed: ${result.breed}';
     }
-    expect(petNames, 'Name: Bone');
+    expect(petNames, 'Pet Name: Bones, Species: Cat, Breed: Domestic Short Hair'
+        'Pet Name: Charm, Species: Dog, Breed: Pit Bull Terrier'
+        'Pet Name: Count Coolman, Species: Cat, Breed: Domestic Short Hair'
+        'Pet Name: Tara, Species: Dog, Breed: Jack Russell Terrier'
+      'Pet Name: Salem, Species: Dog, Breed: Pit Bull Terrier' );
   });
 }

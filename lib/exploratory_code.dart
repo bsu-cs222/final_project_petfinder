@@ -11,6 +11,6 @@ void main() {
     final results = parser.findFive(fileContents);
 
     for (var result in results){
-        print('Pet Name: ${result.name}, Species: ${result.species}, Breed: ${result.breed}, ');
+        print('Pet Name: ${result.name}, Species: ${result.species}, Breed: ${result.breed}');
     }
 }
