@@ -3,8 +3,10 @@ import 'package:http/http.dart' as http;
 
 class Pet {
   final String name;
+  final String species;
+  final String breed;
 
-  Pet({required this.name});
+  Pet({required this.name, required this.species, required this.breed});
 }
 
 class PetFinderParser{
@@ -46,7 +48,7 @@ class PetFinderParser{
       final listOfReturnedAnimals = decodedAPIResponse['animals'];
 
       List<Pet> pets = List<Pet>.generate(5, (index){
-        return Pet(name: listOfReturnedAnimals[index]['name']);
+        return Pet(name: listOfReturnedAnimals[index]['name'], species:listOfReturnedAnimals[index]['name'], breed: listOfReturnedAnimals[index]['name'] );
       });
 
       return pets;
