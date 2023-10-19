@@ -127,12 +127,11 @@ class InitialPage extends StatelessWidget {
             child: ElevatedButton(
                 onPressed: () {
                   String current = controller.text;
-                  appState.enterLocation(current);
-                  controller.clear();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyHomePage()),
-                  );
+                  if (current.isEmpty) {
+                  } else {
+                    appState.enterLocation(current);
+                    controller.clear();
+                  }
                 },
                 child: Text('Search')),
           ),
@@ -158,10 +157,6 @@ class ListPage extends StatelessWidget {
             child: ElevatedButton(
                 onPressed: () {
                   appState.backToSearchScreen();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyHomePage()),
-                  );
                 },
                 child: Text('Back')),
           )
@@ -170,11 +165,3 @@ class ListPage extends StatelessWidget {
     );
   }
 }
-
-// class FirstRoute extends StatelessWidget{
-//   const FirstRoute({super.key});
-//   @override
-//   Widget build(BuildContext context){
-//
-//   }
-// }
