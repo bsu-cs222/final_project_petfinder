@@ -41,6 +41,11 @@ class MyAppState extends ChangeNotifier {
     print(pageNumber);
     notifyListeners();
   }
+
+  void backToSearchScreen() {
+    pageNumber = 1;
+    notifyListeners();
+  }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -140,9 +145,27 @@ class InitialPage extends StatelessWidget {
 class ListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    final theme = Theme.of(context);
+    final style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.primaryContainer,
+    );
     return Scaffold(
       body: Column(
-        children: [Text('IS THIS WORKING?')],
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+                onPressed: () {
+                  appState.backToSearchScreen();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyHomePage()),
+                  );
+                },
+                child: Text('Back')),
+          )
+        ],
       ),
     );
   }
