@@ -34,11 +34,11 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
+  var pageNumber = 1;
   void enterLocation(String input) {
     var keyboardMaybe = input;
-    // int currentPageNumber = _MyHomePageState().pageNumber;
-    // currentPageNumber = index;
-    print(keyboardMaybe);
+    pageNumber = 2;
+    print(pageNumber);
     notifyListeners();
   }
 }
@@ -49,10 +49,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var pageNumber = 1;
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
+    int pageNumber = appState.pageNumber;
     final theme = Theme.of(context);
     final style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.primaryContainer,
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         title: Text('Find A Pet'),
       ),
-      body: InitialPage(),
+      body: page,
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
@@ -122,12 +122,11 @@ class InitialPage extends StatelessWidget {
             child: ElevatedButton(
                 onPressed: () {
                   String current = controller.text;
-                  int pageNumber = 2;
                   appState.enterLocation(current);
                   controller.clear();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ListPage()),
+                    MaterialPageRoute(builder: (context) => MyHomePage()),
                   );
                 },
                 child: Text('Search')),
