@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => MyAppState(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -31,10 +36,11 @@ class MyApp extends StatelessWidget {
 class MyAppState extends ChangeNotifier {
   void enterLocation(String input) {
     var keyboardMaybe = input;
+    // int currentPageNumber = _MyHomePageState().pageNumber;
+    // currentPageNumber = index;
     print(keyboardMaybe);
+    notifyListeners();
   }
-
-  notifyListeners();
 }
 
 class MyHomePage extends StatefulWidget {
@@ -43,6 +49,37 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var pageNumber = 1;
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    final theme = Theme.of(context);
+    final style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.primaryContainer,
+    );
+    Widget page;
+    switch (pageNumber) {
+      case 1:
+        page = InitialPage();
+        break;
+      case 2:
+        page = ListPage();
+        break;
+      default:
+        throw UnimplementedError('no widget for $pageNumber');
+    }
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        title: Text('Find A Pet'),
+      ),
+      body: InitialPage(),
+      // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class InitialPage extends StatelessWidget {
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -51,55 +88,71 @@ class _MyHomePageState extends State<MyHomePage> {
     final style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.primaryContainer,
     );
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        title: Text('Find A Pet'),
-      ),
-      body: Column(
-        children: [
-          SizedBox(
-            child: Text(
-                'Welcome to Petfinder, here you\'ll *insert instructions later'),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 200,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    controller: controller,
-                    style: style,
-                    decoration: InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'Enter your location',
-                      contentPadding: EdgeInsets.all(8),
-                    ),
+    return Column(
+      children: [
+        SizedBox(
+          child: Text(
+              'Welcome to Petfinder, here you\'ll *insert instructions later'),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 200,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: controller,
+                  style: style,
+                  decoration: InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Enter your location',
+                    contentPadding: EdgeInsets.all(8),
                   ),
                 ),
               ),
-              Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Text('Option 2 Test'))
-            ],
-          ),
-          SizedBox(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: ElevatedButton(
-                  onPressed: () {
-                    String current = controller.text;
-                    appState.enterLocation(current);
-                    controller.clear();
-                  },
-                  child: Text('Search')),
             ),
-          )
-        ],
-      ),
-      // This trailing comma makes auto-formatting nicer for build methods.
+            Padding(
+                padding: const EdgeInsets.all(20), child: Text('Option 2 Test'))
+          ],
+        ),
+        SizedBox(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: ElevatedButton(
+                onPressed: () {
+                  String current = controller.text;
+                  int pageNumber = 2;
+                  appState.enterLocation(current);
+                  controller.clear();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ListPage()),
+                  );
+                },
+                child: Text('Search')),
+          ),
+        )
+      ],
     );
   }
 }
+
+class ListPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [Text('IS THIS WORKING?')],
+      ),
+    );
+  }
+}
+
+// class FirstRoute extends StatelessWidget{
+//   const FirstRoute({super.key});
+//   @override
+//   Widget build(BuildContext context){
+//
+//   }
+// }
