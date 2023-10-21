@@ -33,7 +33,7 @@ class QueryBuilder{
   }
 }
 class QueryCall{
-  Future<Object> makeRequestToAPI() async{
+  Future<Object> makeRequestToAPI(String zipcode) async{
     final query = QueryBuilder();
 
     final response = await http.post(
@@ -42,10 +42,10 @@ class QueryCall{
     );
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
-        Uri.parse('https://api.petfinder.com/v2/animals/?limit=1&type=rabbit'),
+        Uri.parse('https://api.petfinder.com/v2/animals/?limit=5&location=${zipcode}'),
         headers: query.PetFinderCallBuilder(response),
       );
-      return(queryResponse);
+      return(queryResponse.body);
     } else {
       return('Error: ${response.statusCode}');
     }
