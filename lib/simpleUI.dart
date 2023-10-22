@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
 final parser = PetFinderParser();
@@ -17,7 +16,11 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
+// class MyAppState extends ChangeNotifier {
+//   void backToSearchScreen() {
+//     ZipCodePage();
+//   }
+// }
 class ZipCodePage extends StatelessWidget {
   final TextEditingController zipCodeController = TextEditingController();
 
@@ -79,6 +82,14 @@ class _PetListPageState extends State<PetListPage> {
     });
   }
 
+  Future<void> _launchURL(String url) async{
+    if (await canLaunchUrl(url as Uri)){
+      await launchUrl(url as Uri);
+    } else {
+      throw 'The URL for this pet profile is broken.';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +98,10 @@ class _PetListPageState extends State<PetListPage> {
         children: [
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ZipCodePage()),
+              );
             },
             child: Text('Back'),
           ),
@@ -98,7 +112,12 @@ class _PetListPageState extends State<PetListPage> {
                 final pet = pets[index];
                 return ListTile(
                   title: Text(pet.name),
-                  subtitle: Text('${pet.breed} ${pet.species}'),
+                  subtitle: GestureDetector(
+                      onTap: () {
+                        _launchURL(pet.URLString);
+                      },
+                      child: Text('${pet.breed} ${pet.species} \n ${pet.URLString}'),
+                ),
                 );
               },
             ),

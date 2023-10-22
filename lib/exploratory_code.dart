@@ -1,6 +1,4 @@
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
-import 'dart:io';
-
 void main() async{
     final caller = QueryCall();
     final parser = PetFinderParser();
@@ -18,6 +16,6 @@ void main() async{
     final response = await caller.makeRequestToAPI(zipCode);
     final pets = parser.parseFivePets(response);
     for (var pet in pets){
-        print('${pet.name} is a ${pet.breed} ${pet.species}.');
+        print('${pet.name} is a ${pet.breed} ${pet.species}. Learn more: ${pet.URLString}');
     }
 }
