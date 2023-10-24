@@ -63,7 +63,6 @@ class PetFinderParser{
           return Pet(name: listOfReturnedAnimals[index]['name'], species:listOfReturnedAnimals[index]['species'], breed: listOfReturnedAnimals[index]['breeds']['primary'], URLString:listOfReturnedAnimals[index]['url'], photos:listOfReturnedAnimals[index]['photos']);
         });
 
-
       return pets;
     }
 }
