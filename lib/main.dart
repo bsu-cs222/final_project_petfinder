@@ -149,9 +149,32 @@ class ListPage extends StatelessWidget {
     final style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.primaryContainer,
     );
+    var _image;
     return Scaffold(
       body: Column(
         children: [
+          Image.network(
+              'https://static.wikia.nocookie.net/ensemble-stars/images/9/9f/%28Fledgling_Artist%29_Mika_Kagehira_CG2.png',
+              width: 400,
+              height: 400,
+              scale: 0.3),
+          // Image(
+          //   image: _image,
+          //   frameBuilder: (BuildContext context, Widget child, int? frame,
+          //       bool? wasSynchronouslyLoaded) {
+          //     return (Padding(
+          //       padding: const EdgeInsets.all(20),
+          //       child: Image.network(
+          //           'https://ensemble-stars.fandom.com/wiki/(Sealed_Display_of_Specimens)_Mika_Kagehira',
+          //           width: 150,
+          //           height: 150),
+          //     ));
+          //   },
+          //   loadingBuilder: (BuildContext context, Widget child,
+          //       ImageChunkEvent? loadingProgress) {
+          //     return Center(child: child);
+          //   },
+          // )
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
