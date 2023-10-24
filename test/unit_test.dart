@@ -33,6 +33,23 @@ void main(){
     for (var result in results){
       petPhotoURL += '${result.photos}';
     }
-    expect(petPhotoURL, '[{small: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316379/1/?bust=1697452576&width=100, medium: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316379/1/?bust=1697452576&width=300, large: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316379/1/?bust=1697452576&width=600, full: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316379/1/?bust=1697452576}][{small: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316381/1/?bust=1697452576&width=100, medium: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316381/1/?bust=1697452576&width=300, large: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316381/1/?bust=1697452576&width=600, full: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316381/1/?bust=1697452576}][{small: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316382/1/?bust=1697452583&width=100, medium: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316382/1/?bust=1697452583&width=300, large: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316382/1/?bust=1697452583&width=600, full: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316382/1/?bust=1697452583}][][{small: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662&width=100, medium: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662&width=300, large: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662&width=600, full: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662}]');
+    expect(petPhotoURL, '[{small: '
+        'https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316379/1/?bust=1697452576&width=100, '
+        'medium: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316379/1/?bust=1697452576&width=300,'
+        ' large: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316379/1/?bust=1697452576&width=600, '
+        'full: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316379/1/?bust=1697452576}]['
+        '{small: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316381/1/?bust=1697452576&width=100,'
+        ' medium: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316381/1/?bust=1697452576&width=300,'
+        ' large: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316381/1/?bust=1697452576&width=600,'
+        ' full: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316381/1/?bust=1697452576}]['
+        '{small: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316382/1/?bust=1697452583&width=100, '
+        'medium: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316382/1/?bust=1697452583&width=300, '
+        'large: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316382/1/?bust=1697452583&width=600, '
+        'full: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316382/1/?bust=1697452583}]'
+        '[]'
+        '[{small: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662&width=100, '
+        'medium: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662&width=300, '
+        'large: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662&width=600, '
+        'full: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662}]');
   });
 }

@@ -15,7 +15,6 @@ void main() async{
     final zipCode = "47306";
     final response = await caller.makeRequestToAPI(zipCode);
     final pets = parser.parseFivePets(response);
-    for (var pet in pets){
-        print('${pet.name} is a ${pet.breed} ${pet.species}. Learn more: ${pet.URLString}');
-    }
+    print(pets);
+
 }

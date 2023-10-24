@@ -83,8 +83,9 @@ class _PetListPageState extends State<PetListPage> {
   }
 
   Future<void> _launchURL(String url) async{
-    if (await canLaunchUrl(url as Uri)){
-      await launchUrl(url as Uri);
+    final Uri _url = Uri.parse(url);
+    if (await canLaunchUrl(_url)){
+      await launchUrl(_url);
     } else {
       throw 'The URL for this pet profile is broken.';
     }
@@ -116,7 +117,17 @@ class _PetListPageState extends State<PetListPage> {
                       onTap: () {
                         _launchURL(pet.URLString);
                       },
-                      child: Text('${pet.breed} ${pet.species} \n ${pet.URLString}'),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('${pet.breed} ${pet.species}'),
+                          if (pet.photos.isNotEmpty)
+                            Image.network(pet.photos[0]['small'])
+                          else
+                            Text('No available photo for this pet.'),
+                          Text(pet.URLString),
+                        ],
+                      ),
                 ),
                 );
               },
