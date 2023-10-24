@@ -6,8 +6,9 @@ class Pet {
   final String species;
   final String breed;
   final String URLString;
+  final List photos;
 
-  Pet({required this.name, required this.species, required this.breed, required this.URLString});
+  Pet({required this.name, required this.species, required this.breed, required this.URLString, required this.photos});
 }
 
 class QueryBuilder{
@@ -57,9 +58,12 @@ class PetFinderParser{
     List parseFivePets(queryResponse) {
       final decodedAPIResponse = json.decode(queryResponse);
       final listOfReturnedAnimals = decodedAPIResponse['animals'];
-      List<Pet> pets = List<Pet>.generate(5, (index){
-        return Pet(name: listOfReturnedAnimals[index]['name'], species:listOfReturnedAnimals[index]['species'], breed: listOfReturnedAnimals[index]['breeds']['primary'], URLString:listOfReturnedAnimals[index]['url']);
-      });
+
+        List<Pet> pets = List<Pet>.generate(5, (index){
+          return Pet(name: listOfReturnedAnimals[index]['name'], species:listOfReturnedAnimals[index]['species'], breed: listOfReturnedAnimals[index]['breeds']['primary'], URLString:listOfReturnedAnimals[index]['url'], photos:listOfReturnedAnimals[index]['photos']);
+        });
+
+
       return pets;
     }
 }

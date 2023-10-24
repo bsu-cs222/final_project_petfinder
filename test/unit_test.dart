@@ -27,4 +27,12 @@ void main(){
     'Tara is a Jack Russell Terrier Dog.'
         'Salem is a Pit Bull Terrier Dog.' );
   });
+  test ('Return the url for pet photo', () {
+    final results = parser.parseFivePets(fileContents);
+    var petInfo = '';
+    for (var result in results){
+      petInfo += '${result.name} is a ${result.breed} ${result.species}.';
+    }
+    expect(petInfo, 'URL');
+  });
 }
