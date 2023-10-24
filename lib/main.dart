@@ -1,5 +1,11 @@
+import 'dart:io';
+import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+final parser = PetFinderParser();
+final File petTestFile = File('test/apiResponse.json');
+final fileContents = petTestFile.readAsStringSync();
+final pets = parser.parseFivePets(fileContents);
 
 void main() {
   runApp(
@@ -68,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = InitialPage();
         break;
       case 2:
-        page = ListPage();
+        page = ListPageWidget();
         break;
       default:
         throw UnimplementedError('no widget for $pageNumber');
@@ -97,7 +103,7 @@ class InitialPage extends StatelessWidget {
       children: [
         SizedBox(
           child: Text(
-              'Welcome to Petfinder, here you\'ll *insert instructions later'),
+              'Welcome to Petfinder, please enter your zipcode below'),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -141,7 +147,8 @@ class InitialPage extends StatelessWidget {
   }
 }
 
-class ListPage extends StatelessWidget {
+class ListPageWidget extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -178,11 +185,24 @@ class ListPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-                onPressed: () {
-                  appState.backToSearchScreen();
-                },
-                child: Text('Back')),
-          )
+              onPressed: () {
+                appState.backToSearchScreen();
+              },
+              child: Text('Back'),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: pets.length,
+              itemBuilder: (BuildContext context, int index) {
+                final pet = pets[index];
+                return ListTile(
+                  title: Text(pet.name),
+                  subtitle: Text('${pet.breed} ${pet.species}'),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

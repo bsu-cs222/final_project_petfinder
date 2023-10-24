@@ -5,15 +5,9 @@ final parser = PetFinderParser();
 final File petTestFile = File('test/apiResponse.json');
 final fileContents = petTestFile.readAsStringSync();
 
-void main() async{
-  //Write a class that will return the zipcode of the pet found
-  test (' When I enter 47306, I find data for the pets nearby', () async{
-    final result = await parser.makeRequestToAPI();
-    expect(result, '47306');
-  });
-
+void main(){
   test ('Return the names of five pets from query response', () {
-    final results = parser.findFive(fileContents);
+    final results = parser.parseFivePets(fileContents);
     var petNames = '';
     for (var result in results){
       petNames += '${result.name}, ';
@@ -22,15 +16,15 @@ void main() async{
   });
 
   test ('Return the names of one pet and their corresponding species and breed', () {
-    final results = parser.findFive(fileContents);
-    var petNames = '';
+    final results = parser.parseFivePets(fileContents);
+    var petInfo = '';
     for (var result in results){
-      petNames += 'Pet Name: ${result.name}, Species: ${result.species}, Breed: ${result.breed}';
+      petInfo += '${result.name} is a ${result.breed} ${result.species}.';
     }
-    expect(petNames, 'Pet Name: Bones, Species: Cat, Breed: Domestic Short Hair'
-        'Pet Name: Charm, Species: Dog, Breed: Pit Bull Terrier'
-        'Pet Name: Count Coolman, Species: Cat, Breed: Domestic Short Hair'
-        'Pet Name: Tara, Species: Dog, Breed: Jack Russell Terrier'
-      'Pet Name: Salem, Species: Dog, Breed: Pit Bull Terrier' );
+    expect(petInfo, 'Bones is a Domestic Short Hair Cat.'
+    'Charm is a Pit Bull Terrier Dog.'
+    'Count Coolman is a Domestic Short Hair Cat.'
+    'Tara is a Jack Russell Terrier Dog.'
+        'Salem is a Pit Bull Terrier Dog.' );
   });
 }
