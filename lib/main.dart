@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 final parser = PetFinderParser();
 final File petTestFile = File('test/apiResponse.json');
 final fileContents = petTestFile.readAsStringSync();
@@ -102,8 +103,7 @@ class InitialPage extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          child: Text(
-              'Welcome to Petfinder, please enter your zipcode below'),
+          child: Text('Welcome to Petfinder, please enter your zipcode below'),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -148,7 +148,6 @@ class InitialPage extends StatelessWidget {
 }
 
 class ListPageWidget extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -156,14 +155,14 @@ class ListPageWidget extends StatelessWidget {
     final style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.primaryContainer,
     );
-    var _image;
+    //var _image;
     return Scaffold(
       body: Column(
         children: [
           Image.network(
-              'https://static.wikia.nocookie.net/ensemble-stars/images/9/9f/%28Fledgling_Artist%29_Mika_Kagehira_CG2.png',
-              width: 400,
-              height: 400,
+              'https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316379/1/?bust=1697452576&width=100',
+              width: 300,
+              height: 100,
               scale: 0.3),
           // Image(
           //   image: _image,
@@ -182,6 +181,20 @@ class ListPageWidget extends StatelessWidget {
           //     return Center(child: child);
           //   },
           // )
+          Expanded(
+            child: ListView.builder(
+              itemCount: pets.length,
+              itemBuilder: (BuildContext context, int index) {
+                final pet = pets[index];
+                var smallPetPhoto = pet.photos[0]['large'];
+                return ListTile(
+                  title: Text(pet.name),
+                  subtitle: Text('${pet.breed} ${pet.species}'),
+                  trailing: Container(child: Image.network(smallPetPhoto)),
+                );
+              },
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
@@ -189,18 +202,6 @@ class ListPageWidget extends StatelessWidget {
                 appState.backToSearchScreen();
               },
               child: Text('Back'),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: pets.length,
-              itemBuilder: (BuildContext context, int index) {
-                final pet = pets[index];
-                return ListTile(
-                  title: Text(pet.name),
-                  subtitle: Text('${pet.breed} ${pet.species}'),
-                );
-              },
             ),
           ),
         ],
