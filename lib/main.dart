@@ -186,7 +186,14 @@ class ListPageWidget extends StatelessWidget {
               itemCount: pets.length,
               itemBuilder: (BuildContext context, int index) {
                 final pet = pets[index];
-                var smallPetPhoto = pet.photos[0]['large'];
+                var smallPetPhoto;
+                if (pet.photos.isEmpty) {
+                  smallPetPhoto =
+                      'https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316379/1/?bust=1697452576&width=100';
+                } else {
+                  smallPetPhoto = pet.photos[0]['large'];
+                }
+
                 return ListTile(
                   title: Text(pet.name),
                   subtitle: Text('${pet.breed} ${pet.species}'),
