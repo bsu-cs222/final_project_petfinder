@@ -25,8 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
-      child: MaterialApp(
-        title: 'Pet Finder',
+      child: MaterialApp(title: 'Pet Finder',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch(
               primarySwatch: Colors.pink,
@@ -34,6 +33,7 @@ class MyApp extends StatelessWidget {
               accentColor: Colors.pink.shade200),
           useMaterial3: true,
         ),
+
         home: MyHomePage(),
       ),
     );
@@ -164,23 +164,6 @@ class ListPageWidget extends StatelessWidget {
               width: 300,
               height: 100,
               scale: 0.3),
-          // Image(
-          //   image: _image,
-          //   frameBuilder: (BuildContext context, Widget child, int? frame,
-          //       bool? wasSynchronouslyLoaded) {
-          //     return (Padding(
-          //       padding: const EdgeInsets.all(20),
-          //       child: Image.network(
-          //           'https://ensemble-stars.fandom.com/wiki/(Sealed_Display_of_Specimens)_Mika_Kagehira',
-          //           width: 150,
-          //           height: 150),
-          //     ));
-          //   },
-          //   loadingBuilder: (BuildContext context, Widget child,
-          //       ImageChunkEvent? loadingProgress) {
-          //     return Center(child: child);
-          //   },
-          // )
           Expanded(
             child: ListView.builder(
               itemCount: pets.length,

@@ -12,6 +12,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Pet Finder',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.pink,
+            backgroundColor: Colors.pink.shade50,
+            accentColor: Colors.pink.shade200),
+        useMaterial3: true,
+      ),
       home: ZipCodePage(),
     );
   }
@@ -26,30 +34,48 @@ class ZipCodePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.primaryContainer,
+    );
     return Scaffold(
       appBar: AppBar(title: Text('Zip Code Entry')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+      body: Column(
+        children:[
+          SizedBox(
+            child: Text('Welcome to Petfinder, please enter your zipcode below'),
+          ),
+        Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: zipCodeController,
-              decoration: InputDecoration(labelText: 'Enter Zip Code'),
+            SizedBox(
+              width: 200,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: zipCodeController,
+                  decoration: InputDecoration(labelText: 'Enter Zip Code'),
+                ),
+              ),
             ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => PetListPage(zipCode: zipCodeController.text),
-                  ),
-                );
-              },
-              child: Text('Enter'),
-            ),
+            SizedBox(height: 16.0,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => PetListPage(zipCode: zipCodeController.text),
+                    ),
+                  );
+                },
+                    child: Text('Enter'),
+                ),
+              ),
+            )
           ],
         ),
+        ],
       ),
     );
   }
