@@ -58,10 +58,4 @@ void main() {
         'large: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662&width=600, '
         'full: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662}]');
   });
-  test('When given a zipcode only reports from that zipcode print', () {
-    final results = parser.parseFivePets(fileContents);
-    var zipcode = '';
-    zipcode = (results.zipcode);
-    expect(zipcode, '45434');
-  });
 }

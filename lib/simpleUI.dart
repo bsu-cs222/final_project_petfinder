@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 final parser = PetFinderParser();
 final caller = QueryCall();
@@ -26,11 +29,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// class MyAppState extends ChangeNotifier {
-//   void backToSearchScreen() {
-//     ZipCodePage();
-//   }
-// }
 class ZipCodePage extends StatelessWidget {
   final TextEditingController zipCodeController = TextEditingController();
 
