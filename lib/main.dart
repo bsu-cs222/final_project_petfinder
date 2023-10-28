@@ -1,197 +1,172 @@
-import 'dart:io';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 final parser = PetFinderParser();
-final File petTestFile = File('test/apiResponse.json');
-final fileContents = petTestFile.readAsStringSync();
-final pets = parser.parseFivePets(fileContents);
+final caller = QueryCall();
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => MyAppState(),
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
-      child: MaterialApp(
-        title: 'Pet Finder',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch(
-              primarySwatch: Colors.pink,
-              backgroundColor: Colors.pink.shade50,
-              accentColor: Colors.pink.shade200),
-          useMaterial3: true,
-        ),
-        home: MyHomePage(),
+    return MaterialApp(
+      title: 'Pet Finder',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.pink,
+            backgroundColor: Colors.pink.shade50,
+            accentColor: Colors.pink.shade200),
+        useMaterial3: true,
       ),
+      home: ZipCodePage(),
     );
   }
 }
 
-class MyAppState extends ChangeNotifier {
-  var pageNumber = 1;
-  void enterLocation(String input) {
-    var keyboardMaybe = input;
-    pageNumber = 2;
-    print(keyboardMaybe);
-    notifyListeners();
-  }
+// class MyAppState extends ChangeNotifier {
+//   void backToSearchScreen() {
+//     ZipCodePage();
+//   }
+// }
+class ZipCodePage extends StatelessWidget {
+  final TextEditingController zipCodeController = TextEditingController();
 
-  void backToSearchScreen() {
-    pageNumber = 1;
-    notifyListeners();
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    int pageNumber = appState.pageNumber;
     final theme = Theme.of(context);
     final style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.primaryContainer,
     );
-    Widget page;
-    switch (pageNumber) {
-      case 1:
-        page = InitialPage();
-        break;
-      case 2:
-        page = ListPageWidget();
-        break;
-      default:
-        throw UnimplementedError('no widget for $pageNumber');
-    }
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        title: Text('Find A Pet'),
-      ),
-      body: page,
-      // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
-
-class InitialPage extends StatelessWidget {
-  TextEditingController controller = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.primaryContainer,
-    );
-    return Column(
-      children: [
-        SizedBox(
-          child: Text('Welcome to Petfinder, please enter your zipcode below'),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 200,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: controller,
-                  style: style,
-                  decoration: InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Enter your location',
-                    contentPadding: EdgeInsets.all(8),
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          title: Text('Zip Code Entry')),
+      body: Column(
+        children: [
+          SizedBox(
+            child:
+                Text('Welcome to Petfinder, please enter your zipcode below'),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 200,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    style: style,
+                    controller: zipCodeController,
+                    decoration: InputDecoration(labelText: 'Enter Zip Code'),
                   ),
                 ),
               ),
-            ),
-            Padding(
-                padding: const EdgeInsets.all(20), child: Text('Option 2 Test'))
-          ],
-        ),
-        SizedBox(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: ElevatedButton(
-                onPressed: () {
-                  String current = controller.text;
-                  if (current.isEmpty) {
-                  } else {
-                    appState.enterLocation(current);
-                    controller.clear();
-                  }
-                },
-                child: Text('Search')),
+            ],
           ),
-        ),
-      ],
+          SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          PetListPage(zipCode: zipCodeController.text),
+                    ),
+                  );
+                },
+                child: Text('Enter'),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class ListPageWidget extends StatelessWidget {
+class PetListPage extends StatefulWidget {
+  final String zipCode;
+
+  PetListPage({required this.zipCode});
+
+  @override
+  _PetListPageState createState() => _PetListPageState();
+}
+
+class _PetListPageState extends State<PetListPage> {
+  List<dynamic> pets = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final response = await caller.makeRequestToAPI(widget.zipCode);
+    final parsedPets = parser.parseFivePets(response);
+    setState(() {
+      pets = parsedPets;
+    });
+  }
+
+  Future<void> _launchURL(String url) async {
+    final Uri _url = Uri.parse(url);
+    if (await canLaunchUrl(_url)) {
+      await launchUrl(_url);
+    } else {
+      throw 'The URL for this pet profile is broken.';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.primaryContainer,
-    );
-    //var _image;
     return Scaffold(
+      appBar:
+          AppBar(title: Text('Available pets in the  ${widget.zipCode} area.')),
       body: Column(
         children: [
-          Image.network(
-              'https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316379/1/?bust=1697452576&width=100',
-              width: 300,
-              height: 100,
-              scale: 0.3),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ZipCodePage()),
+              );
+            },
+            child: Text('Back'),
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: pets.length,
               itemBuilder: (BuildContext context, int index) {
                 final pet = pets[index];
-                var smallPetPhoto;
-                if (pet.photos.isEmpty) {
-                  smallPetPhoto =
-                      'https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316379/1/?bust=1697452576&width=100';
-                } else {
-                  smallPetPhoto = pet.photos[0]['large'];
-                }
-                //print(pet.zipcode);
                 return ListTile(
                   title: Text(pet.name),
-                  subtitle: Text('${pet.breed} ${pet.species}'),
-                  trailing: Container(child: Image.network(smallPetPhoto)),
+                  subtitle: GestureDetector(
+                    onTap: () {
+                      _launchURL(pet.URLString);
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${pet.breed} ${pet.species}'),
+                        if (pet.photos.isNotEmpty)
+                          Image.network(pet.photos[0]['small'])
+                        else
+                          Image.network(
+                              'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
+                              height: 150,
+                              scale: 0.3),
+                        Text('Learn more about ${pet.name}'),
+                      ],
+                    ),
+                  ),
                 );
               },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                appState.backToSearchScreen();
-              },
-              child: Text('Back'),
             ),
           ),
         ],

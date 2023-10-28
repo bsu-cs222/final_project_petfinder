@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:cs222_final_project_pet_finder/main.dart';
+import 'package:cs222_final_project_pet_finder/oldMain.dart';
 import 'package:http/http.dart' as http;
 
 class Pet {
