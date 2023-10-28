@@ -1,6 +1,7 @@
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
+
 final parser = PetFinderParser();
 final caller = QueryCall();
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 // class MyAppState extends ChangeNotifier {
 //   void backToSearchScreen() {
 //     ZipCodePage();
@@ -39,48 +41,52 @@ class ZipCodePage extends StatelessWidget {
       color: theme.colorScheme.primaryContainer,
     );
     return Scaffold(
-      appBar: AppBar(title: Text('Zip Code Entry')),
+      appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          title: Text('Zip Code Entry')),
       body: Column(
-        children:[
+        children: [
           SizedBox(
-            child: Text('Welcome to Petfinder, please enter your zipcode below'),
+            child:
+                Text('Welcome to Petfinder, please enter your zipcode below'),
           ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 200,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: zipCodeController,
-                  decoration: InputDecoration(labelText: 'Enter Zip Code'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 200,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    style: style,
+                    controller: zipCodeController,
+                    decoration: InputDecoration(labelText: 'Enter Zip Code'),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 16.0,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
+            ],
+          ),
+          SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => PetListPage(zipCode: zipCodeController.text),
+                      builder: (context) =>
+                          PetListPage(zipCode: zipCodeController.text),
                     ),
                   );
                 },
-                    child: Text('Enter'),
-                ),
+                child: Text('Enter'),
               ),
-            )
-          ],
-        ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
-
 
 class PetListPage extends StatefulWidget {
   final String zipCode;
@@ -108,9 +114,9 @@ class _PetListPageState extends State<PetListPage> {
     });
   }
 
-  Future<void> _launchURL(String url) async{
+  Future<void> _launchURL(String url) async {
     final Uri _url = Uri.parse(url);
-    if (await canLaunchUrl(_url)){
+    if (await canLaunchUrl(_url)) {
       await launchUrl(_url);
     } else {
       throw 'The URL for this pet profile is broken.';
@@ -120,7 +126,8 @@ class _PetListPageState extends State<PetListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Available pets in the  ${widget.zipCode} area.')),
+      appBar:
+          AppBar(title: Text('Available pets in the  ${widget.zipCode} area.')),
       body: Column(
         children: [
           ElevatedButton(
@@ -140,21 +147,24 @@ class _PetListPageState extends State<PetListPage> {
                 return ListTile(
                   title: Text(pet.name),
                   subtitle: GestureDetector(
-                      onTap: () {
-                        _launchURL(pet.URLString);
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${pet.breed} ${pet.species}'),
-                          if (pet.photos.isNotEmpty)
-                            Image.network(pet.photos[0]['small'])
-                          else
-                            Image.network('https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'),
-                          Text('Learn more about ${pet.name}'),
-                        ],
-                      ),
-                ),
+                    onTap: () {
+                      _launchURL(pet.URLString);
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${pet.breed} ${pet.species}'),
+                        if (pet.photos.isNotEmpty)
+                          Image.network(pet.photos[0]['small'])
+                        else
+                          Image.network(
+                              'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
+                              height: 150,
+                              scale: 0.3),
+                        Text('Learn more about ${pet.name}'),
+                      ],
+                    ),
+                  ),
                 );
               },
             ),
@@ -164,4 +174,3 @@ class _PetListPageState extends State<PetListPage> {
     );
   }
 }
-

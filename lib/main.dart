@@ -25,7 +25,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
-      child: MaterialApp(title: 'Pet Finder',
+      child: MaterialApp(
+        title: 'Pet Finder',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch(
               primarySwatch: Colors.pink,
@@ -33,7 +34,6 @@ class MyApp extends StatelessWidget {
               accentColor: Colors.pink.shade200),
           useMaterial3: true,
         ),
-
         home: MyHomePage(),
       ),
     );
@@ -45,7 +45,7 @@ class MyAppState extends ChangeNotifier {
   void enterLocation(String input) {
     var keyboardMaybe = input;
     pageNumber = 2;
-    print(pageNumber);
+    print(keyboardMaybe);
     notifyListeners();
   }
 
@@ -141,7 +141,7 @@ class InitialPage extends StatelessWidget {
                 },
                 child: Text('Search')),
           ),
-        )
+        ),
       ],
     );
   }
@@ -176,7 +176,7 @@ class ListPageWidget extends StatelessWidget {
                 } else {
                   smallPetPhoto = pet.photos[0]['large'];
                 }
-
+                //print(pet.zipcode);
                 return ListTile(
                   title: Text(pet.name),
                   subtitle: Text('${pet.breed} ${pet.species}'),
