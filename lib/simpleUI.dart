@@ -94,7 +94,7 @@ class _PetListPageState extends State<PetListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Pet List for Zip Code ${widget.zipCode}')),
+      appBar: AppBar(title: Text('Available pets in the  ${widget.zipCode} area.')),
       body: Column(
         children: [
           ElevatedButton(
@@ -124,8 +124,8 @@ class _PetListPageState extends State<PetListPage> {
                           if (pet.photos.isNotEmpty)
                             Image.network(pet.photos[0]['small'])
                           else
-                            Text('No available photo for this pet.'),
-                          Text(pet.URLString),
+                            Image.network('https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'),
+                          Text('Learn more about ${pet.name}'),
                         ],
                       ),
                 ),
