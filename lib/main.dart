@@ -144,27 +144,34 @@ class _PetListPageState extends State<PetListPage> {
               itemCount: pets.length,
               itemBuilder: (BuildContext context, int index) {
                 final pet = pets[index];
-                return ListTile(
-                  title: Text(pet.name),
-                  subtitle: GestureDetector(
-                    onTap: () {
-                      _launchURL(pet.URLString);
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${pet.breed} ${pet.species}'),
-                        if (pet.photos.isNotEmpty)
-                          Image.network(pet.photos[0]['small'])
-                        else
-                          Image.network(
-                              'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
-                              height: 150,
-                              scale: 0.3),
-                        Text('Learn more about ${pet.name}'),
-                      ],
+                return Column(
+                  children: [
+                    SizedBox(
+                      width: 300,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            _launchURL(pet.URLString);
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('${pet.breed} ${pet.species}'),
+                              if (pet.photos.isNotEmpty)
+                                Image.network(pet.photos[0]['small'])
+                              else
+                                Image.network(
+                                    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
+                                    height: 150,
+                                    scale: 0.3),
+                              Text('Learn more about ${pet.name}'),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 );
               },
             ),
