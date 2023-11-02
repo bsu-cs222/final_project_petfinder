@@ -98,7 +98,21 @@ class PetListPage extends StatefulWidget {
 }
 
 class _PetListPageState extends State<PetListPage> {
+  bool userBoxSurveillance = false;
   List<dynamic> pets = [];
+
+  void petBoxBehavior(PointerEvent details) {
+    setState(() {
+      userBoxSurveillance = true;
+    });
+  }
+
+  void stopPetBoxBehavior(PointerEvent details) {
+    setState(() {
+      userBoxSurveillance = false;
+      print('dear god help');
+    });
+  }
 
   @override
   void initState() {
@@ -125,58 +139,71 @@ class _PetListPageState extends State<PetListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar:
-          AppBar(title: Text('Available pets in the  ${widget.zipCode} area.')),
-      body: Column(
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ZipCodePage()),
-              );
-            },
-            child: Text('Back'),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: pets.length,
-              itemBuilder: (BuildContext context, int index) {
-                final pet = pets[index];
-                return Column(
-                  children: [
-                    SizedBox(
-                      width: 300,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            _launchURL(pet.URLString);
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('${pet.breed} ${pet.species}'),
-                              if (pet.photos.isNotEmpty)
-                                Image.network(pet.photos[0]['small'])
-                              else
-                                Image.network(
-                                    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
-                                    height: 150,
-                                    scale: 0.3),
-                              Text('Learn more about ${pet.name}'),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+    return Listener(
+      onPointerHover: petBoxBehavior,
+      onPointerMove: petBoxBehavior,
+      onPointerCancel: stopPetBoxBehavior,
+      child: Scaffold(
+        appBar: AppBar(
+            title: Text('Available pets in the  ${widget.zipCode} area.')),
+        body: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ZipCodePage()),
                 );
               },
+              child: Text('Back'),
             ),
-          ),
-        ],
+            Expanded(
+              child: ListView.builder(
+                itemCount: pets.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final pet = pets[index];
+
+                  return Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _launchURL(pet.URLString);
+                        },
+                        child: Container(
+                          width: 600,
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 10, color: Colors.pink),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //PetInfo,
+                                Text(pet.name),
+                                Text('${pet.breed} ${pet.species}'),
+                                if (pet.photos.isNotEmpty)
+                                  Image.network(pet.photos[0]['small'])
+                                else
+                                  Image.network(
+                                      'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
+                                      height: 150,
+                                      scale: 0.3),
+                                Text('Learn more about ${pet.name}'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ), //gesture decector?
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
