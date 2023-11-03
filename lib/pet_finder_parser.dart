@@ -8,7 +8,7 @@ class Pet {
   final String urlString;
   final List photos;
   final List videos;
-  final zipcode;
+  final int zipcode;
 
   Pet(
       {required this.name,
@@ -57,7 +57,7 @@ class QueryCall {
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
         Uri.parse(
-            'https://api.petfinder.com/v2/animals/?limit=5&location=${zipcode}'),
+            'https://api.petfinder.com/v2/animals/?limit=5&location=$zipcode'),
         headers: query.petFinderCallBuilder(response),
       );
       return (queryResponse.body);
@@ -72,7 +72,6 @@ class PetFinderParser {
     final decodedAPIResponse = json.decode(queryResponse);
     final listOfReturnedAnimals = decodedAPIResponse['animals'];
     List<Pet> pets = List<Pet>.generate(5, (index) {
-      print(listOfReturnedAnimals[index]['contact']['address']['postcode']);
       return Pet(
         name: listOfReturnedAnimals[index]['name'],
         species: listOfReturnedAnimals[index]['species'],
