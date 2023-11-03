@@ -38,10 +38,10 @@ class ZipCodePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          title: Text('Zip Code Entry')),
+          title: const Text('Zip Code Entry')),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             child:
                 Text('Welcome to Petfinder, please enter your zipcode below'),
           ),
@@ -55,7 +55,8 @@ class ZipCodePage extends StatelessWidget {
                   child: TextField(
                     style: style,
                     controller: zipCodeController,
-                    decoration: InputDecoration(labelText: 'Enter Zip Code'),
+                    decoration:
+                        const InputDecoration(labelText: 'Enter Zip Code'),
                   ),
                 ),
               ),
@@ -73,7 +74,7 @@ class ZipCodePage extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text('Enter'),
+                child: const Text('Enter'),
               ),
             ),
           ),
@@ -86,7 +87,7 @@ class ZipCodePage extends StatelessWidget {
 class PetListPage extends StatefulWidget {
   final String zipCode;
 
-  PetListPage({required this.zipCode});
+  const PetListPage({required this.zipCode});
 
   @override
   _PetListPageState createState() => _PetListPageState();
@@ -105,7 +106,6 @@ class _PetListPageState extends State<PetListPage> {
   void stopPetBoxBehavior(PointerEvent details) {
     setState(() {
       userBoxSurveillance = false;
-      print('dear god help');
     });
   }
 
@@ -124,9 +124,9 @@ class _PetListPageState extends State<PetListPage> {
   }
 
   Future<void> _launchURL(String url) async {
-    final Uri _url = Uri.parse(url);
-    if (await canLaunchUrl(_url)) {
-      await launchUrl(_url);
+    final Uri aUrl = Uri.parse(url);
+    if (await canLaunchUrl(aUrl)) {
+      await launchUrl(aUrl);
     } else {
       throw 'The URL for this pet profile is broken.';
     }
@@ -150,7 +150,7 @@ class _PetListPageState extends State<PetListPage> {
                   MaterialPageRoute(builder: (context) => ZipCodePage()),
                 );
               },
-              child: Text('Back'),
+              child: const Text('Back'),
             ),
             Expanded(
               child: ListView.builder(
