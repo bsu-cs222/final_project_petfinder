@@ -162,7 +162,7 @@ class _PetListPageState extends State<PetListPage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          _launchURL(pet.URLString);
+                          _launchURL(pet.UrlString);
                         },
                         child: Container(
                           width: 600,
@@ -191,7 +191,7 @@ class _PetListPageState extends State<PetListPage> {
                             ),
                           ),
                         ),
-                      ), //gesture decector?
+                      ), //gesture detector?
                     ],
                   );
                 },

@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'package:cs222_final_project_pet_finder/oldMain.dart';
 import 'package:http/http.dart' as http;
 
 class Pet {
   final String name;
   final String species;
   final String breed;
-  final String URLString;
+  final String urlString;
   final List photos;
   final List videos;
   final zipcode;
@@ -15,7 +14,7 @@ class Pet {
       {required this.name,
       required this.species,
       required this.breed,
-      required this.URLString,
+      required this.urlString,
       required this.photos,
       required this.videos,
       required this.zipcode});
@@ -36,7 +35,7 @@ class QueryBuilder {
     return (requestBody);
   }
 
-  Map<String, String> PetFinderCallBuilder(tokenRequestResponse) {
+  Map<String, String> petFinderCallBuilder(tokenRequestResponse) {
     final Map<String, dynamic> decodedTokenRequestResponse =
         json.decode(tokenRequestResponse.body);
     final String accessToken = decodedTokenRequestResponse['access_token'];
@@ -59,7 +58,7 @@ class QueryCall {
       final queryResponse = await http.get(
         Uri.parse(
             'https://api.petfinder.com/v2/animals/?limit=5&location=${zipcode}'),
-        headers: query.PetFinderCallBuilder(response),
+        headers: query.petFinderCallBuilder(response),
       );
       return (queryResponse.body);
     } else {
@@ -78,7 +77,7 @@ class PetFinderParser {
         name: listOfReturnedAnimals[index]['name'],
         species: listOfReturnedAnimals[index]['species'],
         breed: listOfReturnedAnimals[index]['breeds']['primary'],
-        URLString: listOfReturnedAnimals[index]['url'],
+        urlString: listOfReturnedAnimals[index]['url'],
         photos: listOfReturnedAnimals[index]['photos'],
         videos: listOfReturnedAnimals[index]['videos'],
         zipcode: listOfReturnedAnimals[index]['contact']['address']['postcode'],
