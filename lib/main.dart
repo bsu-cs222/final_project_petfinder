@@ -26,11 +26,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// class MyAppState extends ChangeNotifier {
-//   void backToSearchScreen() {
-//     ZipCodePage();
-//   }
-// }
 class ZipCodePage extends StatelessWidget {
   final TextEditingController zipCodeController = TextEditingController();
 
