@@ -55,7 +55,7 @@ class QueryCall {
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
         Uri.parse(
-            'https://api.petfinder.com/v2/animals/?limit=5&location=$zipcode'),
+            'https://api.petfinder.com/v2/animals/?limit=5&distance=50&status=adoptable&location=$zipcode'),
         headers: query.petFinderCallBuilder(response),
       );
       return (queryResponse.body);
