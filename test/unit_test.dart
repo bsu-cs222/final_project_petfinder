@@ -11,27 +11,27 @@ void main() {
     final results = parser.parseFivePets(fileContents);
     var petNames = '';
     for (var result in results) {
-      petNames += '${result.name}, ';
+      petNames += result.name;
     }
-    expect(petNames, 'Bones, Charm, Count Coolman, Tara, Salem, ');
+    expect(petNames, 'BonesCharmCount CoolmanTaraSalem');
   });
 
-  test('Return the names of one pet and their corresponding species and breed',
+  test('Return the names of five pets and their corresponding species and breed',
       () {
     final results = parser.parseFivePets(fileContents);
     var petInfo = '';
     for (var result in results) {
-      petInfo += '${result.name} is a ${result.breed} ${result.species}.';
+      petInfo += '${result.name} ${result.breed} ${result.species}.';
     }
     expect(
         petInfo,
-        'Bones is a Domestic Short Hair Cat.'
-        'Charm is a Pit Bull Terrier Dog.'
-        'Count Coolman is a Domestic Short Hair Cat.'
-        'Tara is a Jack Russell Terrier Dog.'
-        'Salem is a Pit Bull Terrier Dog.');
+        'Bones Domestic Short Hair Cat.'
+        'Charm Pit Bull Terrier Dog.'
+        'Count Coolman Domestic Short Hair Cat.'
+        'Tara Jack Russell Terrier Dog.'
+        'Salem Pit Bull Terrier Dog.');
   });
-  test('Return the url for pet photo', () {
+  test('Returns the url for 5 pet photo, small medium and large.', () {
     final results = parser.parseFivePets(fileContents);
     var petPhotoURL = '';
     for (var result in results) {
@@ -57,5 +57,11 @@ void main() {
         'medium: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662&width=300, '
         'large: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662&width=600, '
         'full: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662}]');
+  });
+  test('The zipcodes of the first pet is 47401',(){
+    final results= parser.parseFivePets(fileContents);
+    var petZipCode='';
+    petZipCode=results[0].zipcode;
+    expect(petZipCode,'47401');
   });
 }

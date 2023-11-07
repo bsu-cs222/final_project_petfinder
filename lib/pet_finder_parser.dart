@@ -7,7 +7,7 @@ class Pet {
   final String breed;
   final String urlString;
   final List photos;
-  final String zipcode;
+ final String zipcode;
 
   Pet(
       {required this.name,
@@ -15,7 +15,9 @@ class Pet {
       required this.breed,
       required this.urlString,
       required this.photos,
-      required this.zipcode});
+      required this.zipcode
+      }
+      );
 }
 
 class QueryBuilder {
