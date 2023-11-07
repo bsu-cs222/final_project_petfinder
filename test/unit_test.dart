@@ -31,7 +31,7 @@ void main() {
         'Tara Jack Russell Terrier Dog.'
         'Salem Pit Bull Terrier Dog.');
   });
-  test('Return the url for pet photo', () {
+  test('Returns the url for 5 pet photo, small medium and large.', () {
     final results = parser.parseFivePets(fileContents);
     var petPhotoURL = '';
     for (var result in results) {
@@ -57,5 +57,11 @@ void main() {
         'medium: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662&width=300, '
         'large: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662&width=600, '
         'full: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662}]');
+  });
+  test('The zipcodes of the first pet is 47401',(){
+    final results= parser.parseFivePets(fileContents);
+    var petZipCode='';
+    petZipCode=results[0].zipcode;
+    expect(petZipCode,'47401');
   });
 }
