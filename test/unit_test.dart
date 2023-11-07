@@ -11,25 +11,25 @@ void main() {
     final results = parser.parseFivePets(fileContents);
     var petNames = '';
     for (var result in results) {
-      petNames += '${result.name}, ';
+      petNames += result.name;
     }
-    expect(petNames, 'Bones, Charm, Count Coolman, Tara, Salem, ');
+    expect(petNames, 'BonesCharmCount CoolmanTaraSalem');
   });
 
-  test('Return the names of one pet and their corresponding species and breed',
+  test('Return the names of five pets and their corresponding species and breed',
       () {
     final results = parser.parseFivePets(fileContents);
     var petInfo = '';
     for (var result in results) {
-      petInfo += '${result.name} is a ${result.breed} ${result.species}.';
+      petInfo += '${result.name} ${result.breed} ${result.species}.';
     }
     expect(
         petInfo,
-        'Bones is a Domestic Short Hair Cat.'
-        'Charm is a Pit Bull Terrier Dog.'
-        'Count Coolman is a Domestic Short Hair Cat.'
-        'Tara is a Jack Russell Terrier Dog.'
-        'Salem is a Pit Bull Terrier Dog.');
+        'Bones Domestic Short Hair Cat.'
+        'Charm Pit Bull Terrier Dog.'
+        'Count Coolman Domestic Short Hair Cat.'
+        'Tara Jack Russell Terrier Dog.'
+        'Salem Pit Bull Terrier Dog.');
   });
   test('Return the url for pet photo', () {
     final results = parser.parseFivePets(fileContents);
