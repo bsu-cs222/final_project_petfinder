@@ -78,7 +78,7 @@ class PetFinderParser {
         breed: listOfReturnedAnimals[index]['breeds']['primary'],
         urlString: listOfReturnedAnimals[index]['url'],
         photos: listOfReturnedAnimals[index]['photos'],
-       zipcode: listOfReturnedAnimals[index]['contact']['address']['postcode'],
+        zipcode: listOfReturnedAnimals[index]['contact']['address']['postcode'],
       );
     });
 
