@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+
 class Pet {
   final String name;
   final String species;
@@ -21,17 +22,13 @@ class Pet {
 }
 
 class QueryBuilder {
-  Map<String, String> tokenQueryBuilder() {
-    const String clientId =
-        'WP27Mq8UDXUpKodCbHgDRHGIvTaz7pTfTTHPPP8ZBzOJrlO3AZ';
-    const String clientSecret = 'Ana1nynvKNyQtKbJAm5mTQISlrtaaYeA8ao4gjm3';
+  Future<Map<String, String>> tokenQueryBuilder(id, secret) async {
 
     final Map<String, String> requestBody = {
       'grant_type': 'client_credentials',
-      'client_id': clientId,
-      'client_secret': clientSecret,
+      'client_id': '$id',
+      'client_secret': '$secret',
     };
-
     return (requestBody);
   }
 
@@ -47,12 +44,12 @@ class QueryBuilder {
 }
 
 class QueryCall {
-  Future<Object> makeRequestToAPI(String zipcode) async {
+  Future<Object> makeRequestToAPI(id, secret, String zipcode) async {
     final query = QueryBuilder();
 
     final response = await http.post(
       Uri.parse('https://api.petfinder.com/v2/oauth2/token'),
-      body: query.tokenQueryBuilder(),
+      body: await query.tokenQueryBuilder(id, secret),
     );
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
