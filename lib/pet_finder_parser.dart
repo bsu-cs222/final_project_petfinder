@@ -7,8 +7,7 @@ class Pet {
   final String breed;
   final String urlString;
   final List photos;
-  final List videos;
-  final int zipcode;
+  final String zipcode;
 
   Pet(
       {required this.name,
@@ -16,7 +15,6 @@ class Pet {
       required this.breed,
       required this.urlString,
       required this.photos,
-      required this.videos,
       required this.zipcode});
 }
 
@@ -78,7 +76,6 @@ class PetFinderParser {
         breed: listOfReturnedAnimals[index]['breeds']['primary'],
         urlString: listOfReturnedAnimals[index]['url'],
         photos: listOfReturnedAnimals[index]['photos'],
-        videos: listOfReturnedAnimals[index]['videos'],
         zipcode: listOfReturnedAnimals[index]['contact']['address']['postcode'],
       );
     });
