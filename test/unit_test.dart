@@ -7,18 +7,20 @@ final File petTestFile = File('test/apiResponse.json');
 final fileContents = petTestFile.readAsStringSync();
 
 void main() {
-  test('Return the names of five pets from query response', () {
-    final results = parser.parseFivePets(fileContents);
+  final results = parser.parseFivePets(fileContents);
+  test('Expect that the names of the pets are Bones, Charm, Count Coolman, Tara, and Salem', () {
     var petNames = '';
+    int counter=0;
+    var expectedPetNames=['Bones', 'Charm', 'Count Coolman', 'Tara', 'Salem'];
     for (var result in results) {
-      petNames += result.name;
+      petNames = result.name;
+      expect (petNames,expectedPetNames[counter]);
+      counter++;
     }
-    expect(petNames, 'BonesCharmCount CoolmanTaraSalem');
   });
 
   test('Return the names of five pets and their corresponding species and breed',
       () {
-    final results = parser.parseFivePets(fileContents);
     var petInfo = '';
     for (var result in results) {
       petInfo += '${result.name} ${result.breed} ${result.species}.';
@@ -32,7 +34,6 @@ void main() {
         'Salem Pit Bull Terrier Dog.');
   });
   test('Returns the url for 5 pet photo, small medium and large.', () {
-    final results = parser.parseFivePets(fileContents);
     var petPhotoURL = '';
     for (var result in results) {
       petPhotoURL += '${result.photos}';
@@ -59,7 +60,6 @@ void main() {
         'full: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662}]');
   });
   test('The zipcodes of the first pet is 47401',(){
-    final results= parser.parseFivePets(fileContents);
     var petZipCode='';
     petZipCode=results[0].zipcode;
     expect(petZipCode,'47401');
