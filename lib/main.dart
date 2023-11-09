@@ -1,14 +1,23 @@
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final parser = PetFinderParser();
 final caller = QueryCall();
 
-void main() {
+Future main() async{
+  await dotenv.load(fileName: ".env");
+
   runApp(MyApp());
 }
 
+// class getSecret{
+//   final String id;
+//   final String secret;
+//
+//   getSecret({required this.id, required this.secret});
+// }
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -116,7 +125,9 @@ class _PetListPageState extends State<PetListPage> {
   }
 
   Future<void> fetchData() async {
-    final response = await caller.makeRequestToAPI(widget.zipCode);
+    final response = await caller.makeRequestToAPI(dotenv.env['api_id'], dotenv.env['api_secret'], widget.zipCode);
+
+
     final parsedPets = parser.parseFivePets(response);
     setState(() {
       pets = parsedPets;
