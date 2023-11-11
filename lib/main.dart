@@ -9,7 +9,7 @@ final caller = QueryCall();
 Future main() async{
   await dotenv.load(fileName: ".env");
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 // class getSecret{
@@ -19,6 +19,8 @@ Future main() async{
 //   getSecret({required this.id, required this.secret});
 // }
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,6 +39,8 @@ class MyApp extends StatelessWidget {
 
 class ZipCodePage extends StatelessWidget {
   final TextEditingController zipCodeController = TextEditingController();
+
+  ZipCodePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +100,7 @@ class ZipCodePage extends StatelessWidget {
 class PetListPage extends StatefulWidget {
   final String zipCode;
 
-  const PetListPage({required this.zipCode});
+  const PetListPage({super.key, required this.zipCode});
 
   @override
   _PetListPageState createState() => _PetListPageState();
@@ -171,11 +175,7 @@ class _PetListPageState extends State<PetListPage> {
 
                   return Column(
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          _launchURL(pet.UrlString);
-                        },
-                        child: Container(
+                        Container(
                           width: 600,
                           decoration: BoxDecoration(
                             border: Border.all(width: 10, color: Colors.pink),
@@ -184,25 +184,38 @@ class _PetListPageState extends State<PetListPage> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Column(
+                            child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                //PetInfo,
-                                Text(pet.name),
-                                Text('${pet.breed} ${pet.species}'),
                                 if (pet.photos.isNotEmpty)
-                                  Image.network(pet.photos[0]['small'])
-                                else
                                   Image.network(
-                                      'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
-                                      height: 150,
-                                      scale: 0.3),
-                                Text('Learn more about ${pet.name}'),
+                                    pet.photos[0]['small'],
+                                  ),
+                                if (pet.photos.isEmpty)
+                                  Image.network(
+                                    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
+                                    width: 100,
+                                    height: 100,
+                                    scale: 0.3,
+                                  ),
+                                const SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(pet.name),
+                                    Text('${pet.breed} ${pet.species}'),
+                                    ElevatedButton(
+                                      child: Text('Learn more about ${pet.name}'),
+                                      onPressed: () {
+                                        _launchURL(pet.UrlString);
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ],
-                            ),
+                            )
                           ),
-                        ),
-                      ), //gesture detector?
+                        ),//gesture detector?
                     ],
                   );
                 },
