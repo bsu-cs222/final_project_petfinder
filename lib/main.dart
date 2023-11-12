@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
 class ZipCodePage extends StatelessWidget {
   final TextEditingController zipCodeController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
+  final TextEditingController speciesController = TextEditingController();
 
   ZipCodePage({super.key});
 
@@ -70,16 +71,27 @@ class ZipCodePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                    width: 400,
+                    width: 250,
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
                           style: style,
                           controller: genderController,
                           decoration: const InputDecoration(
-                              labelText:
-                                  'Gender: Please enter female or male. (optional)'),
-                        )))
+                              labelText: 'Gender: (female or male)'),
+                        ))),
+                SizedBox(
+                  width: 250,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      style: style,
+                      controller: speciesController,
+                      decoration: const InputDecoration(
+                          labelText: 'Species: (cat, dog, bird, etc.)'),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -93,6 +105,7 @@ class ZipCodePage extends StatelessWidget {
                       builder: (context) => PetListPage(
                         zipCode: zipCodeController.text,
                         gender: genderController.text,
+                        species: speciesController.text,
                       ),
                     ),
                   );
@@ -110,8 +123,13 @@ class ZipCodePage extends StatelessWidget {
 class PetListPage extends StatefulWidget {
   final String zipCode;
   final String gender;
+  final String species;
 
-  const PetListPage({super.key, required this.zipCode, required this.gender});
+  const PetListPage(
+      {super.key,
+      required this.zipCode,
+      required this.gender,
+      required this.species});
 
   @override
   _PetListPageState createState() => _PetListPageState();
@@ -140,8 +158,12 @@ class _PetListPageState extends State<PetListPage> {
   }
 
   Future<void> fetchData() async {
-    final response = await caller.makeRequestToAPI(dotenv.env['api_id'],
-        dotenv.env['api_secret'], widget.zipCode, widget.gender);
+    final response = await caller.makeRequestToAPI(
+        dotenv.env['api_id'],
+        dotenv.env['api_secret'],
+        widget.zipCode,
+        widget.gender,
+        widget.species);
 
     final parsedPets = parser.parseFivePets(response);
     setState(() {
@@ -211,10 +233,10 @@ class _PetListPageState extends State<PetListPage> {
                                         height: 100,
                                         scale: 0.3,
                                       ),
-                                      Text ('Image is credited to wikimedia commons'),
+                                      const Text(
+                                          'Image is credited to wikimedia commons'),
                                     ],
-                                    ),
-
+                                  ),
                                 const SizedBox(width: 10),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
