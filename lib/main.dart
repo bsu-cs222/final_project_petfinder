@@ -46,7 +46,7 @@ class ZipCodePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          title: const Text('Zip Code Entry')),
+          title: const Text('Search Page')),
       body: Column(
         children: [
           const SizedBox(
