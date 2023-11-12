@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-
 class Pet {
   final String name;
   final String species;
   final String breed;
   final String urlString;
   final List photos;
- final String zipcode;
+  final String zipcode;
 
   Pet(
       {required this.name,
@@ -16,14 +15,11 @@ class Pet {
       required this.breed,
       required this.urlString,
       required this.photos,
-      required this.zipcode
-      }
-      );
+      required this.zipcode});
 }
 
 class QueryBuilder {
   Future<Map<String, String>> tokenQueryBuilder(id, secret) async {
-
     final Map<String, String> requestBody = {
       'grant_type': 'client_credentials',
       'client_id': '$id',
@@ -44,7 +40,8 @@ class QueryBuilder {
 }
 
 class QueryCall {
-  Future<Object> makeRequestToAPI(id, secret, String zipcode,String gender) async {
+  Future<Object> makeRequestToAPI(
+      id, secret, String zipcode, String gender, String species) async {
     final query = QueryBuilder();
 
     final response = await http.post(
@@ -54,7 +51,7 @@ class QueryCall {
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
         Uri.parse(
-            'https://api.petfinder.com/v2/animals/?limit=5&distance=50&gender=$gender&status=adoptable&location=$zipcode'),
+            'https://api.petfinder.com/v2/animals/?limit=5&distance=50&gender=$gender&species=$species&status=adoptable&location=$zipcode'),
         headers: query.petFinderCallBuilder(response),
       );
       return (queryResponse.body);

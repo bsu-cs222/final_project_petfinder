@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +34,7 @@ class MyApp extends StatelessWidget {
 class ZipCodePage extends StatelessWidget {
   final TextEditingController zipCodeController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
+  final TextEditingController speciesController = TextEditingController();
 
   ZipCodePage({super.key});
 
@@ -62,11 +62,7 @@ class ZipCodePage extends StatelessWidget {
                   width: 250,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                        LengthLimitingTextInputFormatter(5),
-                      ],
+                    child: TextField(
                       style: style,
                       controller: zipCodeController,
                       decoration:
@@ -75,16 +71,27 @@ class ZipCodePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                    width: 400,
+                    width: 250,
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
                           style: style,
                           controller: genderController,
                           decoration: const InputDecoration(
-                              labelText:
-                                  'Gender: Please enter female or male. (optional)'),
-                        )))
+                              labelText: 'Gender: (female or male)'),
+                        ))),
+                SizedBox(
+                  width: 250,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      style: style,
+                      controller: speciesController,
+                      decoration: const InputDecoration(
+                          labelText: 'Species: (cat, dog, bird, etc.)'),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -93,16 +100,15 @@ class ZipCodePage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  if(zipCodeController.text != ""){
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => PetListPage(
-                          zipCode: zipCodeController.text,
-                          gender: genderController.text,
-                        ),
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => PetListPage(
+                        zipCode: zipCodeController.text,
+                        gender: genderController.text,
+                        species: speciesController.text,
                       ),
-                    );
-                  }
+                    ),
+                  );
                 },
                 child: const Text('Enter'),
               ),
@@ -117,8 +123,13 @@ class ZipCodePage extends StatelessWidget {
 class PetListPage extends StatefulWidget {
   final String zipCode;
   final String gender;
+  final String species;
 
-  const PetListPage({super.key, required this.zipCode, required this.gender});
+  const PetListPage(
+      {super.key,
+      required this.zipCode,
+      required this.gender,
+      required this.species});
 
   @override
   _PetListPageState createState() => _PetListPageState();
@@ -147,8 +158,12 @@ class _PetListPageState extends State<PetListPage> {
   }
 
   Future<void> fetchData() async {
-    final response = await caller.makeRequestToAPI(dotenv.env['api_id'],
-        dotenv.env['api_secret'], widget.zipCode, widget.gender);
+    final response = await caller.makeRequestToAPI(
+        dotenv.env['api_id'],
+        dotenv.env['api_secret'],
+        widget.zipCode,
+        widget.gender,
+        widget.species);
 
     final parsedPets = parser.parseFivePets(response);
     setState(() {
@@ -185,8 +200,6 @@ class _PetListPageState extends State<PetListPage> {
               },
               child: const Text('Back'),
             ),
-            if (pets.isEmpty)
-              Text('No adoptable pets were found!'),
             Expanded(
               child: ListView.builder(
                 itemCount: pets.length,
@@ -220,10 +233,11 @@ class _PetListPageState extends State<PetListPage> {
                                         height: 100,
                                         scale: 0.3,
                                       ),
-                                      Text ('Image is credited to wikimedia commons'),
+                                      const Text(
+                                          'Image is credited\nto wikimedia commons',
+                                          textAlign: TextAlign.center),
                                     ],
-                                    ),
-
+                                  ),
                                 const SizedBox(width: 10),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,7 +255,7 @@ class _PetListPageState extends State<PetListPage> {
                                 ),
                               ],
                             )),
-                      ),
+                      ), //gesture detector?
                     ],
                   );
                 },
@@ -253,4 +267,3 @@ class _PetListPageState extends State<PetListPage> {
     );
   }
 }
-
