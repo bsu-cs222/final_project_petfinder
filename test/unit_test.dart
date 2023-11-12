@@ -7,23 +7,27 @@ final File petTestFile = File('test/apiResponse.json');
 final fileContents = petTestFile.readAsStringSync();
 
 void main() {
-  final results = parser.parseFivePets(fileContents);
-  test('Expect that the names of the pets are Bones, Charm, Count Coolman, Tara, and Salem', () {
+  final results = parser.parsePetInfo(fileContents);
+  test(
+      'Expect that the names of the pets are Bones, Charm, Count Coolman, Tara, and Salem',
+      () {
     var petNames = '';
-    int counter=0;
-    var expectedPetNames=['Bones', 'Charm', 'Count Coolman', 'Tara', 'Salem'];
+    int counter = 0;
+    var expectedPetNames = ['Bones', 'Charm', 'Count Coolman', 'Tara', 'Salem'];
     for (var result in results) {
       petNames = result.name;
-      expect (petNames,expectedPetNames[counter]);
+      expect(petNames, expectedPetNames[counter]);
       counter++;
     }
   });
 
-  test('The returned breeds will be Domestic Short Hair, Pit Bull, Domestic Short Hair, Jack Russell Terrier, and Pit Bull Terrier', () {
+  test(
+      'The returned breeds will be Domestic Short Hair, Pit Bull, Domestic Short Hair, Jack Russell Terrier, and Pit Bull Terrier',
+      () {
     var petInfo = '';
 
     for (var result in results) {
-      petInfo =(result.breed);
+      petInfo = (result.breed);
     }
     expect(
         petInfo,
@@ -59,9 +63,9 @@ void main() {
         'large: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662&width=600, '
         'full: https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/69316378/1/?bust=1697452662}]');
   });
-  test('The zipcodes of the first pet is 47401',(){
-    var petZipCode='';
-    petZipCode=results[0].zipcode;
-    expect(petZipCode,'47401');
+  test('The zipcodes of the first pet is 47401', () {
+    var petZipCode = '';
+    petZipCode = results[0].zipcode;
+    expect(petZipCode, '47401');
   });
 }

@@ -8,6 +8,7 @@ class Pet {
   final String urlString;
   final List photos;
   final String zipcode;
+  final String gender;
 
   Pet(
       {required this.name,
@@ -15,7 +16,8 @@ class Pet {
       required this.breed,
       required this.urlString,
       required this.photos,
-      required this.zipcode});
+      required this.zipcode,
+      required this.gender});
 }
 
 class QueryBuilder {
@@ -40,6 +42,7 @@ class QueryBuilder {
 }
 
 class QueryCall {
+
   Future<Object> makeRequestToAPI(
       id, secret, String zipcode, String gender, String species) async {
     final query = QueryBuilder();
@@ -51,7 +54,7 @@ class QueryCall {
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
         Uri.parse(
-            'https://api.petfinder.com/v2/animals/?limit=5&distance=50&gender=$gender&type=$species&status=adoptable&location=$zipcode'),
+            'https://api.petfinder.com/v2/animals/?limit=20&distance=50&gender=$gender&type=$species&status=adoptable&location=$zipcode'),
         headers: query.petFinderCallBuilder(response),
       );
       return (queryResponse.body);
@@ -62,10 +65,10 @@ class QueryCall {
 }
 
 class PetFinderParser {
-  List parseFivePets(queryResponse) {
+  List parsePetInfo(queryResponse) {
     final decodedAPIResponse = json.decode(queryResponse);
     final listOfReturnedAnimals = decodedAPIResponse['animals'];
-    List<Pet> pets = List<Pet>.generate(5, (index) {
+    List<Pet> pets = List<Pet>.generate(20, (index) {
       return Pet(
         name: listOfReturnedAnimals[index]['name'],
         species: listOfReturnedAnimals[index]['species'],
@@ -73,6 +76,7 @@ class PetFinderParser {
         urlString: listOfReturnedAnimals[index]['url'],
         photos: listOfReturnedAnimals[index]['photos'],
         zipcode: listOfReturnedAnimals[index]['contact']['address']['postcode'],
+        gender: listOfReturnedAnimals[index]['gender'],
       );
     });
 

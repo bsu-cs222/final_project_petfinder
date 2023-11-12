@@ -105,16 +105,16 @@ class ZipCodePage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  if (zipCodeController.text != ""){
-                    Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => PetListPage(
-                            zipCode: zipCodeController.text,
-                            gender: genderController.text,
-                            species: speciesController.text,
-                          ),
-                        ));
-                  };
+                  if (zipCodeController.text != "") {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => PetListPage(
+                        zipCode: zipCodeController.text,
+                        gender: genderController.text,
+                        species: speciesController.text,
+                      ),
+                    ));
+                  }
+                  ;
                 },
                 child: const Text('Enter'),
               ),
@@ -171,7 +171,7 @@ class _PetListPageState extends State<PetListPage> {
         widget.gender,
         widget.species);
 
-    final parsedPets = parser.parseFivePets(response);
+    final parsedPets = parser.parsePetInfo(response);
     setState(() {
       pets = parsedPets;
     });
@@ -206,8 +206,7 @@ class _PetListPageState extends State<PetListPage> {
               },
               child: const Text('Back'),
             ),
-            if (pets.isEmpty)
-              const Text('No adoptable pets were found!'),
+            if (pets.isEmpty) const Text('No adoptable pets were found!'),
             Expanded(
               child: ListView.builder(
                 itemCount: pets.length,
@@ -252,6 +251,7 @@ class _PetListPageState extends State<PetListPage> {
                                   children: [
                                     Text(pet.name),
                                     Text('${pet.breed} ${pet.species}'),
+                                    Text('${pet.gender}'),
                                     ElevatedButton(
                                       child:
                                           Text('Learn more about ${pet.name}'),
