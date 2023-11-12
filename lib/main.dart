@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
 class ZipCodePage extends StatelessWidget {
   final TextEditingController zipCodeController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
-  final TextEditingController speciesController = TextEditingController();
 
   ZipCodePage({super.key});
 
@@ -71,27 +70,16 @@ class ZipCodePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                    width: 250,
+                    width: 400,
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
                           style: style,
                           controller: genderController,
                           decoration: const InputDecoration(
-                              labelText: 'Gender: (female or male)'),
-                        ))),
-                SizedBox(
-                  width: 250,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      style: style,
-                      controller: speciesController,
-                      decoration: const InputDecoration(
-                          labelText: 'Species: (cat, dog, bird, etc.)'),
-                    ),
-                  ),
-                ),
+                              labelText:
+                                  'Gender: Please enter female or male. (optional)'),
+                        )))
               ],
             ),
           ),
@@ -105,7 +93,6 @@ class ZipCodePage extends StatelessWidget {
                       builder: (context) => PetListPage(
                         zipCode: zipCodeController.text,
                         gender: genderController.text,
-                        species: speciesController.text,
                       ),
                     ),
                   );
@@ -123,13 +110,8 @@ class ZipCodePage extends StatelessWidget {
 class PetListPage extends StatefulWidget {
   final String zipCode;
   final String gender;
-  final String species;
 
-  const PetListPage(
-      {super.key,
-      required this.zipCode,
-      required this.gender,
-      required this.species});
+  const PetListPage({super.key, required this.zipCode, required this.gender});
 
   @override
   _PetListPageState createState() => _PetListPageState();
@@ -158,12 +140,8 @@ class _PetListPageState extends State<PetListPage> {
   }
 
   Future<void> fetchData() async {
-    final response = await caller.makeRequestToAPI(
-        dotenv.env['api_id'],
-        dotenv.env['api_secret'],
-        widget.zipCode,
-        widget.gender,
-        widget.species);
+    final response = await caller.makeRequestToAPI(dotenv.env['api_id'],
+        dotenv.env['api_secret'], widget.zipCode, widget.gender);
 
     final parsedPets = parser.parseFivePets(response);
     setState(() {
@@ -226,17 +204,16 @@ class _PetListPageState extends State<PetListPage> {
                                   ),
                                 if (pet.photos.isEmpty)
                                   Column(
-                                    children: [
-                                      Image.network(
-                                        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
-                                        width: 100,
-                                        height: 100,
-                                        scale: 0.3,
+                                      children: [
+                                        Image.network(
+                                          'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
+                                          width: 100,
+                                          height: 100,
+                                          scale: 0.3,
+                                        ),
+                                        Text ('Image is credited\nto wikimedia commons',textAlign:TextAlign.center),
+                                      ],
                                       ),
-                                      const Text(
-                                          'Image is credited to wikimedia commons'),
-                                    ],
-                                  ),
                                 const SizedBox(width: 10),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
