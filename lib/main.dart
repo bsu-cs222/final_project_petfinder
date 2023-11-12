@@ -202,12 +202,18 @@ class _PetListPageState extends State<PetListPage> {
                                     pet.photos[0]['small'],
                                   ),
                                 if (pet.photos.isEmpty)
-                                  Image.network(
-                                    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
-                                    width: 100,
-                                    height: 100,
-                                    scale: 0.3,
-                                  ),
+                                  Column(
+                                    children: [
+                                      Image.network(
+                                        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
+                                        width: 100,
+                                        height: 100,
+                                        scale: 0.3,
+                                      ),
+                                      Text ('Image is credited to wikimedia commons'),
+                                    ],
+                                    ),
+
                                 const SizedBox(width: 10),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
