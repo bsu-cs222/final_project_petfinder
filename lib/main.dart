@@ -12,12 +12,6 @@ Future main() async{
   runApp(const MyApp());
 }
 
-// class getSecret{
-//   final String id;
-//   final String secret;
-//
-//   getSecret({required this.id, required this.secret});
-// }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -223,7 +217,7 @@ class _PetListPageState extends State<PetListPage> {
                                     ElevatedButton(
                                       child: Text('Learn more about ${pet.name}'),
                                       onPressed: () {
-                                        _launchURL(pet.UrlString);
+                                        _launchURL(pet.urlString);
                                       },
                                     ),
                                   ],
