@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
 
 class ZipCodePage extends StatelessWidget {
   final TextEditingController zipCodeController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
 
   ZipCodePage({super.key});
 
@@ -58,22 +59,36 @@ class ZipCodePage extends StatelessWidget {
             child:
                 Text('Welcome to Petfinder, please enter your zipcode below'),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 200,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    style: style,
-                    controller: zipCodeController,
-                    decoration:
-                        const InputDecoration(labelText: 'Enter Zip Code'),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 250,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      style: style,
+                      controller: zipCodeController,
+                      decoration:
+                          const InputDecoration(labelText: 'Enter Zip Code'),
+                    ),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  width: 400,
+                  child:Padding(
+                    padding:const EdgeInsets.all(8.0),
+                    child:TextField(
+                      style:style,
+                      controller: genderController,
+                      decoration:
+                        const InputDecoration(labelText:'Enter the Gender of the Pet'),
+                    )
+                  )
+                )
+              ],
+            ),
           ),
           SizedBox(
             child: Padding(
@@ -83,7 +98,7 @@ class ZipCodePage extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) =>
-                            PetListPage(zipCode: zipCodeController.text),
+                            PetListPage(zipCode: zipCodeController.text,gender: genderController.text,),
                       ),
                     );
                   },
@@ -99,8 +114,9 @@ class ZipCodePage extends StatelessWidget {
 
 class PetListPage extends StatefulWidget {
   final String zipCode;
+  final String gender;
 
-  const PetListPage({super.key, required this.zipCode});
+  const PetListPage({super.key, required this.zipCode,required this.gender});
 
   @override
   _PetListPageState createState() => _PetListPageState();
@@ -129,7 +145,7 @@ class _PetListPageState extends State<PetListPage> {
   }
 
   Future<void> fetchData() async {
-    final response = await caller.makeRequestToAPI(dotenv.env['api_id'], dotenv.env['api_secret'], widget.zipCode);
+    final response = await caller.makeRequestToAPI(dotenv.env['api_id'], dotenv.env['api_secret'], widget.zipCode,widget.gender);
 
 
     final parsedPets = parser.parseFivePets(response);

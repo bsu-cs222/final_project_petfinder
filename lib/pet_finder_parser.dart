@@ -44,7 +44,7 @@ class QueryBuilder {
 }
 
 class QueryCall {
-  Future<Object> makeRequestToAPI(id, secret, String zipcode) async {
+  Future<Object> makeRequestToAPI(id, secret, String zipcode,String gender) async {
     final query = QueryBuilder();
 
     final response = await http.post(
@@ -54,7 +54,7 @@ class QueryCall {
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
         Uri.parse(
-            'https://api.petfinder.com/v2/animals/?limit=5&distance=50&status=adoptable&location=$zipcode'),
+            'https://api.petfinder.com/v2/animals/?limit=5&distance=50&gender=$gender&status=adoptable&location=$zipcode'),
         headers: query.petFinderCallBuilder(response),
       );
       return (queryResponse.body);
