@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 final parser = PetFinderParser();
 final caller = QueryCall();
 
-Future main() async{
+Future main() async {
   await dotenv.load(fileName: ".env");
 
   runApp(const MyApp());
@@ -70,17 +70,15 @@ class ZipCodePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: 400,
-                  child:Padding(
-                    padding:const EdgeInsets.all(8.0),
-                    child:TextField(
-                      style:style,
-                      controller: genderController,
-                      decoration:
-                        const InputDecoration(labelText:'Enter the Gender of the Pet'),
-                    )
-                  )
-                )
+                    width: 250,
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          style: style,
+                          controller: genderController,
+                          decoration: const InputDecoration(
+                              labelText: 'Enter the Gender of the Pet'),
+                        )))
               ],
             ),
           ),
@@ -89,13 +87,15 @@ class ZipCodePage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            PetListPage(zipCode: zipCodeController.text,gender: genderController.text,),
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => PetListPage(
+                        zipCode: zipCodeController.text,
+                        gender: genderController.text,
                       ),
-                    );
-                  },
+                    ),
+                  );
+                },
                 child: const Text('Enter'),
               ),
             ),
@@ -110,7 +110,7 @@ class PetListPage extends StatefulWidget {
   final String zipCode;
   final String gender;
 
-  const PetListPage({super.key, required this.zipCode,required this.gender});
+  const PetListPage({super.key, required this.zipCode, required this.gender});
 
   @override
   _PetListPageState createState() => _PetListPageState();
@@ -139,8 +139,8 @@ class _PetListPageState extends State<PetListPage> {
   }
 
   Future<void> fetchData() async {
-    final response = await caller.makeRequestToAPI(dotenv.env['api_id'], dotenv.env['api_secret'], widget.zipCode,widget.gender);
-
+    final response = await caller.makeRequestToAPI(dotenv.env['api_id'],
+        dotenv.env['api_secret'], widget.zipCode, widget.gender);
 
     final parsedPets = parser.parseFivePets(response);
     setState(() {
@@ -185,14 +185,14 @@ class _PetListPageState extends State<PetListPage> {
 
                   return Column(
                     children: [
-                        Container(
-                          width: 600,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 10, color: Colors.pink),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8)),
-                          ),
-                          child: Padding(
+                      Container(
+                        width: 600,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 10, color: Colors.pink),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                        ),
+                        child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,7 +215,8 @@ class _PetListPageState extends State<PetListPage> {
                                     Text(pet.name),
                                     Text('${pet.breed} ${pet.species}'),
                                     ElevatedButton(
-                                      child: Text('Learn more about ${pet.name}'),
+                                      child:
+                                          Text('Learn more about ${pet.name}'),
                                       onPressed: () {
                                         _launchURL(pet.urlString);
                                       },
@@ -223,9 +224,8 @@ class _PetListPageState extends State<PetListPage> {
                                   ],
                                 ),
                               ],
-                            )
-                          ),
-                        ),//gesture detector?
+                            )),
+                      ), //gesture detector?
                     ],
                   );
                 },
