@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
 class ZipCodePage extends StatelessWidget {
   final TextEditingController zipCodeController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
+  final TextEditingController ageController = TextEditingController();
 
   ZipCodePage({super.key});
 
@@ -79,7 +80,20 @@ class ZipCodePage extends StatelessWidget {
                           decoration: const InputDecoration(
                               labelText:
                                   'Gender: Please enter female or male. (optional)'),
-                        )))
+                        ),),),
+                SizedBox(
+                  width: 600,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child:TextField(
+                      style: style,
+                      controller: ageController,
+                      decoration: const InputDecoration(
+                        labelText: 'Please enter preferred age range for animal. (Baby, Adult, Senior, Young)'
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -93,6 +107,7 @@ class ZipCodePage extends StatelessWidget {
                       builder: (context) => PetListPage(
                         zipCode: zipCodeController.text,
                         gender: genderController.text,
+                        age: ageController.text,
                       ),
                     ),
                   );
@@ -110,8 +125,9 @@ class ZipCodePage extends StatelessWidget {
 class PetListPage extends StatefulWidget {
   final String zipCode;
   final String gender;
+  final String age;
 
-  const PetListPage({super.key, required this.zipCode, required this.gender});
+  const PetListPage({super.key, required this.zipCode, required this.gender, required this.age});
 
   @override
   _PetListPageState createState() => _PetListPageState();
@@ -141,7 +157,7 @@ class _PetListPageState extends State<PetListPage> {
 
   Future<void> fetchData() async {
     final response = await caller.makeRequestToAPI(dotenv.env['api_id'],
-        dotenv.env['api_secret'], widget.zipCode, widget.gender);
+        dotenv.env['api_secret'], widget.zipCode, widget.gender, widget.age);
 
     final parsedPets = parser.parseFivePets(response);
     setState(() {

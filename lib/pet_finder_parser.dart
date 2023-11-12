@@ -44,7 +44,7 @@ class QueryBuilder {
 }
 
 class QueryCall {
-  Future<Object> makeRequestToAPI(id, secret, String zipcode,String gender) async {
+  Future<Object> makeRequestToAPI(id, secret, String zipcode,String gender, String age) async {
     final query = QueryBuilder();
 
     final response = await http.post(
