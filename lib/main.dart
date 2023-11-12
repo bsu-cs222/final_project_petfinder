@@ -80,13 +80,17 @@ class ZipCodePage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          PetListPage(zipCode: zipCodeController.text),
-                    ),
-                  );
-                },
+                  if (zipCodeController==''){
+
+                  }
+                  else {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            PetListPage(zipCode: zipCodeController.text),
+                      ),
+                    );
+                  }},
                 child: const Text('Enter'),
               ),
             ),
