@@ -9,16 +9,12 @@ final caller = QueryCall();
 Future main() async{
   await dotenv.load(fileName: ".env");
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-// class getSecret{
-//   final String id;
-//   final String secret;
-//
-//   getSecret({required this.id, required this.secret});
-// }
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,6 +33,9 @@ class MyApp extends StatelessWidget {
 
 class ZipCodePage extends StatelessWidget {
   final TextEditingController zipCodeController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+
+  ZipCodePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,35 +53,49 @@ class ZipCodePage extends StatelessWidget {
             child:
                 Text('Welcome to Petfinder, please enter your zipcode below'),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 200,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    style: style,
-                    controller: zipCodeController,
-                    decoration:
-                        const InputDecoration(labelText: 'Enter Zip Code'),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 250,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      style: style,
+                      controller: zipCodeController,
+                      decoration:
+                          const InputDecoration(labelText: 'Enter Zip Code'),
+                    ),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  width: 400,
+                  child:Padding(
+                    padding:const EdgeInsets.all(8.0),
+                    child:TextField(
+                      style:style,
+                      controller: genderController,
+                      decoration:
+                        const InputDecoration(labelText:'Enter the Gender of the Pet'),
+                    )
+                  )
+                )
+              ],
+            ),
           ),
           SizedBox(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          PetListPage(zipCode: zipCodeController.text),
-                    ),
-                  );
-                },
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            PetListPage(zipCode: zipCodeController.text,gender: genderController.text,),
+                      ),
+                    );
+                  },
                 child: const Text('Enter'),
               ),
             ),
@@ -95,8 +108,9 @@ class ZipCodePage extends StatelessWidget {
 
 class PetListPage extends StatefulWidget {
   final String zipCode;
+  final String gender;
 
-  const PetListPage({required this.zipCode});
+  const PetListPage({super.key, required this.zipCode,required this.gender});
 
   @override
   _PetListPageState createState() => _PetListPageState();
@@ -125,7 +139,7 @@ class _PetListPageState extends State<PetListPage> {
   }
 
   Future<void> fetchData() async {
-    final response = await caller.makeRequestToAPI(dotenv.env['api_id'], dotenv.env['api_secret'], widget.zipCode);
+    final response = await caller.makeRequestToAPI(dotenv.env['api_id'], dotenv.env['api_secret'], widget.zipCode,widget.gender);
 
 
     final parsedPets = parser.parseFivePets(response);
@@ -171,11 +185,7 @@ class _PetListPageState extends State<PetListPage> {
 
                   return Column(
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          _launchURL(pet.UrlString);
-                        },
-                        child: Container(
+                        Container(
                           width: 600,
                           decoration: BoxDecoration(
                             border: Border.all(width: 10, color: Colors.pink),
@@ -184,25 +194,38 @@ class _PetListPageState extends State<PetListPage> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Column(
+                            child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                //PetInfo,
-                                Text(pet.name),
-                                Text('${pet.breed} ${pet.species}'),
                                 if (pet.photos.isNotEmpty)
-                                  Image.network(pet.photos[0]['small'])
-                                else
                                   Image.network(
-                                      'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
-                                      height: 150,
-                                      scale: 0.3),
-                                Text('Learn more about ${pet.name}'),
+                                    pet.photos[0]['small'],
+                                  ),
+                                if (pet.photos.isEmpty)
+                                  Image.network(
+                                    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
+                                    width: 100,
+                                    height: 100,
+                                    scale: 0.3,
+                                  ),
+                                const SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(pet.name),
+                                    Text('${pet.breed} ${pet.species}'),
+                                    ElevatedButton(
+                                      child: Text('Learn more about ${pet.name}'),
+                                      onPressed: () {
+                                        _launchURL(pet.urlString);
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ],
-                            ),
+                            )
                           ),
-                        ),
-                      ), //gesture detector?
+                        ),//gesture detector?
                     ],
                   );
                 },
