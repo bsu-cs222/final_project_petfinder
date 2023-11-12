@@ -51,7 +51,7 @@ class ZipCodePage extends StatelessWidget {
         children: [
           const SizedBox(
             child:
-                Text('Welcome to Petfinder, please enter your zipcode below'),
+                Text('Welcome to Petfinder, please enter your zipcode below. \n Fields marked with * are required.'),
           ),
           Center(
             child: Column(
@@ -65,7 +65,7 @@ class ZipCodePage extends StatelessWidget {
                       style: style,
                       controller: zipCodeController,
                       decoration:
-                          const InputDecoration(labelText: 'Enter Zip Code'),
+                          const InputDecoration(labelText: 'Enter Zip Code *'),
                     ),
                   ),
                 ),
@@ -77,7 +77,7 @@ class ZipCodePage extends StatelessWidget {
                       style:style,
                       controller: genderController,
                       decoration:
-                        const InputDecoration(labelText:'Enter the Gender of the Pet'),
+                        const InputDecoration(labelText:'Gender: Please enter female or male. (optional)'),
                     )
                   )
                 )
