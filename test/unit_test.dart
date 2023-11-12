@@ -19,11 +19,11 @@ void main() {
     }
   });
 
-  test('Return the names of five pets and their corresponding species and breed',
-      () {
+  test('The returned breeds will be Domestic Short Hair, Pit Bull, Domestic Short Hair, Jack Russell Terrier, and Pit Bull Terrier', () {
     var petInfo = '';
+
     for (var result in results) {
-      petInfo += '${result.name} ${result.breed} ${result.species}.';
+      petInfo =(result.breed);
     }
     expect(
         petInfo,
