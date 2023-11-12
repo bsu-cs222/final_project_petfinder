@@ -251,6 +251,7 @@ class _PetListPageState extends State<PetListPage> {
                                   children: [
                                     Text(pet.name),
                                     Text('${pet.breed} ${pet.species}'),
+                                    Text('${pet.gender}'),
                                     ElevatedButton(
                                       child:
                                           Text('Learn more about ${pet.name}'),
