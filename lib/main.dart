@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,11 @@ class ZipCodePage extends StatelessWidget {
                   width: 250,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextField(
+                    child: TextFormField(
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        LengthLimitingTextInputFormatter(5),
+                      ],
                       style: style,
                       controller: zipCodeController,
                       decoration:
@@ -88,14 +93,16 @@ class ZipCodePage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => PetListPage(
-                        zipCode: zipCodeController.text,
-                        gender: genderController.text,
+                  if(zipCodeController.text != ""){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => PetListPage(
+                          zipCode: zipCodeController.text,
+                          gender: genderController.text,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  }
                 },
                 child: const Text('Enter'),
               ),
@@ -178,6 +185,8 @@ class _PetListPageState extends State<PetListPage> {
               },
               child: const Text('Back'),
             ),
+            if (pets.isEmpty)
+              Text('No adoptable pets were found!'),
             Expanded(
               child: ListView.builder(
                 itemCount: pets.length,
@@ -232,7 +241,7 @@ class _PetListPageState extends State<PetListPage> {
                                 ),
                               ],
                             )),
-                      ), //gesture detector?
+                      ),
                     ],
                   );
                 },
@@ -244,3 +253,4 @@ class _PetListPageState extends State<PetListPage> {
     );
   }
 }
+
