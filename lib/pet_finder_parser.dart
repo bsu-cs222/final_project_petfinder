@@ -51,7 +51,7 @@ class QueryCall {
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
         Uri.parse(
-            'https://api.petfinder.com/v2/animals/?limit=5&distance=50&gender=$gender&species=$species&status=adoptable&location=$zipcode'),
+            'https://api.petfinder.com/v2/animals/?limit=20&distance=50&gender=$gender&type=$species&status=adoptable&location=$zipcode'),
         headers: query.petFinderCallBuilder(response),
       );
       return (queryResponse.body);
@@ -62,10 +62,10 @@ class QueryCall {
 }
 
 class PetFinderParser {
-  List parseFivePets(queryResponse) {
+  List parsePetInfo(queryResponse) {
     final decodedAPIResponse = json.decode(queryResponse);
     final listOfReturnedAnimals = decodedAPIResponse['animals'];
-    List<Pet> pets = List<Pet>.generate(5, (index) {
+    List<Pet> pets = List<Pet>.generate(20, (index) {
       return Pet(
         name: listOfReturnedAnimals[index]['name'],
         species: listOfReturnedAnimals[index]['species'],
