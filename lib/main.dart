@@ -38,7 +38,7 @@ class ZipCodePage extends StatelessWidget {
   final TextEditingController zipCodeController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController speciesController = TextEditingController();
-
+  final TextEditingController ageController= TextEditingController();
   ZipCodePage({super.key});
 
   @override
@@ -99,6 +99,15 @@ class ZipCodePage extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(width:350,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(style:style,
+                  controller:ageController,
+                  decoration: const InputDecoration(
+                    labelText:'Age: (baby, young, adult, senior)'
+                  ),)
+                ))
               ],
             ),
           ),
@@ -112,7 +121,10 @@ class ZipCodePage extends StatelessWidget {
                     url = queryBuilder.addGenderFilter(genderController.text, url);
                   }
                   if(speciesController!=''){
-                    queryBuilder.addSpeciesFilter(speciesController);
+                    url=queryBuilder.addSpeciesFilter(speciesController.text,url);
+                  }
+                  if(ageController!=''){
+                    queryBuilder.addAgeFilter(ageController.text,url);
                   }
                   if (zipCodeController.text != '') {
                     Navigator.of(context).push(MaterialPageRoute(

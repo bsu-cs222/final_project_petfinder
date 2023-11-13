@@ -47,6 +47,14 @@ class QueryBuilder {
     url += '&location=$zipcode';
     return url;
   }
+  String addSpeciesFilter(String speciesFilter, String url){
+    url +='&type=$speciesFilter';
+    return url;
+  }
+  String addAgeFilter(String ageFilter, String url){
+    url +='&age=$ageFilter';
+    return url;
+  }
   String orginalURL(){
     return 'https://api.petfinder.com/v2/animals/?distance=50&status=adoptable';
   }
