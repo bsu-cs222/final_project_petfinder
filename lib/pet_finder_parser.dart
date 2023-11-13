@@ -9,6 +9,7 @@ class Pet {
   final List photos;
   final String zipcode;
   final String gender;
+  final String age;
 
   Pet(
       {required this.name,
@@ -17,7 +18,8 @@ class Pet {
       required this.urlString,
       required this.photos,
       required this.zipcode,
-      required this.gender});
+      required this.gender,
+      required this.age});
 }
 
 class QueryBuilder {
@@ -95,6 +97,7 @@ class PetFinderParser {
         photos: listOfReturnedAnimals[index]['photos'],
         zipcode: listOfReturnedAnimals[index]['contact']['address']['postcode'],
         gender: listOfReturnedAnimals[index]['gender'],
+        age: listOfReturnedAnimals[index]['age'],
       );
     });
 

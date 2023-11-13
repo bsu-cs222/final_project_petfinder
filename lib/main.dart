@@ -128,7 +128,7 @@ class ZipCodePage extends StatelessWidget {
                         speciesController.text, url);
                   }
                   if (ageController != '') {
-                    queryBuilder.addAgeFilter(ageController.text, url);
+                    url= queryBuilder.addAgeFilter(ageController.text, url);
                   }
                   if (zipCodeController.text != '') {
                     Navigator.of(context).push(MaterialPageRoute(
@@ -264,9 +264,9 @@ class PetListPageState extends State<PetListPage> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(pet.name),
-                                    Text('${pet.breed} ${pet.species}'),
-                                    Text('${pet.gender}'),
+                                    Text('Name: ${pet.name}'),
+                                    Text('Breed: ${pet.breed}  Species: ${pet.species}'),
+                                    Text('Gender: ${pet.gender}  Age: ${pet.age}'),
                                     ElevatedButton(
                                       child:
                                           Text('Learn more about ${pet.name}'),
