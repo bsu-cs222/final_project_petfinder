@@ -114,7 +114,6 @@ class ZipCodePage extends StatelessWidget {
                       ),
                     ));
                   }
-                  ;
                 },
                 child: const Text('Enter'),
               ),
@@ -138,10 +137,10 @@ class PetListPage extends StatefulWidget {
       required this.species});
 
   @override
-  _PetListPageState createState() => _PetListPageState();
+  PetListPageState createState() => PetListPageState();
 }
 
-class _PetListPageState extends State<PetListPage> {
+class PetListPageState extends State<PetListPage> {
   bool userBoxSurveillance = false;
   List<dynamic> pets = [];
 
