@@ -111,6 +111,9 @@ class ZipCodePage extends StatelessWidget {
                   if(genderController != ''){
                     url = queryBuilder.addGenderFilter(genderController.text, url);
                   }
+                  if(speciesController!=''){
+                    queryBuilder.addSpeciesFilter(speciesController);
+                  }
                   if (zipCodeController.text != '') {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => PetListPage(url: url),

@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 final parser = PetFinderParser();
@@ -25,18 +24,20 @@ void main() {
   test(
       'The returned breeds will be Domestic Short Hair, Pit Bull, Domestic Short Hair, Jack Russell Terrier, and Pit Bull Terrier',
       () {
-    var petInfo = '';
-
+    var petBreed = '';
+    var index=0;
+    var expectedPetBreeds=['Domestic Short Hair',
+        'Pit Bull Terrier',
+        'Domestic Short Hair',
+        'Jack Russell Terrier',
+        'Pit Bull Terrier'];
     for (var result in results) {
-      petInfo = (result.breed);
+      petBreed = (result.breed);
+      expect(
+        petBreed,expectedPetBreeds[index]);
+      index++;
     }
-    expect(
-        petInfo,
-        'Bones Domestic Short Hair Cat.'
-        'Charm Pit Bull Terrier Dog.'
-        'Count Coolman Domestic Short Hair Cat.'
-        'Tara Jack Russell Terrier Dog.'
-        'Salem Pit Bull Terrier Dog.');
+
   });
   test('Returns the url for 5 pet photo, small medium and large.', () {
     var petPhotoURL = '';
@@ -69,11 +70,11 @@ void main() {
     petZipCode = results[0].zipcode;
     expect(petZipCode, '47401');
   });
-  test('The query returns a female pet',() {
+  test('The query gets built for a female pet',() {
     var builder=QueryBuilder();
     var gender='female';
     builder.addGenderFilter(gender);
-    String response=builder.URL;
+    String response=builder.urlByDemand;
     expect(response,'https://api.petfinder.com/v2/animals/?limit=20&distance=50&status=adoptable&gender=female');
   });
 }
