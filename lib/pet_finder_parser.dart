@@ -38,9 +38,12 @@ class QueryBuilder {
     };
     return (header);
   }
-  var URL='https://api.petfinder.com/v2/animals/?limit=20&distance=50&status=adoptable';
+  var urlByDemand='https://api.petfinder.com/v2/animals/?limit=20&distance=50&status=adoptable';
   void addGenderFilter(var genderFilter){
-    URL+='&gender=${genderFilter}';
+    urlByDemand+='&gender=$genderFilter';
+  }
+  void addSpeciesFilter(var speciesFilter) {
+    urlByDemand+='?type=$speciesFilter';
   }
   //Let's just put the rest of the methods down here W gang- Sol
 }
@@ -49,15 +52,14 @@ class QueryCall {
   Future<Object> makeRequestToAPI(
       id, secret, String zipcode, String gender, String species) async {
     final query = QueryBuilder();
-    final urlFinal=query.URL;
+    final urlFinal=query.urlByDemand;
     final response = await http.post(
       Uri.parse('https://api.petfinder.com/v2/oauth2/token'),
       body: await query.tokenQueryBuilder(id, secret),
     );
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
-        Uri.parse(
-            '${urlFinal}'),
+        Uri.parse('$urlFinal'),
         headers: query.petFinderCallBuilder(response),
       );
       return (queryResponse.body);
