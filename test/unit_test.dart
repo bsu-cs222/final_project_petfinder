@@ -74,7 +74,7 @@ void main() {
     var builder=QueryBuilder();
     var gender='female';
     builder.addGenderFilter(gender);
-    String response=builder.URL;
+    String response=builder.urlByDemand;
     expect(response,'https://api.petfinder.com/v2/animals/?limit=20&distance=50&status=adoptable&gender=female');
   });
 }
