@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 final parser = PetFinderParser();
@@ -67,5 +68,12 @@ void main() {
     var petZipCode = '';
     petZipCode = results[0].zipcode;
     expect(petZipCode, '47401');
+  });
+  test('The query returns a female pet',() {
+    var builder=QueryBuilder();
+    var gender='female';
+    builder.addGenderFilter(gender);
+    String response=builder.URL;
+    expect(response,'https://api.petfinder.com/v2/animals/?limit=20&distance=50&status=adoptable&gender=female');
   });
 }

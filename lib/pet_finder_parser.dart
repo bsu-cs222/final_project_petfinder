@@ -29,7 +29,6 @@ class QueryBuilder {
     };
     return (requestBody);
   }
-
   Map<String, String> petFinderCallBuilder(tokenRequestResponse) {
     final Map<String, dynamic> decodedTokenRequestResponse =
         json.decode(tokenRequestResponse.body);
@@ -39,14 +38,18 @@ class QueryBuilder {
     };
     return (header);
   }
+  var URL='https://api.petfinder.com/v2/animals/?limit=20&distance=50&status=adoptable';
+  void addGenderFilter(String genderFilter){
+    URL+='&gender=${genderFilter}';
+  }
+  //Let's just put the rest of the methods down here W gang- Sol
 }
 
 class QueryCall {
-
   Future<Object> makeRequestToAPI(
       id, secret, String zipcode, String gender, String species) async {
     final query = QueryBuilder();
-
+    final urlFinal=query.URL;
     final response = await http.post(
       Uri.parse('https://api.petfinder.com/v2/oauth2/token'),
       body: await query.tokenQueryBuilder(id, secret),
@@ -54,7 +57,7 @@ class QueryCall {
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
         Uri.parse(
-            'https://api.petfinder.com/v2/animals/?limit=20&distance=50&gender=$gender&type=$species&status=adoptable&location=$zipcode'),
+            '${urlFinal}'),
         headers: query.petFinderCallBuilder(response),
       );
       return (queryResponse.body);
@@ -68,7 +71,7 @@ class PetFinderParser {
   List parsePetInfo(queryResponse) {
     final decodedAPIResponse = json.decode(queryResponse);
     final listOfReturnedAnimals = decodedAPIResponse['animals'];
-    List<Pet> pets = List<Pet>.generate(20, (index) {
+    List<Pet> pets = List<Pet>.generate(5, (index) {
       return Pet(
         name: listOfReturnedAnimals[index]['name'],
         species: listOfReturnedAnimals[index]['species'],
