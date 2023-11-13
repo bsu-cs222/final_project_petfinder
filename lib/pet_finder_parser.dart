@@ -38,18 +38,25 @@ class QueryBuilder {
     };
     return (header);
   }
-  var URL='https://api.petfinder.com/v2/animals/?limit=20&distance=50&status=adoptable';
-  void addGenderFilter(var genderFilter){
-    URL+='&gender=${genderFilter}';
+  String addGenderFilter(String genderFilter, String url){
+    url +='&gender=$genderFilter';
+    return url;
+  }
+
+  String addZipcodeFilter(zipcode, String url){
+    url += '&location=$zipcode';
+    return url;
+  }
+  String orginalURL(){
+    return 'https://api.petfinder.com/v2/animals/?distance=50&status=adoptable';
   }
   //Let's just put the rest of the methods down here W gang- Sol
 }
 
 class QueryCall {
   Future<Object> makeRequestToAPI(
-      id, secret, String zipcode, String gender, String species) async {
+      id, secret, urlFinal) async {
     final query = QueryBuilder();
-    final urlFinal=query.URL;
     final response = await http.post(
       Uri.parse('https://api.petfinder.com/v2/oauth2/token'),
       body: await query.tokenQueryBuilder(id, secret),
@@ -57,7 +64,7 @@ class QueryCall {
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
         Uri.parse(
-            '${urlFinal}'),
+            '$urlFinal'),
         headers: query.petFinderCallBuilder(response),
       );
       return (queryResponse.body);

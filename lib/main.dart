@@ -6,7 +6,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final parser = PetFinderParser();
 final caller = QueryCall();
-final queryBuilder=QueryBuilder();
+final queryBuilder =QueryBuilder();
+String url = queryBuilder.orginalURL();
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -106,16 +107,13 @@ class ZipCodePage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  if(genderController!=''){
-                    queryBuilder.addGenderFilter(genderController);
+                  url = queryBuilder.addZipcodeFilter(zipCodeController.text, url);
+                  if(genderController != ''){
+                    url = queryBuilder.addGenderFilter(genderController.text, url);
                   }
                   if (zipCodeController.text != '') {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => PetListPage(
-                        zipCode: zipCodeController.text,
-                        gender: genderController.text,
-                        species: speciesController.text,
-                      ),
+                      builder: (context) => PetListPage(url: url),
                     ));
                   }
                 },
@@ -130,15 +128,13 @@ class ZipCodePage extends StatelessWidget {
 }
 
 class PetListPage extends StatefulWidget {
-  final String zipCode;
-  final String gender;
-  final String species;
+  final String url;
+  // final String gender;
+  // final String species;
 
   const PetListPage(
       {super.key,
-      required this.zipCode,
-      required this.gender,
-      required this.species});
+      required this.url,});
 
   @override
   PetListPageState createState() => PetListPageState();
@@ -167,12 +163,12 @@ class PetListPageState extends State<PetListPage> {
   }
 
   Future<void> fetchData() async {
+    print(url);
     final response = await caller.makeRequestToAPI(
         dotenv.env['api_id'],
         dotenv.env['api_secret'],
-        widget.zipCode,
-        widget.gender,
-        widget.species);
+        url,
+);
 
     final parsedPets = parser.parsePetInfo(response);
     setState(() {
@@ -197,7 +193,7 @@ class PetListPageState extends State<PetListPage> {
       onPointerCancel: stopPetBoxBehavior,
       child: Scaffold(
         appBar: AppBar(
-            title: Text('Available pets in the  ${widget.zipCode} area.')),
+            title: const Text('Available pets in the  area.')),
         body: Column(
           children: [
             ElevatedButton(
