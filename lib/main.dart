@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final parser = PetFinderParser();
 final caller = QueryCall();
+final queryBuilder=QueryBuilder();
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -105,7 +106,10 @@ class ZipCodePage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  if (zipCodeController.text != "") {
+                  if(genderController!=''){
+                    queryBuilder.addGenderFilter(genderController);
+                  }
+                  if (zipCodeController.text != '') {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => PetListPage(
                         zipCode: zipCodeController.text,

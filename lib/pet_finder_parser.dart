@@ -39,7 +39,7 @@ class QueryBuilder {
     return (header);
   }
   var URL='https://api.petfinder.com/v2/animals/?limit=20&distance=50&status=adoptable';
-  void addGenderFilter(String genderFilter){
+  void addGenderFilter(var genderFilter){
     URL+='&gender=${genderFilter}';
   }
   //Let's just put the rest of the methods down here W gang- Sol
