@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final parser = PetFinderParser();
 final caller = QueryCall();
-final queryBuilder =QueryBuilder();
+final queryBuilder = QueryBuilder();
 String url = queryBuilder.orginalURL();
 
 Future main() async {
@@ -38,7 +38,7 @@ class ZipCodePage extends StatelessWidget {
   final TextEditingController zipCodeController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController speciesController = TextEditingController();
-  final TextEditingController ageController= TextEditingController();
+  final TextEditingController ageController = TextEditingController();
   ZipCodePage({super.key});
 
   @override
@@ -99,15 +99,16 @@ class ZipCodePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width:350,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(style:style,
-                  controller:ageController,
-                  decoration: const InputDecoration(
-                    labelText:'Age: (baby, young, adult, senior)'
-                  ),)
-                ))
+                SizedBox(
+                    width: 350,
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          style: style,
+                          controller: ageController,
+                          decoration: const InputDecoration(
+                              labelText: 'Age: (baby, young, adult, senior)'),
+                        )))
               ],
             ),
           ),
@@ -116,15 +117,18 @@ class ZipCodePage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  url = queryBuilder.addZipcodeFilter(zipCodeController.text, url);
-                  if(genderController != ''){
-                    url = queryBuilder.addGenderFilter(genderController.text, url);
+                  url = queryBuilder.addZipcodeFilter(
+                      zipCodeController.text, url);
+                  if (genderController != '') {
+                    url = queryBuilder.addGenderFilter(
+                        genderController.text, url);
                   }
-                  if(speciesController!=''){
-                    url=queryBuilder.addSpeciesFilter(speciesController.text,url);
+                  if (speciesController != '') {
+                    url = queryBuilder.addSpeciesFilter(
+                        speciesController.text, url);
                   }
-                  if(ageController!=''){
-                    queryBuilder.addAgeFilter(ageController.text,url);
+                  if (ageController != '') {
+                    queryBuilder.addAgeFilter(ageController.text, url);
                   }
                   if (zipCodeController.text != '') {
                     Navigator.of(context).push(MaterialPageRoute(
@@ -144,12 +148,11 @@ class ZipCodePage extends StatelessWidget {
 
 class PetListPage extends StatefulWidget {
   final String url;
-  // final String gender;
-  // final String species;
 
-  const PetListPage(
-      {super.key,
-      required this.url,});
+  const PetListPage({
+    super.key,
+    required this.url,
+  });
 
   @override
   PetListPageState createState() => PetListPageState();
@@ -178,12 +181,11 @@ class PetListPageState extends State<PetListPage> {
   }
 
   Future<void> fetchData() async {
-    print(url);
     final response = await caller.makeRequestToAPI(
-        dotenv.env['api_id'],
-        dotenv.env['api_secret'],
-        url,
-);
+      dotenv.env['api_id'],
+      dotenv.env['api_secret'],
+      url,
+    );
 
     final parsedPets = parser.parsePetInfo(response);
     setState(() {
@@ -207,8 +209,7 @@ class PetListPageState extends State<PetListPage> {
       onPointerMove: petBoxBehavior,
       onPointerCancel: stopPetBoxBehavior,
       child: Scaffold(
-        appBar: AppBar(
-            title: const Text('Available pets in the  area.')),
+        appBar: AppBar(title: const Text('Available pets in the  area.')),
         body: Column(
           children: [
             ElevatedButton(
