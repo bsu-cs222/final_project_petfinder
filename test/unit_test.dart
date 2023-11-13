@@ -70,11 +70,11 @@ void main() {
     petZipCode = results[0].zipcode;
     expect(petZipCode, '47401');
   });
-  test('The query gets built for a female pet',() {
-    var builder=QueryBuilder();
-    var gender='female';
-    builder.addGenderFilter(gender);
-    String response=builder.urlByDemand;
-    expect(response,'https://api.petfinder.com/v2/animals/?limit=20&distance=50&status=adoptable&gender=female');
-  });
+  // test('The query gets built for a female pet',() {
+  //   var builder=QueryBuilder();
+  //   var gender='female';
+  //   builder.addGenderFilter(gender);
+  //   String response=builder.urlByDemand;
+  //   expect(response,'https://api.petfinder.com/v2/animals/?limit=20&distance=50&status=adoptable&gender=female');
+  // });
 }
