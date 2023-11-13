@@ -54,15 +54,21 @@ class ZipCodePage extends StatelessWidget {
       body: Column(
         children: [
           const SizedBox(
-            child: Text(
-                'Welcome to Petfinder, please enter your zipcode below. \n Fields marked with * are required.'),
+            child:  Text.rich(
+              TextSpan(// default text style
+                children: <TextSpan>[
+                  TextSpan(text: 'Welcome to PetFinder! \n', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+                  TextSpan(text: 'To get started, please enter your zipcode below.', style: TextStyle(fontStyle: FontStyle.italic)),
+                ],
+              ),
+            )
           ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 250,
+                  width: 350,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
@@ -73,12 +79,13 @@ class ZipCodePage extends StatelessWidget {
                       style: style,
                       controller: zipCodeController,
                       decoration:
-                          const InputDecoration(labelText: 'Enter Zip Code *'),
+                          const InputDecoration(labelText: 'Enter Zip Code *')
                     ),
                   ),
                 ),
+                const Text('\nHere are some optional filters:'),
                 SizedBox(
-                    width: 250,
+                    width: 350,
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
@@ -88,7 +95,7 @@ class ZipCodePage extends StatelessWidget {
                               labelText: 'Gender: (female or male)'),
                         ))),
                 SizedBox(
-                  width: 250,
+                  width: 350,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
@@ -119,15 +126,15 @@ class ZipCodePage extends StatelessWidget {
                 onPressed: () {
                   url = queryBuilder.addZipcodeFilter(
                       zipCodeController.text, url);
-                  if (genderController != '') {
+                  if (genderController.text != '') {
                     url = queryBuilder.addGenderFilter(
                         genderController.text, url);
                   }
-                  if (speciesController != '') {
+                  if (speciesController.text != '') {
                     url = queryBuilder.addSpeciesFilter(
                         speciesController.text, url);
                   }
-                  if (ageController != '') {
+                  if (ageController.text != '') {
                     url= queryBuilder.addAgeFilter(ageController.text, url);
                   }
                   if (zipCodeController.text != '') {
@@ -212,6 +219,13 @@ class PetListPageState extends State<PetListPage> {
         appBar: AppBar(title: const Text('Available pets in the  area.')),
         body: Column(
           children: [
+            if (pets.isEmpty) const Text.rich(
+              TextSpan(// default text style
+                children: <TextSpan>[
+                  TextSpan(text: 'No adoptable pets were found based on your zipcode and filters!', style: TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -221,13 +235,11 @@ class PetListPageState extends State<PetListPage> {
               },
               child: const Text('Back'),
             ),
-            if (pets.isEmpty) const Text('No adoptable pets were found!'),
             Expanded(
               child: ListView.builder(
                 itemCount: pets.length,
                 itemBuilder: (BuildContext context, int index) {
                   final pet = pets[index];
-
                   return Column(
                     children: [
                       Container(
@@ -265,11 +277,11 @@ class PetListPageState extends State<PetListPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text('Name: ${pet.name}'),
-                                    Text('Breed: ${pet.breed}  Species: ${pet.species}'),
-                                    Text('Gender: ${pet.gender}  Age: ${pet.age}'),
+                                    Text('${pet.breed} ${pet.species}'),
+                                    Text('Gender: ${pet.gender}\nAge: ${pet.age}'),
                                     ElevatedButton(
                                       child:
-                                          Text('Learn more about ${pet.name}'),
+                                          Text('Want to adopt ${pet.name}?'),
                                       onPressed: () {
                                         _launchURL(pet.urlString);
                                       },
@@ -284,8 +296,7 @@ class PetListPageState extends State<PetListPage> {
                 },
               ),
             ),
-          ],
-        ),
+        ]),
       ),
     );
   }

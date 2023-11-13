@@ -88,7 +88,7 @@ class PetFinderParser {
   List parsePetInfo(queryResponse) {
     final decodedAPIResponse = json.decode(queryResponse);
     final listOfReturnedAnimals = decodedAPIResponse['animals'];
-    List<Pet> pets = List<Pet>.generate(5, (index) {
+    List<Pet> pets = List<Pet>.generate(listOfReturnedAnimals.length, (index) {
       return Pet(
         name: listOfReturnedAnimals[index]['name'],
         species: listOfReturnedAnimals[index]['species'],
