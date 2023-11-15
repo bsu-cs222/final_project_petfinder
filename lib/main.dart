@@ -166,20 +166,8 @@ class PetListPage extends StatefulWidget {
 }
 
 class PetListPageState extends State<PetListPage> {
-  bool userBoxSurveillance = false;
   List<dynamic> pets = [];
 
-  void petBoxBehavior(PointerEvent details) {
-    setState(() {
-      userBoxSurveillance = true;
-    });
-  }
-
-  void stopPetBoxBehavior(PointerEvent details) {
-    setState(() {
-      userBoxSurveillance = false;
-    });
-  }
 
   @override
   void initState() {
@@ -212,9 +200,6 @@ class PetListPageState extends State<PetListPage> {
   @override
   Widget build(BuildContext context) {
     return Listener(
-      onPointerHover: petBoxBehavior,
-      onPointerMove: petBoxBehavior,
-      onPointerCancel: stopPetBoxBehavior,
       child: Scaffold(
         appBar: AppBar(title: const Text('Available pets in the  area.')),
         body: Column(
