@@ -1,25 +1,26 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
+enum GenderType { male, female, any }
 class Pet {
   final String name;
   final String species;
   final String breed;
   final String urlString;
   final List photos;
+  final GenderType gender;
   final String zipcode;
-  final String gender;
   final String age;
 
-  Pet(
+  const Pet(
       {required this.name,
       required this.species,
       required this.breed,
       required this.urlString,
       required this.photos,
       required this.zipcode,
-      required this.gender,
-      required this.age});
+      required this.age,
+      required this.gender
+      });
 }
 
 class QueryBuilder {
@@ -96,11 +97,24 @@ class PetFinderParser {
         urlString: listOfReturnedAnimals[index]['url'],
         photos: listOfReturnedAnimals[index]['photos'],
         zipcode: listOfReturnedAnimals[index]['contact']['address']['postcode'],
-        gender: listOfReturnedAnimals[index]['gender'],
+        gender: evaulateGender(listOfReturnedAnimals[index]['gender']),
         age: listOfReturnedAnimals[index]['age'],
       );
     });
 
     return pets;
   }
+
+  GenderType evaulateGender(petListedGender){
+    switch(petListedGender){
+      case 'Male':
+        return GenderType.male;
+      case'Female':
+        return GenderType.female;
+      default:
+        return GenderType.any;
+    }
+    
+  }
+
 }
