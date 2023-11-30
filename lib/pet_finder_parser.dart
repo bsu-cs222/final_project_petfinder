@@ -52,6 +52,7 @@ class QueryBuilder {
     for(final filter in filters.entries){
       url += '&${filter.key}=${filter.value}';
     }
+    print(url);
     return url;
   }
 }
