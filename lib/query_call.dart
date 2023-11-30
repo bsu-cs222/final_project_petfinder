@@ -8,7 +8,7 @@ class APICaller {
     final query = QueryBuilder();
     final response = await http.post(
       Uri.parse('https://api.petfinder.com/v2/oauth2/token'),
-      body: await query.ConstructTokenQuery(id, secret),
+      body: await query.constructTokenQuery(id, secret),
     );
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
