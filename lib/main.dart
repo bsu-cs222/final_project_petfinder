@@ -1,8 +1,11 @@
+import 'package:cs222_final_project_pet_finder/enum_decoder.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'input_wizard.dart';
 
 final parser = PetFinderParser();
 final caller = QueryCall();
@@ -39,6 +42,7 @@ class ZipCodePage extends StatelessWidget {
   final TextEditingController genderController = TextEditingController();
   final TextEditingController speciesController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
+  final inputWizard=InputWizard();
   ZipCodePage({super.key});
 
   @override
@@ -126,10 +130,10 @@ class ZipCodePage extends StatelessWidget {
                 onPressed: () {
                   url = queryBuilder.addZipcodeFilter(
                       zipCodeController.text, url);
-                  if (genderController.text != '') {
-                    url = queryBuilder.addGenderFilter(
-                        genderController.text, url);
-                  }
+                  // come back and put all of this in a class or something, so that it doesn't take up excess space(Only after we complete them all)
+                  var _genderRequest=inputWizard.organizeGenderInput(genderController);
+                  url=queryBuilder.addGenderFilter(_genderRequest, url);//THIS WILL BE SUBSTITUTED FOR DESTINY'S CODE -Sol
+                  //Limit of new dangerous code that could fuck with the VCS
                   if (speciesController.text != '') {
                     url = queryBuilder.addSpeciesFilter(
                         speciesController.text, url);
@@ -166,6 +170,7 @@ class PetListPage extends StatefulWidget {
 }
 
 class PetListPageState extends State<PetListPage> {
+  final enumDecoder=EnumDecoder();
   List<dynamic> pets = [];
 
 
@@ -263,7 +268,7 @@ class PetListPageState extends State<PetListPage> {
                                   children: [
                                     Text('Name: ${pet.name}'),
                                     Text('${pet.breed} ${pet.species}'),
-                                    Text('Gender: ${pet.gender}\nAge: ${pet.age}'),
+                                    Text('Gender: ${enumDecoder.decodeGenderEnum(pet.gender)}\nAge: ${pet.age}'),
                                     ElevatedButton(
                                       child:
                                           Text('Want to adopt ${pet.name}?'),
