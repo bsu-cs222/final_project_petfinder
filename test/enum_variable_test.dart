@@ -12,4 +12,8 @@ void main(){
     var petGender=results[0].gender;
     expect (petGender,GenderType.male);
   });
+  test('The enumerated Type is successfully returning baby',(){
+    var petAge=results[0].age;
+    expect(petAge,AgeType.baby);
+  });
 }
