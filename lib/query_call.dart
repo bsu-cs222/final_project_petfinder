@@ -3,7 +3,7 @@
 import 'package:cs222_final_project_pet_finder/query_builder.dart';
 import 'package:http/http.dart' as http;
 
-class QueryCall{
+class QueryCall {
   Future<Object> makeRequestToAPI(id, secret, urlFinal) async {
     final query = QueryBuilder();
     final response = await http.post(
@@ -17,7 +17,6 @@ class QueryCall{
       );
       return (queryResponse.body);
     } else {
-      //We need to add exceptions here
       return ('Error: ${response.statusCode}');
     }
   }
