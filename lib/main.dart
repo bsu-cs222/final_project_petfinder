@@ -134,14 +134,17 @@ class ZipCodePage extends StatelessWidget {
                       inputWizard.organizeGenderInput(genderController);
                   var  ageRequest=
                     inputWizard.organizeAgeInput(ageController);
+                  var speciesRequest=
+                      inputWizard.organizeSpeciesInput(speciesController);
                   final filterValues = {
                     'gender': genderRequest,
                     'location': zipCodeController.text,
-                    'type': speciesController.text,
+                    'type': speciesRequest,
                     'age': ageRequest
                   };
                   url = queryBuilder.addFilter(filterValues, url);
-                  if (zipCodeController.text != '') {
+                  var zipcodeRequest=inputWizard.organizeZipcodeInput(zipCodeController);
+                  if (zipcodeRequest==true) {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => PetListPage(url: url),
                     ));
@@ -276,7 +279,7 @@ class PetListPageState extends State<PetListPage> {
                                   Text('Name: ${pet.name}'),
                                   Text('${pet.breed} ${pet.species}'),
                                   Text(
-                                      'Gender: ${enumDecoder.decodeGenderEnum(pet.gender)}\nAge: ${pet.age}'),
+                                      'Gender: ${enumDecoder.decodeGenderEnum(pet.gender)}\nAge: ${enumDecoder.decodeGenderEnum(pet.age)}'),
                                   ElevatedButton(
                                     child: Text('Want to adopt ${pet.name}?'),
                                     onPressed: () {

@@ -9,7 +9,7 @@ class PetFinderParser {
     List<Pet> pets = List<Pet>.generate(listOfReturnedAnimals.length, (index) {
       return Pet(
         name: listOfReturnedAnimals[index]['name'],
-        species: listOfReturnedAnimals[index]['species'],
+        species: evaluateSpecies(listOfReturnedAnimals[index]['species']),
         breed: listOfReturnedAnimals[index]['breeds']['primary'],
         urlString: listOfReturnedAnimals[index]['url'],
         photos: listOfReturnedAnimals[index]['photos'],
@@ -40,6 +40,14 @@ class PetFinderParser {
         return AgeType.adult;
       default:
         return AgeType.senior;
+    }
+  }
+  SpeciesType evaluateSpecies(petListedSpecies){
+    switch(petListedSpecies){
+      case'Dog':
+        return SpeciesType.dog;
+      default:
+        return SpeciesType.cat;
     }
   }
 }
