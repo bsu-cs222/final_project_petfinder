@@ -1,5 +1,4 @@
-import 'input_evaluator.dart';
-
+import 'package:cs222_final_project_pet_finder/pet.dart';
 class EnumDecoder{
   String decodeGenderEnum(GenderType petGender){
     if(petGender==GenderType.male){

@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'input_wizard.dart';
 
 final parser = PetFinderParser();

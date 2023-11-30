@@ -1,4 +1,3 @@
-
 import 'package:cs222_final_project_pet_finder/input_evaluator.dart';
 import 'package:flutter/material.dart';
 
