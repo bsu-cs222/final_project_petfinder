@@ -44,28 +44,15 @@ class QueryBuilder {
     return (header);
   }
 
-  String addGenderFilter(String genderFilter, String url) {
-    url += '&gender=$genderFilter';
-    return url;
-  }
-
-  String addZipcodeFilter(zipcode, String url) {
-    url += '&location=$zipcode';
-    return url;
-  }
-
-  String addSpeciesFilter(String speciesFilter, String url) {
-    url += '&type=$speciesFilter';
-    return url;
-  }
-
-  String addAgeFilter(String ageFilter, String url) {
-    url += '&age=$ageFilter';
-    return url;
-  }
-
   String orginalURL() {
     return 'https://api.petfinder.com/v2/animals/?distance=50&status=adoptable';
+  }
+
+  String addFilter(Map filters, String url){
+    for(final filter in filters.entries){
+      url += '&${filter.key}=${filter.value}';
+    }
+    return url;
   }
 }
 
