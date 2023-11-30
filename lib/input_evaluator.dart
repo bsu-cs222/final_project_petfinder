@@ -6,11 +6,20 @@ class InputEvaluator{
     }
     else if(genderBarInput=='Female' || genderBarInput=='female'){
       return 'Female';
-    }else if(genderBarInput==' ' || genderBarInput==''){
+    } else{
       return 'male,female';
     }
-    else{
-      return 'male,female';
+  }
+
+  inspectAgeInput(String ageBarInput) {
+    if(ageBarInput=='baby'||ageBarInput=='Baby'){
+      return'Baby';
+    } else if(ageBarInput=='young'|| ageBarInput=='Young'){
+      return 'Young';
+    }else if(ageBarInput=='adult'|| ageBarInput=='Adult'){
+      return 'Adult';
+    } else{
+      return'Senior';
     }
   }
 }

@@ -1,5 +1,5 @@
-enum GenderType { male, female, any }
-enum AgeType {baby, young, adult, senior, any}
+enum GenderType { male, female}
+enum AgeType {baby, young, adult, senior}
 
 class Pet {
   final String name;

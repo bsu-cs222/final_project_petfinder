@@ -26,12 +26,10 @@ class PetFinderParser {
     switch (petListedGender) {
       case 'Male':
         return GenderType.male;
-      case 'Female':
-        return GenderType.female;
       default:
-        return GenderType.any;
-    }
-  }
+        return GenderType.female;
+
+  }}
   AgeType evaluateAge(petListedAge){
     switch(petListedAge){
       case 'Baby':
@@ -40,10 +38,8 @@ class PetFinderParser {
         return AgeType.young;
       case 'Adult':
         return AgeType.adult;
-      case 'Senior':
-        return AgeType.senior;
       default:
-        return AgeType.any;
+        return AgeType.senior;
     }
   }
 }
