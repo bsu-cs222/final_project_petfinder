@@ -130,12 +130,10 @@ class ZipCodePage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  // url = queryBuilder.addZipcodeFilter(
-                  //     zipCodeController.text, url);
-                  // come back and put all of this in a class or something, so that it doesn't take up excess space(Only after we complete them all)
                   var genderRequest =
                       inputWizard.organizeGenderInput(genderController);
-                  var  ageRequest= inputWizard.organizeAgeInput(ageController);
+                  var  ageRequest=
+                    inputWizard.organizeAgeInput(ageController);
                   final filterValues = {
                     'gender': genderRequest,
                     'location': zipCodeController.text,
@@ -143,15 +141,6 @@ class ZipCodePage extends StatelessWidget {
                     'age': ageRequest
                   };
                   url = queryBuilder.addFilter(filterValues, url);
-                  // url=queryBuilder.addGenderFilter(genderRequest, url);//THIS WILL BE SUBSTITUTED FOR DESWTINY'S CODE -Sol
-                  // //Limit of new dangerous code that could fuck with the VCS
-                  // if (speciesController.text != '') {
-                  //   url = queryBuilder.addSpeciesFilter(
-                  //       speciesController.text, url);
-                  // }
-                  // if (ageController.text != '') {
-                  //   url= queryBuilder.addAgeFilter(ageController.text, url);
-                  // }
                   if (zipCodeController.text != '') {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => PetListPage(url: url),

@@ -10,4 +10,16 @@ class EnumDecoder{
     else {
       return 'male,female';
     }}
+  String decodeAgeEnum(AgeType petAge){
+    if (petAge==AgeType.baby){
+      return 'Baby';
+    }else if(petAge==AgeType.young){
+      return'Young';
+    }else if (petAge==AgeType.adult){
+      return'Adult';
+    }
+    else{
+      return'Senior';
+    }
+  }
 }

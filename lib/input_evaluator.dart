@@ -2,10 +2,10 @@ class InputEvaluator{
   final possibleGenderInputs={{'Male','male'},{'Female','female'},{'',' '}};
   String inspectGenderInput(String genderBarInput){
     if(genderBarInput=='Male' || genderBarInput=='male'){
-      return 'Male';
+      return 'male';
     }
     else if(genderBarInput=='Female' || genderBarInput=='female'){
-      return 'Female';
+      return 'female';
     } else{
       return 'male,female';
     }
@@ -13,13 +13,13 @@ class InputEvaluator{
 
   inspectAgeInput(String ageBarInput) {
     if(ageBarInput=='baby'||ageBarInput=='Baby'){
-      return'Baby';
+      return'baby';
     } else if(ageBarInput=='young'|| ageBarInput=='Young'){
-      return 'Young';
+      return 'young';
     }else if(ageBarInput=='adult'|| ageBarInput=='Adult'){
-      return 'Adult';
+      return 'adult';
     } else if(ageBarInput=='senior'||ageBarInput=='Senior'){
-      return'Senior';
+      return'senior';
     }
     else{
       return'baby,young,adult,senior';

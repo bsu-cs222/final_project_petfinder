@@ -7,18 +7,18 @@ void main(){
     final result=inputEvaluator.inspectGenderInput(gender);
     expect(result,'Female');
   });
-  test ('When given no input the evaluator read it as Any',(){
+  test ('When given no input the evaluator read it as male,female',(){
     String gender= '';
     final result= inputEvaluator.inspectGenderInput(gender);
-    expect(result,'Any');
+    expect(result,'male,female');
   });
-  test('When given a misspelled input the evaluator reads it as Error',(){
+  test('When given a misspelled input the evaluator reads it as male,female',(){
     String gender= 'fmale';
     final result= inputEvaluator.inspectGenderInput(gender);
-    expect(result,'Error');
+    expect(result,'male,female');
   });
   final ageTestInputs={'baby','young','adult','senior','alutd'};
-  final expectedTestInputs={'Baby','Young','Adult','Senior','Error'};
+  final expectedTestInputs={'Baby','Young','Adult','Senior','baby,young,adult,senior'};
   int ageCounter=0;
   for(var ageInput in ageTestInputs) {
     String currentAgeInput=ageInput;
