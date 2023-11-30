@@ -135,12 +135,12 @@ class ZipCodePage extends StatelessWidget {
                   // come back and put all of this in a class or something, so that it doesn't take up excess space(Only after we complete them all)
                   var genderRequest =
                       inputWizard.organizeGenderInput(genderController);
-                  var ageRequest= inputWizard.organizeAgeInput(ageController);
+                  var  ageRequest= inputWizard.organizeAgeInput(ageController);
                   final filterValues = {
                     'gender': genderRequest,
                     'location': zipCodeController.text,
                     'type': speciesController.text,
-                    'age': ageController.text
+                    'age': ageRequest
                   };
                   url = queryBuilder.addFilter(filterValues, url);
                   // url=queryBuilder.addGenderFilter(genderRequest, url);//THIS WILL BE SUBSTITUTED FOR DESWTINY'S CODE -Sol
