@@ -1,4 +1,4 @@
-enum GenderType { male, female}
+enum GenderType { male, female, any}
 class InputEvaluator{
   final possibleGenderInputs={{'Male','male'},{'Female','female'},{'',' '}};
   String inspectGenderInput(String genderBarInput){
