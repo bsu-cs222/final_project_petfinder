@@ -21,14 +21,13 @@ class QueryBuilder {
   }
 
   String baseURL() {
-    return 'https://api.petfinder.com/v2/animals/?distance=50&status=adoptable';
+    return 'https://api.petfinder.com/v2/animals/?status=adoptable';
   }
 
   String addFilter(Map filters, String url){
     for(final filter in filters.entries){
       url += '&${filter.key}=${filter.value}';
     }
-    print(url);
     return url;
   }
 }

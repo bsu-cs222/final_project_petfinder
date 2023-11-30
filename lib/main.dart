@@ -7,6 +7,8 @@ import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'input_wizard.dart';
+// final queryBuilder = QueryBuilder();
+// String url = queryBuilder.baseURL();
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -135,15 +137,16 @@ class ZipCodePage extends StatelessWidget {
                   var  ageRequest=
                     inputWizard.organizeAgeInput(ageController);
                   final filterValues = {
-                    'gender': genderRequest,
                     'location': zipCodeController.text,
+                    'distance': 50,
+                    'gender': genderRequest,
                     'type': speciesController.text,
                     'age': ageRequest
                   };
-                  url = queryBuilder.addFilter(filterValues, url);
+                  final queryUrl = queryBuilder.addFilter(filterValues, url);
                   if (zipCodeController.text != '') {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => PetListPage(url: url),
+                      builder: (context) => PetListPage(url: queryUrl),
                     ));
                   }
                 },
@@ -182,14 +185,12 @@ class PetListPageState extends State<PetListPage> {
 
   Future<void> fetchData() async {
     final caller = APICaller();
-    final queryBuilder = QueryBuilder();
-    String url = queryBuilder.baseURL();
     final response = await caller.makeRequestToAPI(
       dotenv.env['api_id'],
       dotenv.env['api_secret'],
-      url,
+      widget.url,
     );
-
+    print(widget.url);
     final parsedPets = parser.parsePetInfo(response);
     setState(() {
       pets = parsedPets;
