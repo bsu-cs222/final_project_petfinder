@@ -1,5 +1,4 @@
-
-import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
+import 'input_evaluator.dart';
 
 class EnumDecoder{
   String decodeGenderEnum(GenderType petGender){
@@ -10,6 +9,6 @@ class EnumDecoder{
       return'Female';
     }
     else {
-      return 'Not Listed';
+      return 'male,female';
     }}
 }

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:cs222_final_project_pet_finder/pet.dart';
 
-enum GenderType { male, female, any }
+
 class PetFinderParser {
   List parsePetInfo(queryResponse) {
     final decodedAPIResponse = json.decode(queryResponse);
@@ -15,7 +15,7 @@ class PetFinderParser {
         photos: listOfReturnedAnimals[index]['photos'],
         zipcode: listOfReturnedAnimals[index]['contact']['address']['postcode'],
         gender: evaulateGender(listOfReturnedAnimals[index]['gender']),
-        age: listOfReturnedAnimals[index]['age'],
+        age: evaluateAge(listOfReturnedAnimals[index]['age']),
       );
     });
 
@@ -30,6 +30,20 @@ class PetFinderParser {
         return GenderType.female;
       default:
         return GenderType.any;
+    }
+  }
+  AgeType evaluateAge(petListedAge){
+    switch(petListedAge){
+      case 'Baby':
+        return AgeType.baby;
+      case 'Young':
+        return AgeType.young;
+      case 'Adult':
+        return AgeType.adult;
+      case 'Senior':
+        return AgeType.senior;
+      default:
+        return AgeType.any;
     }
   }
 }

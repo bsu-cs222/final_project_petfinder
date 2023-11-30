@@ -1,4 +1,5 @@
 enum GenderType { male, female, any }
+enum AgeType {baby, young, adult, senior, any}
 
 class Pet {
   final String name;
@@ -8,7 +9,7 @@ class Pet {
   final List photos;
   final GenderType gender;
   final String zipcode;
-  final String age;
+  final AgeType age;
 
   const Pet(
       {required this.name,
