@@ -3,12 +3,12 @@
 import 'package:cs222_final_project_pet_finder/query_builder.dart';
 import 'package:http/http.dart' as http;
 
-class QueryCall {
+class APICaller {
   Future<Object> makeRequestToAPI(id, secret, urlFinal) async {
     final query = QueryBuilder();
     final response = await http.post(
       Uri.parse('https://api.petfinder.com/v2/oauth2/token'),
-      body: await query.tokenQueryBuilder(id, secret),
+      body: await query.ConstructTokenQuery(id, secret),
     );
     if (response.statusCode == 200) {
       final queryResponse = await http.get(

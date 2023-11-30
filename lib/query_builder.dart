@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class QueryBuilder {
-  Future<Map<String, String>> tokenQueryBuilder(id, secret) async {
+  Future<Map<String, String>> ConstructTokenQuery(id, secret) async {
     final Map<String, String> requestBody = {
       'grant_type': 'client_credentials',
       'client_id': '$id',

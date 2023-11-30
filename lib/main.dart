@@ -192,7 +192,7 @@ class PetListPageState extends State<PetListPage> {
   }
 
   Future<void> fetchData() async {
-    final caller = QueryCall();
+    final caller = APICaller();
     final queryBuilder = QueryBuilder();
     String url = queryBuilder.orginalURL();
     final response = await caller.makeRequestToAPI(
