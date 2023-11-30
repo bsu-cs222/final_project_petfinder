@@ -18,8 +18,11 @@ class InputEvaluator{
       return 'Young';
     }else if(ageBarInput=='adult'|| ageBarInput=='Adult'){
       return 'Adult';
-    } else{
+    } else if(ageBarInput=='senior'||ageBarInput=='Senior'){
       return'Senior';
+    }
+    else{
+      return'baby,young,adult,senior';
     }
   }
 }
