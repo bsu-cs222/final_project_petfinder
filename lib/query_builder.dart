@@ -20,7 +20,7 @@ class QueryBuilder {
     return (header);
   }
 
-  String orginalURL() {
+  String baseURL() {
     return 'https://api.petfinder.com/v2/animals/?distance=50&status=adoptable';
   }
 

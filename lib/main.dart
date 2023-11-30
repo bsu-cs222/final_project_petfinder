@@ -44,7 +44,7 @@ class ZipCodePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String url = queryBuilder.orginalURL();
+    String url = queryBuilder.baseURL();
     final theme = Theme.of(context);
     final style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.primaryContainer,
@@ -183,7 +183,7 @@ class PetListPageState extends State<PetListPage> {
   Future<void> fetchData() async {
     final caller = APICaller();
     final queryBuilder = QueryBuilder();
-    String url = queryBuilder.orginalURL();
+    String url = queryBuilder.baseURL();
     final response = await caller.makeRequestToAPI(
       dotenv.env['api_id'],
       dotenv.env['api_secret'],
