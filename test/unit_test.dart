@@ -25,19 +25,19 @@ void main() {
       'The returned breeds will be Domestic Short Hair, Pit Bull, Domestic Short Hair, Jack Russell Terrier, and Pit Bull Terrier',
       () {
     var petBreed = '';
-    var index=0;
-    var expectedPetBreeds=['Domestic Short Hair',
-        'Pit Bull Terrier',
-        'Domestic Short Hair',
-        'Jack Russell Terrier',
-        'Pit Bull Terrier'];
+    var index = 0;
+    var expectedPetBreeds = [
+      'Domestic Short Hair',
+      'Pit Bull Terrier',
+      'Domestic Short Hair',
+      'Jack Russell Terrier',
+      'Pit Bull Terrier'
+    ];
     for (var result in results) {
       petBreed = (result.breed);
-      expect(
-        petBreed,expectedPetBreeds[index]);
+      expect(petBreed, expectedPetBreeds[index]);
       index++;
     }
-
   });
   test('Returns the url for 5 pet photo, small medium and large.', () {
     var petPhotoURL = '';
@@ -70,11 +70,4 @@ void main() {
     petZipCode = results[0].zipcode;
     expect(petZipCode, '47401');
   });
-  // test('The query gets built for a female pet',() {
-  //   var builder=QueryBuilder();
-  //   var gender='female';
-  //   builder.addGenderFilter(gender);
-  //   String response=builder.urlByDemand;
-  //   expect(response,'https://api.petfinder.com/v2/animals/?limit=20&distance=50&status=adoptable&gender=female');
-  // });
 }
