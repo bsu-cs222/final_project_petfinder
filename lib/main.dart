@@ -7,8 +7,6 @@ import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'input_wizard.dart';
-// final queryBuilder = QueryBuilder();
-// String url = queryBuilder.baseURL();
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -136,17 +134,20 @@ class ZipCodePage extends StatelessWidget {
                       inputWizard.organizeGenderInput(genderController);
                   var  ageRequest=
                     inputWizard.organizeAgeInput(ageController);
+                  var speciesRequest=
+                      inputWizard.organizeSpeciesInput(speciesController);
                   final filterValues = {
+                    'gender': genderRequest,
                     'location': zipCodeController.text,
                     'distance': 50,
-                    'gender': genderRequest,
-                    'type': speciesController.text,
+                    'type': speciesRequest,
                     'age': ageRequest
                   };
-                  final queryUrl = queryBuilder.addFilter(filterValues, url);
-                  if (zipCodeController.text != '') {
+                  url = queryBuilder.addFilter(filterValues, url);
+                  var zipcodeRequest=inputWizard.organizeZipcodeInput(zipCodeController);
+                  if (zipcodeRequest==true) {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => PetListPage(url: queryUrl),
+                      builder: (context) => PetListPage(url: url),
                     ));
                   }
                 },
@@ -190,7 +191,7 @@ class PetListPageState extends State<PetListPage> {
       dotenv.env['api_secret'],
       widget.url,
     );
-    print(widget.url);
+
     final parsedPets = parser.parsePetInfo(response);
     setState(() {
       pets = parsedPets;
@@ -277,7 +278,7 @@ class PetListPageState extends State<PetListPage> {
                                   Text('Name: ${pet.name}'),
                                   Text('${pet.breed} ${pet.species}'),
                                   Text(
-                                      'Gender: ${enumDecoder.decodeGenderEnum(pet.gender)}\nAge: ${pet.age}'),
+                                      'Gender: ${enumDecoder.decodeGenderEnum(pet.gender)}\nAge: ${enumDecoder.decodeGenderEnum(pet.age)}'),
                                   ElevatedButton(
                                     child: Text('Want to adopt ${pet.name}?'),
                                     onPressed: () {

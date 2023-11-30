@@ -16,4 +16,9 @@ void main() {
     var result = enumDecoder.decodeGenderEnum(petResult);
     expect(result, 'Male');
   });
+  test('When asked to decode the species enum from SpeciesType.cat it will return String Cat',(){
+    var petResult=results[0].species;
+    var result=enumDecoder.decodeSpeciesEnum(petResult);
+    expect(result,'Cat');
+  });
 }

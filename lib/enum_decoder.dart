@@ -22,4 +22,11 @@ class EnumDecoder{
       return'Senior';
     }
   }
+  String decodeSpeciesEnum(SpeciesType petSpecies){
+    if(petSpecies==SpeciesType.cat){
+      return'Cat';
+    }else{
+      return 'Dog';
+    }
+  }
 }

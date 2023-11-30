@@ -1,9 +1,9 @@
 enum GenderType { male, female}
 enum AgeType {baby, young, adult, senior}
-
+enum SpeciesType{cat, dog}
 class Pet {
   final String name;
-  final String species;
+  final SpeciesType species;
   final String breed;
   final String urlString;
   final List photos;
