@@ -25,8 +25,19 @@ class EnumDecoder{
   String decodeSpeciesEnum(SpeciesType petSpecies){
     if(petSpecies==SpeciesType.cat){
       return'Cat';
-    }else{
+    }else if(petSpecies==SpeciesType.dog){
       return 'Dog';
-    }
-  }
+    }else if(petSpecies==SpeciesType.rabbit){
+      return 'Rabbit';
+    }else if (petSpecies==SpeciesType.horse){
+      return 'Horse';
+    }else if(petSpecies==SpeciesType.barnyard){
+      return'Barnyard';
+    }else if(petSpecies==SpeciesType.bird){
+      return 'Bird';
+    }else if(petSpecies==SpeciesType.small){
+      return 'Small-Furry';
+    }else {
+      return 'Reptile';
+    }  }
 }

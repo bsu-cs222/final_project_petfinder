@@ -5,6 +5,7 @@ import 'package:cs222_final_project_pet_finder/pet.dart';
 class PetFinderParser {
   List parsePetInfo(queryResponse) {
     final decodedAPIResponse = json.decode(queryResponse);
+    print (decodedAPIResponse);
     final listOfReturnedAnimals = decodedAPIResponse['animals'];
     List<Pet> pets = List<Pet>.generate(listOfReturnedAnimals.length, (index) {
       return Pet(
@@ -46,8 +47,18 @@ class PetFinderParser {
     switch(petListedSpecies){
       case'Dog':
         return SpeciesType.dog;
-      default:
+      case'Cat':
         return SpeciesType.cat;
+      case'Barnyard':
+        return SpeciesType.barnyard;
+      case 'Bird':
+        return SpeciesType.bird;
+      case 'Rabbit':
+        return SpeciesType.rabbit;
+      case 'Horse':
+        return SpeciesType.horse;
+      default:
+        return SpeciesType.other;
     }
   }
 }
