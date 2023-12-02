@@ -1,6 +1,6 @@
 import 'package:cs222_final_project_pet_finder/enum_decoder.dart';
 import 'package:cs222_final_project_pet_finder/query_builder.dart';
-import 'package:cs222_final_project_pet_finder/query_call.dart';
+import 'package:cs222_final_project_pet_finder/api_caller.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
