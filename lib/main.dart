@@ -276,9 +276,9 @@ class PetListPageState extends State<PetListPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text('Name: ${pet.name}'),
-                                  Text('${pet.breed} ${pet.species}'),
+                                  Text('${pet.breed} ${enumDecoder.decodeSpeciesEnum(pet.species)}'),
                                   Text(
-                                      'Gender: ${enumDecoder.decodeGenderEnum(pet.gender)}\nAge: ${enumDecoder.decodeGenderEnum(pet.age)}'),
+                                      'Gender: ${enumDecoder.decodeGenderEnum(pet.gender)}\nAge: ${enumDecoder.decodeAgeEnum(pet.age)}'),
                                   ElevatedButton(
                                     child: Text('Want to adopt ${pet.name}?'),
                                     onPressed: () {
