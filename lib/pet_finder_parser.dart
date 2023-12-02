@@ -46,8 +46,18 @@ class PetFinderParser {
     switch(petListedSpecies){
       case'Dog':
         return SpeciesType.dog;
-      default:
+      case'Cat':
         return SpeciesType.cat;
+      case'Barnyard':
+        return SpeciesType.barnyard;
+      case 'Bird':
+        return SpeciesType.bird;
+      case 'Rabbit':
+        return SpeciesType.rabbit;
+      case 'Horse':
+        return SpeciesType.horse;
+      default:
+        return SpeciesType.other;
     }
   }
 }

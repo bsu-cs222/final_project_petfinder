@@ -38,9 +38,17 @@ class InputEvaluator{
       return'dog';
     } else if(speciesInputBody=='cat'||speciesInputBody=='Cat'){
       return'cat';
+    }else if(speciesInputBody=='bird'||speciesInputBody=='Bird'){
+      return 'bird';
+    }else if (speciesInputBody=='horse'||speciesInputBody=='Horse'){
+      return 'horse';
+    } else if (speciesInputBody=='small'||speciesInputBody=='Small'){
+      return 'small-furry';
+    }else if (speciesInputBody=='reptile'||speciesInputBody=='Reptile'){
+      return 'scales-fins-other';
     }
     else{
-      return 'cat,dog';
+      return 'cat,dog,bird,rabbit,horse,scales-fins-other';
     }
   }
 }
