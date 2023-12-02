@@ -5,7 +5,6 @@ import 'package:cs222_final_project_pet_finder/pet.dart';
 class PetFinderParser {
   List parsePetInfo(queryResponse) {
     final decodedAPIResponse = json.decode(queryResponse);
-    print (decodedAPIResponse);
     final listOfReturnedAnimals = decodedAPIResponse['animals'];
     List<Pet> pets = List<Pet>.generate(listOfReturnedAnimals.length, (index) {
       return Pet(
