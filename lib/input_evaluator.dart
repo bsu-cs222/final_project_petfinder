@@ -51,7 +51,7 @@ class InputEvaluator{
       return 'scales-fins-other';
     }
     else{
-      return 'cat,dog';
+      return 'blank';
         //  ',bird,rabbit,horse,scales-fins-other';
     }
   }
