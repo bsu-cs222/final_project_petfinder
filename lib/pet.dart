@@ -10,6 +10,7 @@ class Pet {
   final GenderType gender;
   final String zipcode;
   final AgeType age;
+  final int petID;
 
   const Pet(
       {required this.name,
@@ -19,5 +20,6 @@ class Pet {
         required this.photos,
         required this.zipcode,
         required this.age,
-        required this.gender});
+        required this.gender,
+      required this.petID});
 }
