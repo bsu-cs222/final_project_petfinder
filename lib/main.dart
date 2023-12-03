@@ -132,9 +132,8 @@ class ZipCodePage extends StatelessWidget {
                 onPressed: () {
                   var genderRequest =
                       inputWizard.organizeGenderInput(genderController);
-                  var  ageRequest=
-                    inputWizard.organizeAgeInput(ageController);
-                  var speciesRequest=
+                  var ageRequest = inputWizard.organizeAgeInput(ageController);
+                  var speciesRequest =
                       inputWizard.organizeSpeciesInput(speciesController);
                   final filterValues = {
                     'gender': genderRequest,
@@ -144,8 +143,9 @@ class ZipCodePage extends StatelessWidget {
                     'age': ageRequest
                   };
                   url = queryBuilder.addFilter(filterValues, url);
-                  var zipcodeRequest=inputWizard.organizeZipcodeInput(zipCodeController);
-                  if (zipcodeRequest==true) {
+                  var zipcodeRequest =
+                      inputWizard.organizeZipcodeInput(zipCodeController);
+                  if (zipcodeRequest == true) {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => PetListPage(url: url),
                     ));
@@ -211,7 +211,7 @@ class PetListPageState extends State<PetListPage> {
   Widget build(BuildContext context) {
     return Listener(
       child: Scaffold(
-        appBar: AppBar(title: const Text('Available pets in the  area.')),
+        appBar: AppBar(title: const Text('Available pets in the area.')),
         body: Column(children: [
           if (pets.isEmpty)
             const Text.rich(
@@ -253,6 +253,7 @@ class PetListPageState extends State<PetListPage> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              const FavoriteWidget(),
                               if (pet.photos.isNotEmpty)
                                 Image.network(
                                   pet.photos[0]['small'],
@@ -276,7 +277,8 @@ class PetListPageState extends State<PetListPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text('Name: ${pet.name}'),
-                                  Text('${pet.breed} - ${enumDecoder.decodeSpeciesEnum(pet.species)}'),
+                                  Text(
+                                      '${pet.breed} - ${enumDecoder.decodeSpeciesEnum(pet.species)}'),
                                   Text(
                                       'Gender: ${enumDecoder.decodeGenderEnum(pet.gender)}\nAge: ${enumDecoder.decodeAgeEnum(pet.age)}'),
                                   ElevatedButton(
@@ -298,5 +300,56 @@ class PetListPageState extends State<PetListPage> {
         ]),
       ),
     );
+  }
+}
+
+class FavoriteWidget extends StatefulWidget {
+  const FavoriteWidget({super.key});
+
+  @override
+  State<FavoriteWidget> createState() => _FavoriteWidgetState();
+}
+
+class _FavoriteWidgetState extends State<FavoriteWidget> {
+  bool _isFavorited = false;
+  int _favoriteCount = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(0),
+          child: IconButton(
+            padding: const EdgeInsets.all(0),
+            alignment: Alignment.centerRight,
+            icon: (_isFavorited
+                ? const Icon(Icons.favorite)
+                : const Icon(Icons.favorite_border)),
+            color: Colors.pink[500],
+            onPressed: _toggleFavorite,
+          ),
+        ),
+        SizedBox(
+          width: 18,
+          child: SizedBox(
+            child: Text('$_favoriteCount'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _toggleFavorite() {
+    setState(() {
+      if (_isFavorited) {
+        _favoriteCount -= 1;
+        _isFavorited = false;
+      } else {
+        _favoriteCount += 1;
+        _isFavorited = true;
+      }
+    });
   }
 }
