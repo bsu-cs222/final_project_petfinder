@@ -14,15 +14,14 @@ class PetFinderParser {
         urlString: listOfReturnedAnimals[index]['url'],
         photos: listOfReturnedAnimals[index]['photos'],
         zipcode: listOfReturnedAnimals[index]['contact']['address']['postcode'],
-        gender: evaulateGender(listOfReturnedAnimals[index]['gender']),
+        gender: evaluateGender(listOfReturnedAnimals[index]['gender']),
         age: evaluateAge(listOfReturnedAnimals[index]['age']),
       );
     });
-
     return pets;
   }
 
-  GenderType evaulateGender(petListedGender) {
+  GenderType evaluateGender(petListedGender) {
     switch (petListedGender) {
       case 'Male':
         return GenderType.male;

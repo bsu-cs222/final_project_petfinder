@@ -42,7 +42,7 @@ class InputEvaluator{
       return 'bird';
     }else if (speciesInputBody=='horse'||speciesInputBody=='Horse'){
       return 'horse';
-    } else if (speciesInputBody=='small'||speciesInputBody=='Small'){
+    } else if (speciesInputBody=='rodent'||speciesInputBody=='Rodent'){
       return 'small-furry';
     } else if (speciesInputBody=='rabbit'||speciesInputBody=='Rabbit'){
       return 'rabbit';
@@ -54,7 +54,6 @@ class InputEvaluator{
     }
     else{
       return 'blank';
-        //  ',bird,rabbit,horse,scales-fins-other';
     }
   }
 }
