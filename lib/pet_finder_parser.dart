@@ -47,7 +47,9 @@ class PetFinderParser {
         return SpeciesType.dog;
       case'Cat':
         return SpeciesType.cat;
-      case'Barnyard':
+      case 'Small-furry' || 'Rat' || 'Gerbil' || 'Guinea Pig':
+        return SpeciesType.rodent;
+      case'Barnyard' || 'Goat' || 'Pot Bellied':
         return SpeciesType.barnyard;
       case 'Bird':
         return SpeciesType.bird;

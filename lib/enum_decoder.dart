@@ -35,9 +35,9 @@ class EnumDecoder{
       return'Barnyard';
     }else if(petSpecies==SpeciesType.bird){
       return 'Bird';
-    }else if(petSpecies==SpeciesType.small){
-      return 'Small-Furry';
-    }else {
+    }else if(petSpecies==SpeciesType.rodent){
+      return 'Rodent';
+    }else{
       return 'Reptile';
     }  }
 }
