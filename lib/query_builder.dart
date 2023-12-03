@@ -26,7 +26,7 @@ class QueryBuilder {
 
   String addFilter(Map filters, String url){
     for(final filter in filters.entries){
-      if (filter.value != 'blank'){
+      if(filter.value!='blank') {
         url += '&${filter.key}=${filter.value}';
       }
     }
