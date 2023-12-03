@@ -44,11 +44,15 @@ class InputEvaluator{
       return 'horse';
     } else if (speciesInputBody=='small'||speciesInputBody=='Small'){
       return 'small-furry';
-    }else if (speciesInputBody=='reptile'||speciesInputBody=='Reptile'){
+    } else if (speciesInputBody=='rabbit'||speciesInputBody=='Rabbit'){
+      return 'rabbit';
+    }
+    else if (speciesInputBody=='reptile'||speciesInputBody=='Reptile'){
       return 'scales-fins-other';
     }
     else{
-      return 'cat,dog,bird,rabbit,horse,scales-fins-other';
+      return 'cat,dog';
+        //  ',bird,rabbit,horse,scales-fins-other';
     }
   }
 }
