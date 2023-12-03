@@ -49,6 +49,8 @@ class InputEvaluator{
     }
     else if (speciesInputBody=='reptile'||speciesInputBody=='Reptile'){
       return 'scales-fins-other';
+    }else if (speciesInputBody=='barnyard'|| speciesInputBody=='Barnyard'){
+      return 'barnyard';
     }
     else{
       return 'blank';
