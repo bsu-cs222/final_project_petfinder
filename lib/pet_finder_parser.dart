@@ -21,7 +21,11 @@ class PetFinderParser {
     });
     return pets;
   }
-
+  int parseAdoption(queryResponse){
+    final decodedAPIResponse = json.decode(queryResponse);
+    final totalOfAnimal = decodedAPIResponse['pagination']['total_count'];
+    return totalOfAnimal;
+  }
   GenderType evaluateGender(petListedGender) {
     switch (petListedGender) {
       case 'Male':

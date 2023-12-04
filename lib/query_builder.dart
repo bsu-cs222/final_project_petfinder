@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'package:cs222_final_project_pet_finder/enum_decoder.dart';
+import 'package:cs222_final_project_pet_finder/input_evaluator.dart';
+import 'package:cs222_final_project_pet_finder/pet.dart';
+
 class QueryBuilder {
   Future<Map<String, String>> constructTokenQuery(id, secret) async {
     final Map<String, String> requestBody = {
@@ -21,7 +25,7 @@ class QueryBuilder {
   }
 
   String baseURL() {
-    return 'https://api.petfinder.com/v2/animals/?status=adoptable';
+    return 'https://api.petfinder.com/v2/animals/?limit=100&status=adoptable';
   }
 
   String addFilter(Map filters, String url){
@@ -31,5 +35,28 @@ class QueryBuilder {
       }
     }
     return url;
+  }
+
+  String pullAdoptedFound(Pet pet){
+    final enumDecoder = EnumDecoder();
+    final evaluator = InputEvaluator();
+    DateTime now = DateTime.now();
+    DateTime oneMonthAgo = now.subtract(const Duration(days: 365));
+    final formattedDate = '${oneMonthAgo.toIso8601String()}Z';
+    String species = enumDecoder.decodeSpeciesEnum(pet.species);
+    species = evaluator.inspectSpeciesInput(species);
+    final breed = pet.breed.replaceAll(' ', '-');
+    return 'https://api.petfinder.com/v2/animals/?after=$formattedDate&status=adopted&type=$species&breed=$breed&location=46241&distance=50';
+  }
+  String pullAdoptableFound(Pet pet){
+    final enumDecoder = EnumDecoder();
+    final evaluator = InputEvaluator();
+    DateTime now = DateTime.now();
+    DateTime oneMonthAgo = now.subtract(const Duration(days: 365));
+    final formattedDate = '${oneMonthAgo.toIso8601String()}Z';
+    String species = enumDecoder.decodeSpeciesEnum(pet.species);
+    species = evaluator.inspectSpeciesInput(species);
+    final breed = pet.breed.replaceAll(' ', '-');
+    return 'https://api.petfinder.com/v2/animals/?status=adoptable&type=$species&breed=$breed&location=46241&distance=50&after=$formattedDate';
   }
 }

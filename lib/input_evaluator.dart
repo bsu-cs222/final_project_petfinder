@@ -18,7 +18,7 @@ class InputEvaluator{
     }
   }
 
-  inspectAgeInput(String ageBarInput) {
+  String inspectAgeInput(String ageBarInput) {
     if(ageBarInput=='baby'||ageBarInput=='Baby'){
       return'baby';
     } else if(ageBarInput=='young'|| ageBarInput=='Young'){

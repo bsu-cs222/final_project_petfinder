@@ -1,3 +1,4 @@
+import 'package:cs222_final_project_pet_finder/adoption_rate_calculator.dart';
 import 'package:cs222_final_project_pet_finder/enum_decoder.dart';
 import 'package:cs222_final_project_pet_finder/query_builder.dart';
 import 'package:cs222_final_project_pet_finder/api_caller.dart';
@@ -132,8 +133,9 @@ class ZipCodePage extends StatelessWidget {
                 onPressed: () {
                   var genderRequest =
                       inputWizard.organizeGenderInput(genderController);
-                  var ageRequest = inputWizard.organizeAgeInput(ageController);
-                  var speciesRequest =
+                  var  ageRequest=
+                    inputWizard.organizeAgeInput(ageController);
+                  var speciesRequest=
                       inputWizard.organizeSpeciesInput(speciesController);
                   final filterValues = {
                     'gender': genderRequest,
@@ -143,9 +145,8 @@ class ZipCodePage extends StatelessWidget {
                     'age': ageRequest
                   };
                   url = queryBuilder.addFilter(filterValues, url);
-                  var zipcodeRequest =
-                      inputWizard.organizeZipcodeInput(zipCodeController);
-                  if (zipcodeRequest == true) {
+                  var zipcodeRequest=inputWizard.organizeZipcodeInput(zipCodeController);
+                  if (zipcodeRequest==true) {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => PetListPage(url: url),
                     ));
@@ -186,13 +187,9 @@ class PetListPageState extends State<PetListPage> {
 
   Future<void> fetchData() async {
     final caller = APICaller();
-    final response = await caller.makeRequestToAPI(
-      dotenv.env['api_id'],
-      dotenv.env['api_secret'],
-      widget.url,
-    );
-
+    final response = await caller.makeRequestToAPI(widget.url);
     final parsedPets = parser.parsePetInfo(response);
+
     setState(() {
       pets = parsedPets;
     });
@@ -206,7 +203,8 @@ class PetListPageState extends State<PetListPage> {
       throw 'The URL for this pet profile is broken.';
     }
   }
-
+  final calculator = AdoptionRateCalculator();
+  String adoptionRateMessage = 'Check adoption rate';
   @override
   Widget build(BuildContext context) {
     return Listener(
@@ -277,8 +275,7 @@ class PetListPageState extends State<PetListPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text('Name: ${pet.name}'),
-                                  Text(
-                                      '${pet.breed} - ${enumDecoder.decodeSpeciesEnum(pet.species)}'),
+                                  Text('${pet.breed} - ${enumDecoder.decodeSpeciesEnum(pet.species)}'),
                                   Text(
                                       'Gender: ${enumDecoder.decodeGenderEnum(pet.gender)}\nAge: ${enumDecoder.decodeAgeEnum(pet.age)}'),
                                   ElevatedButton(
@@ -287,6 +284,14 @@ class PetListPageState extends State<PetListPage> {
                                       _launchURL(pet.urlString);
                                     },
                                   ),
+                                  ElevatedButton(
+                                      onPressed: () async {
+                                        int percent = await calculator.returnFinalRate(pet);
+                                        setState(() {
+                                          adoptionRateMessage = 'Over the past year, this pet has had a $percent adoption rate.';
+                                        });
+                                      },
+                                      child: Text(adoptionRateMessage))
                                 ],
                               ),
                             ],
