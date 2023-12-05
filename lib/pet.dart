@@ -11,6 +11,7 @@ class Pet {
   final String zipcode;
   final AgeType age;
   final int petID;
+  final bool favPet;
 
   const Pet(
       {required this.name,
@@ -21,5 +22,6 @@ class Pet {
         required this.zipcode,
         required this.age,
         required this.gender,
-      required this.petID});
+      required this.petID,
+      required this.favPet});
 }
