@@ -52,8 +52,21 @@ class ZipCodePage extends StatelessWidget {
     );
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          title: const Text('Search Page')),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        title: const Text('Search Page'),
+        actions: <Widget>[
+          SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  },
+                child: const Text('Favorites'),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           const SizedBox(
