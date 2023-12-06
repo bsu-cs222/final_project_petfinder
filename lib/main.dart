@@ -413,7 +413,7 @@ class FavoritesPageState extends State<FavoritesPage> {
   Widget build(BuildContext context) {
     return Listener(
       child: Scaffold(
-        appBar: AppBar(title: const Text('Available pets in the area.')),
+        appBar: AppBar(title: const Text('Favorites Page')),
         body: Column(children: [
           if (favPets.isEmpty)
             const Text.rich(
