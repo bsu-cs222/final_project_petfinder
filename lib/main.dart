@@ -43,9 +43,7 @@ class ListenerClass extends ChangeNotifier {
   dynamic currentPet;
   void addPetIDToFavorites(Pet pet) {
     updateCurrentPet(pet);
-    bool favDuplicate=checkForDuplicates();
-    if(favDuplicate==false){
-      favoritedPets.add(pet);}
+    favoritedPets.add(pet);
     print (favoritedPets);
     notifyListeners();
   }
@@ -57,17 +55,17 @@ class ListenerClass extends ChangeNotifier {
     currentPet = pet;
     notifyListeners();
   }
-  bool checkForDuplicates(){
-    bool duplicatePet=false;
+  bool checkForFavorited(){
+    bool favoritedPet=false;
     int currentPetID= currentPet.petID;
     for (Pet pet in favoritedPets){
       int testingPetID=pet.petID;
       if(testingPetID==currentPetID){
-        duplicatePet=true;
-        return duplicatePet;
+        favoritedPet=true;
+        return favoritedPet;
       }
     }
-    return duplicatePet;
+    return favoritedPet;
   }
   @override
   void notifyListeners() {
@@ -539,7 +537,6 @@ class FavoriteWidgetState extends State<FavoriteWidget> {
   @override
   Widget build(BuildContext context) {
     var listenerCommand = context.watch<ListenerClass>();
-    bool petFavorited=_pet.favPet;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -556,8 +553,11 @@ class FavoriteWidgetState extends State<FavoriteWidget> {
               int result = _toggleFavorite();
               if (result==1){
                 listenerCommand.addPetIDToFavorites(_pet);
+                _isFavorited=listenerCommand.checkForFavorited();
+                print(_isFavorited);
               }else{
                 listenerCommand.removePetIDToFavorites(_pet);
+                print(_isFavorited);
               }
             },
           ),
