@@ -76,7 +76,7 @@ class ZipCodePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String url = queryBuilder.baseURL();
+    String url = queryBuilder.pullBaseURL();
     final theme = Theme.of(context);
     final style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.primaryContainer,
@@ -520,21 +520,19 @@ class FavoriteWidget extends StatefulWidget {
   const FavoriteWidget({required this.pet, super.key});
 
   @override
-  FavoriteWidgetState createState() => FavoriteWidgetState(pet);
+  FavoriteWidgetState createState() => FavoriteWidgetState();
 }
 
 class FavoriteWidgetState extends State<FavoriteWidget> {
   bool _isFavorited = false;
   int _favoriteCount = 0;
   late Pet _pet;
-  FavoriteWidgetState(Pet pet) {
-    _pet = pet;
-  }
+  FavoriteWidgetState();
 
   @override
   Widget build(BuildContext context) {
     var listenerCommand = context.watch<ListenerClass>();
-    var favoritePetStatus = _pet.favPet;
+    _pet=listenerCommand.currentPet;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [

@@ -24,10 +24,6 @@ class QueryBuilder {
     return (header);
   }
 
-  String baseURL() {
-    return 'https://api.petfinder.com/v2/animals/?limit=100&status=adoptable';
-  }
-
   String addFilter(Map filters, String url){
     for(final filter in filters.entries){
       if(filter.value!='blank') {
@@ -58,5 +54,8 @@ class QueryBuilder {
     species = evaluator.inspectSpeciesInput(species);
     final breed = pet.breed.replaceAll(' ', '-');
     return 'https://api.petfinder.com/v2/animals/?status=adoptable&type=$species&breed=$breed&location=46241&distance=50&after=$formattedDate';
+  }
+  String pullBaseURL() {
+    return 'https://api.petfinder.com/v2/animals/?limit=100&status=adoptable';
   }
 }
