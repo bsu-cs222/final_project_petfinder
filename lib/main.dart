@@ -44,29 +44,32 @@ class ListenerClass extends ChangeNotifier {
   void addPetIDToFavorites(Pet pet) {
     updateCurrentPet(pet);
     favoritedPets.add(pet);
-    print (favoritedPets);
     notifyListeners();
   }
+
   void removePetIDToFavorites(Pet pet) {
     favoritedPets.remove(pet);
     notifyListeners();
   }
+
   void updateCurrentPet(Pet pet) {
     currentPet = pet;
     notifyListeners();
   }
-  bool checkForFavorited(){
-    bool favoritedPet=false;
-    int currentPetID= currentPet.petID;
-    for (Pet pet in favoritedPets){
-      int testingPetID=pet.petID;
-      if(testingPetID==currentPetID){
-        favoritedPet=true;
+
+  bool checkForFavorited() {
+    bool favoritedPet = false;
+    int currentPetID = currentPet.petID;
+    for (Pet pet in favoritedPets) {
+      int testingPetID = pet.petID;
+      if (testingPetID == currentPetID) {
+        favoritedPet = true;
         return favoritedPet;
       }
     }
     return favoritedPet;
   }
+
   @override
   void notifyListeners() {
     super.notifyListeners();
@@ -101,7 +104,8 @@ class ZipCodePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const FavoritesPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const FavoritesPage()),
                   );
                 },
                 child: const Text('Favorites'),
@@ -278,7 +282,8 @@ class PetListPageState extends State<PetListPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const FavoritesPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const FavoritesPage()),
                     );
                   },
                   child: const Text('Favorites'),
@@ -389,21 +394,17 @@ class PetListPageState extends State<PetListPage> {
 }
 
 class FavoritesPage extends StatefulWidget {
-
-
-  const FavoritesPage({super.key,});
-
+  const FavoritesPage({
+    super.key,
+  });
 
   @override
   FavoritesPageState createState() => FavoritesPageState();
 }
 
-
 class FavoritesPageState extends State<FavoritesPage> {
   final enumDecoder = EnumDecoder();
   List<dynamic> favPets = [];
-
-
 
   Future<void> _launchURL(String url) async {
     final Uri aUrl = Uri.parse(url);
@@ -413,12 +414,13 @@ class FavoritesPageState extends State<FavoritesPage> {
       throw 'The URL for this pet profile is broken.';
     }
   }
+
   final calculator = AdoptionRateCalculator();
   String adoptionRateMessage = 'Check adoption rate';
   @override
   Widget build(BuildContext context) {
-    var listenerCommand=context.watch<ListenerClass>();
-    favPets=listenerCommand.favoritedPets;
+    var listenerCommand = context.watch<ListenerClass>();
+    favPets = listenerCommand.favoritedPets;
     return Listener(
       child: Scaffold(
         appBar: AppBar(title: const Text('Favorites Page')),
@@ -429,8 +431,7 @@ class FavoritesPageState extends State<FavoritesPage> {
                 // default text style
                 children: <TextSpan>[
                   TextSpan(
-                      text:
-                      'You have not favorited any pets!',
+                      text: 'You have not favorited any pets!',
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
@@ -447,7 +448,7 @@ class FavoritesPageState extends State<FavoritesPage> {
                       decoration: BoxDecoration(
                         border: Border.all(width: 10, color: Colors.pink),
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(8)),
+                            const BorderRadius.all(Radius.circular(8)),
                       ),
                       child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -458,8 +459,10 @@ class FavoritesPageState extends State<FavoritesPage> {
                                 padding: const EdgeInsets.all(2),
                                 alignment: Alignment.centerRight,
                                 icon: (const Icon(Icons.favorite)),
-                                color: Colors.pink[500], onPressed: () {
-                                listenerCommand.removePetIDToFavorites(pet); },
+                                color: Colors.pink[500],
+                                onPressed: () {
+                                  listenerCommand.removePetIDToFavorites(pet);
+                                },
                               ),
                               if (pet.photos.isNotEmpty)
                                 Image.network(
@@ -496,9 +499,11 @@ class FavoritesPageState extends State<FavoritesPage> {
                                   ),
                                   ElevatedButton(
                                       onPressed: () async {
-                                        int percent = await calculator.returnFinalRate(pet);
+                                        int percent = await calculator
+                                            .returnFinalRate(pet);
                                         setState(() {
-                                          adoptionRateMessage = 'Over the past year, this pet has had a $percent adoption rate.';
+                                          adoptionRateMessage =
+                                              'Over the past year, this pet has had a $percent adoption rate.';
                                         });
                                       },
                                       child: Text(adoptionRateMessage))
@@ -530,8 +535,8 @@ class FavoriteWidgetState extends State<FavoriteWidget> {
   bool _isFavorited = false;
   int _favoriteCount = 0;
   late Pet _pet;
-  FavoriteWidgetState(Pet pet){
-    _pet=pet;
+  FavoriteWidgetState(Pet pet) {
+    _pet = pet;
   }
 
   @override
@@ -551,13 +556,11 @@ class FavoriteWidgetState extends State<FavoriteWidget> {
             color: Colors.pink[500],
             onPressed: () {
               int result = _toggleFavorite();
-              if (result==1){
+              if (result == 1) {
                 listenerCommand.addPetIDToFavorites(_pet);
-                _isFavorited=listenerCommand.checkForFavorited();
-                print(_isFavorited);
-              }else{
+                _isFavorited = listenerCommand.checkForFavorited();
+              } else {
                 listenerCommand.removePetIDToFavorites(_pet);
-                print(_isFavorited);
               }
             },
           ),
@@ -573,14 +576,14 @@ class FavoriteWidgetState extends State<FavoriteWidget> {
   }
 
   int _toggleFavorite() {
-      if (_isFavorited) {
-        _favoriteCount -= 1;
-        _isFavorited = false;
-        return 2; //remove pet
-      } else {
-        _favoriteCount += 1;
-        _isFavorited = true;
-        return 1; //add pet
-      }
+    if (_isFavorited) {
+      _favoriteCount -= 1;
+      _isFavorited = false;
+      return 2; //remove pet
+    } else {
+      _favoriteCount += 1;
+      _isFavorited = true;
+      return 1; //add pet
+    }
   }
 }
