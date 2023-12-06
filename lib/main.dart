@@ -11,21 +11,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'input_wizard.dart';
 
-
 Future main() async {
   await dotenv.load(fileName: ".env");
 
-
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create:(context)=>ListenerClass(),
+      create: (context) => ListenerClass(),
       child: MaterialApp(
         title: 'Pet Finder',
         theme: ThemeData(
@@ -36,35 +33,37 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: ZipCodePage(),
-      ),);
+      ),
+    );
   }
 }
 
-
-class ListenerClass extends ChangeNotifier{
-  List<int> favoritedPetsIDs=[];
+class ListenerClass extends ChangeNotifier {
+  List<int> favoritedPetsIDs = [];
   List<dynamic> pets = [];
   dynamic currentPet;
-  void addPetIDToFavorites(Pet pet){
-    int petID=pet.petID;
+  void addPetIDToFavorites(Pet pet) {
+    int petID = pet.petID;
     favoritedPetsIDs.add(petID);
     notifyListeners();
   }
+
   void removePetIDToFavorites(Pet pet) {
-    int petID=pet.petID;
+    int petID = pet.petID;
     favoritedPetsIDs.remove(petID);
     notifyListeners();
   }
+
   void updateCurrentPet(Pet pet) {
-    currentPet=pet;
+    currentPet = pet;
     notifyListeners();
   }
+
   @override
-  void notifyListeners(){
+  void notifyListeners() {
     super.notifyListeners();
   }
 }
-
 
 class ZipCodePage extends StatelessWidget {
   final TextEditingController zipCodeController = TextEditingController();
@@ -75,7 +74,6 @@ class ZipCodePage extends StatelessWidget {
   final queryBuilder = QueryBuilder();
   ZipCodePage({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     String url = queryBuilder.baseURL();
@@ -85,15 +83,14 @@ class ZipCodePage extends StatelessWidget {
     );
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          title: const Text('Search Page'),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        title: const Text('Search Page'),
         actions: <Widget>[
           SizedBox(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () {
-                },
+                onPressed: () {},
                 child: const Text('Favorites'),
               ),
             ),
@@ -104,19 +101,19 @@ class ZipCodePage extends StatelessWidget {
         children: [
           const SizedBox(
               child: Text.rich(
+            TextSpan(
+              // default text style
+              children: <TextSpan>[
                 TextSpan(
-                  // default text style
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: 'Welcome to PetFinder! \n',
-                        style:
+                    text: 'Welcome to PetFinder! \n',
+                    style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
-                    TextSpan(
-                        text: 'To get started, please enter your zipcode below.',
-                        style: TextStyle(fontStyle: FontStyle.italic)),
-                  ],
-                ),
-              )),
+                TextSpan(
+                    text: 'To get started, please enter your zipcode below.',
+                    style: TextStyle(fontStyle: FontStyle.italic)),
+              ],
+            ),
+          )),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -178,10 +175,10 @@ class ZipCodePage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   var genderRequest =
-                  inputWizard.organizeGenderInput(genderController);
+                      inputWizard.organizeGenderInput(genderController);
                   var ageRequest = inputWizard.organizeAgeInput(ageController);
                   var speciesRequest =
-                  inputWizard.organizeSpeciesInput(speciesController);
+                      inputWizard.organizeSpeciesInput(speciesController);
                   final filterValues = {
                     'gender': genderRequest,
                     'location': zipCodeController.text,
@@ -191,7 +188,7 @@ class ZipCodePage extends StatelessWidget {
                   };
                   url = queryBuilder.addFilter(filterValues, url);
                   var zipcodeRequest =
-                  inputWizard.organizeZipcodeInput(zipCodeController);
+                      inputWizard.organizeZipcodeInput(zipCodeController);
                   if (zipcodeRequest == true) {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => PetListPage(url: url),
@@ -208,27 +205,22 @@ class ZipCodePage extends StatelessWidget {
   }
 }
 
-
 class PetListPage extends StatefulWidget {
   final String url;
-
 
   const PetListPage({
     super.key,
     required this.url,
   });
 
-
   @override
   PetListPageState createState() => PetListPageState();
 }
 
-
 class PetListPageState extends State<PetListPage> {
   final enumDecoder = EnumDecoder();
   final parser = PetFinderParser();
-  List<dynamic> pets = []; //List<dynamic> favPets=[];
-
+  List<dynamic> pets = [];
 
   @override
   void initState() {
@@ -236,20 +228,17 @@ class PetListPageState extends State<PetListPage> {
     fetchData();
   }
 
-
   Future<void> fetchData() async {
     final caller = APICaller();
     final response = await caller.makeRequestToAPI(
       widget.url,
     );
 
-
     final parsedPets = parser.parsePetInfo(response);
     setState(() {
       pets = parsedPets;
     });
   }
-
 
   Future<void> _launchURL(String url) async {
     final Uri aUrl = Uri.parse(url);
@@ -259,27 +248,27 @@ class PetListPageState extends State<PetListPage> {
       throw 'The URL for this pet profile is broken.';
     }
   }
+
   final calculator = AdoptionRateCalculator();
   String adoptionRateMessage = 'Check adoption rate';
   @override
-  Widget build(BuildContext context) { //Start Copy 1
+  Widget build(BuildContext context) {
     return Listener(
-      // // favorites pet view example: listenerCommand=context.watch<ListenerClass>();
-      // favorites pet view example: favPets=listenerCommand.
       child: Scaffold(
-        appBar: AppBar(title: const Text('Available pets in the area.'),
-            actions: <Widget>[
+        appBar: AppBar(
+          title: const Text('Available pets in the area.'),
+          actions: <Widget>[
             SizedBox(
-            child: Padding(
-            padding: const EdgeInsets.all(8.0),
-        child: ElevatedButton(
-          onPressed: () {
-          },
-          child: const Text('Favorites'),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Favorites'),
+                ),
+              ),
+            ),
+          ],
         ),
-      ),
-    ),
-    ],), // END COPY 1
         body: Column(children: [
           if (pets.isEmpty)
             const Text.rich(
@@ -288,7 +277,7 @@ class PetListPageState extends State<PetListPage> {
                 children: <TextSpan>[
                   TextSpan(
                       text:
-                      'No adoptable pets were found based on your zipcode and filters!',
+                          'No adoptable pets were found based on your zipcode and filters!',
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
@@ -306,8 +295,8 @@ class PetListPageState extends State<PetListPage> {
             child: ListView.builder(
               itemCount: pets.length,
               itemBuilder: (BuildContext context, int index) {
-                final pet = pets[index]; // favorites pet view example: final pet = favPets[index]
-                var listenerCommand=context.watch<ListenerClass>();
+                final pet = pets[index];
+                var listenerCommand = context.watch<ListenerClass>();
                 listenerCommand.updateCurrentPet(pet);
                 return Column(
                   children: [
@@ -316,14 +305,14 @@ class PetListPageState extends State<PetListPage> {
                       decoration: BoxDecoration(
                         border: Border.all(width: 10, color: Colors.pink),
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(8)),
+                            const BorderRadius.all(Radius.circular(8)),
                       ),
                       child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              FavoriteWidget(pet:pet),
+                              FavoriteWidget(pet: pet),
                               if (pet.photos.isNotEmpty)
                                 Image.network(
                                   pet.photos[0]['small'],
@@ -359,9 +348,11 @@ class PetListPageState extends State<PetListPage> {
                                   ),
                                   ElevatedButton(
                                       onPressed: () async {
-                                        int percent = await calculator.returnFinalRate(pet);
+                                        int percent = await calculator
+                                            .returnFinalRate(pet);
                                         setState(() {
-                                          adoptionRateMessage = 'Over the past year, this pet has had a $percent adoption rate.';
+                                          adoptionRateMessage =
+                                              'Over the past year, this pet has had a $percent% adoption rate.';
                                         });
                                       },
                                       child: Text(adoptionRateMessage))
@@ -381,30 +372,26 @@ class PetListPageState extends State<PetListPage> {
   }
 }
 
-
 class FavoriteWidget extends StatefulWidget {
   final Pet pet;
-  const FavoriteWidget({required this.pet,super.key});
-
+  const FavoriteWidget({required this.pet, super.key});
 
   @override
   _FavoriteWidgetState createState() => _FavoriteWidgetState(pet);
 }
 
-
 class _FavoriteWidgetState extends State<FavoriteWidget> {
   bool _isFavorited = false;
   int _favoriteCount = 0;
   late Pet _pet;
-  _FavoriteWidgetState(Pet pet){
-    _pet=pet;
+  _FavoriteWidgetState(Pet pet) {
+    _pet = pet;
   }
-
 
   @override
   Widget build(BuildContext context) {
-    var listenerCommand=context.watch<ListenerClass>();
-    var favoritePetStatus=_pet.favPet;
+    var listenerCommand = context.watch<ListenerClass>();
+    var favoritePetStatus = _pet.favPet;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -417,19 +404,21 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
                 ? const Icon(Icons.favorite)
                 : const Icon(Icons.favorite_border)),
             color: Colors.pink[500],
-            onPressed:(){ _toggleFavorite(_pet, listenerCommand);
-              },
+            onPressed: () {
+              _toggleFavorite(_pet, listenerCommand);
+            },
           ),
         ),
         SizedBox(
           width: 18,
           child: SizedBox(
-            child: Text('$favoritePetStatus+$_favoriteCount'),
+            child: Text('$_favoriteCount'),
           ),
         ),
       ],
     );
   }
+
   void _toggleFavorite(Pet currentPet, ListenerClass listenerCommand) {
     setState(() {
       if (_isFavorited) {
