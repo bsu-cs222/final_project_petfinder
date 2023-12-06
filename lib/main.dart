@@ -377,14 +377,14 @@ class FavoriteWidget extends StatefulWidget {
   const FavoriteWidget({required this.pet, super.key});
 
   @override
-  _FavoriteWidgetState createState() => _FavoriteWidgetState(pet);
+  FavoriteWidgetState createState() => FavoriteWidgetState(pet);
 }
 
-class _FavoriteWidgetState extends State<FavoriteWidget> {
+class FavoriteWidgetState extends State<FavoriteWidget> {
   bool _isFavorited = false;
   int _favoriteCount = 0;
   late Pet _pet;
-  _FavoriteWidgetState(Pet pet) {
+  FavoriteWidgetState(Pet pet) {
     _pet = pet;
   }
 
