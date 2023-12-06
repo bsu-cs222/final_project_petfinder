@@ -1,5 +1,6 @@
 import 'package:cs222_final_project_pet_finder/adoption_rate_calculator.dart';
 import 'package:cs222_final_project_pet_finder/enum_decoder.dart';
+import 'package:cs222_final_project_pet_finder/favorites_pet_id_sifter.dart';
 import 'package:cs222_final_project_pet_finder/pet.dart';
 import 'package:cs222_final_project_pet_finder/query_builder.dart';
 import 'package:cs222_final_project_pet_finder/api_caller.dart';
@@ -42,15 +43,17 @@ class ListenerClass extends ChangeNotifier {
   List<int> favoritedPetsIDs = [];
   List<dynamic> favoritedPets = [];
   dynamic currentPet;
+  FavPetIDSifter favPetIDSifter = FavPetIDSifter();
   void addPetIDToFavorites(Pet pet) {
     updateCurrentPet(pet);
-    int petID = pet.petID;
-    favoritedPetsIDs.add(petID);
+    favoritedPets.add(pet);
+    print ('added:$favoritedPets');
     notifyListeners();
   }
   void removePetIDToFavorites(Pet pet) {
-    int petID = pet.petID;
-    favoritedPetsIDs.remove(petID);
+    favoritedPets.remove(pet);
+    print (favoritedPetsIDs);
+    print ('removed:$favoritedPets');
     notifyListeners();
   }
   void updateCurrentPet(Pet pet) {
@@ -408,7 +411,7 @@ class FavoritesPageState extends State<FavoritesPage> {
   @override
   Widget build(BuildContext context) {
     var listenerCommand=context.watch<ListenerClass>();
-    favPets=listenerCommand.favoritedPetsIDs;
+    favPets=listenerCommand.favoritedPets;
     return Listener(
       child: Scaffold(
         appBar: AppBar(title: const Text('Favorites Page')),
@@ -439,8 +442,6 @@ class FavoritesPageState extends State<FavoritesPage> {
               itemCount: favPets.length,
               itemBuilder: (BuildContext context, int index) {
                 final pet = favPets[index];
-                var listenerCommand=context.watch<ListenerClass>();
-                favPets = listenerCommand.favoritedPetsIDs;
                 return Column(
                   children: [
                     Container(
@@ -569,11 +570,11 @@ class FavoriteWidgetState extends State<FavoriteWidget> {
       if (_isFavorited) {
         _favoriteCount -= 1;
         _isFavorited = false;
-        return 1;
+        return 2; //remove pet
       } else {
         _favoriteCount += 1;
         _isFavorited = true;
-        return 2;
+        return 1; //add pet
       }
   }
 }
