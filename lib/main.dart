@@ -421,7 +421,7 @@ class FavoritesPageState extends State<FavoritesPage> {
                 children: <TextSpan>[
                   TextSpan(
                       text:
-                      'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+                      'You have not favorited any pets!',
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
