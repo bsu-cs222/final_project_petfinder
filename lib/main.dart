@@ -1,6 +1,5 @@
 import 'package:cs222_final_project_pet_finder/adoption_rate_calculator.dart';
 import 'package:cs222_final_project_pet_finder/enum_decoder.dart';
-import 'package:cs222_final_project_pet_finder/favorites_pet_id_sifter.dart';
 import 'package:cs222_final_project_pet_finder/pet.dart';
 import 'package:cs222_final_project_pet_finder/query_builder.dart';
 import 'package:cs222_final_project_pet_finder/api_caller.dart';
@@ -43,7 +42,6 @@ class ListenerClass extends ChangeNotifier {
   List<int> favoritedPetsIDs = [];
   List<dynamic> favoritedPets = [];
   dynamic currentPet;
-  FavPetIDSifter favPetIDSifter = FavPetIDSifter();
   void addPetIDToFavorites(Pet pet) {
     updateCurrentPet(pet);
     favoritedPets.add(pet);
