@@ -51,8 +51,6 @@ class ListenerClass extends ChangeNotifier{
     petFavorited=true;
     favoritedPetsIDs.add(petID);
     notifyListeners();
-
-
   }
   void removePetIDToFavorites(Pet pet) {
     int petID=pet.petID;
@@ -90,14 +88,20 @@ class ZipCodePage extends StatelessWidget {
     );
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          title: const Text('Search Page'),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        title: const Text('Search Page'),
         actions: <Widget>[
           SizedBox(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
+
               child: ElevatedButton(
                 onPressed: () {
+                  Navigator.push(
+                    context,
+
+                      MaterialPageRoute(builder: (context) => const FavoritePage()),
+                  );
                 },
                 child: const Text('Favorites'),
               ),
@@ -232,7 +236,7 @@ class PetListPage extends StatefulWidget {
 class PetListPageState extends State<PetListPage> {
   final enumDecoder = EnumDecoder();
   final parser = PetFinderParser();
-  List<dynamic> pets = [];
+  List<dynamic> pets = []; //List<dynamic> favPets=[];
 
 
   @override
@@ -271,18 +275,22 @@ class PetListPageState extends State<PetListPage> {
     return Listener(
       child: Scaffold(
         appBar: AppBar(title: const Text('Available pets in the area.'),
-            actions: <Widget>[
+          actions: <Widget>[
             SizedBox(
-            child: Padding(
-            padding: const EdgeInsets.all(8.0),
-        child: ElevatedButton(
-          onPressed: () {
-          },
-          child: const Text('Favorites'),
-        ),
-      ),
-    ),
-    ],),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const FavoritePage()),
+                    );
+                  },
+                  child: const Text('Favorites'),
+                ),
+              ),
+            ),
+          ],),
         body: Column(children: [
           if (pets.isEmpty)
             const Text.rich(
@@ -384,6 +392,137 @@ class PetListPageState extends State<PetListPage> {
   }
 }
 
+class FavoritePage extends StatefulWidget {
+
+  const FavoritePage({super.key,});
+
+  @override
+  FavoritePageState createState() => FavoritePageState();
+}
+
+class FavoritePageState extends State<FavoritePage> {
+  final enumDecoder = EnumDecoder();
+  List<dynamic> favPets=[];
+
+
+
+  Future<void> _launchURL(String url) async {
+    final Uri aUrl = Uri.parse(url);
+    if (await canLaunchUrl(aUrl)) {
+      await launchUrl(aUrl);
+    } else {
+      throw 'The URL for this pet profile is broken.';
+    }
+  }
+
+  final calculator = AdoptionRateCalculator();
+  String adoptionRateMessage = 'Check adoption rate';
+
+  @override
+  Widget build(BuildContext context) {
+    return Listener(
+        child: Scaffold(
+          appBar: AppBar(title: const Text('Favorites Page')),
+          body: Column(children: [
+              if (favPets.isEmpty)
+            const Text.rich(
+              TextSpan(
+              // default text style
+              children: <TextSpan>[
+              TextSpan(
+              text:
+              'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+              style: TextStyle(fontWeight: FontWeight.bold)),
+             ],
+            ),
+          ),
+            ElevatedButton(
+              onPressed: () {
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ZipCodePage()),
+            );
+          },
+              child: const Text('Back'),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: favPets.length,
+              itemBuilder: (BuildContext context, int index) {
+                final pet = favPets[index];
+                var listenerCommand = context.watch<ListenerClass>();
+                favPets = listenerCommand.favoritedPetsIDs;
+                return Column(
+                  children: [
+                    Container(
+                      width: 600,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 10, color: Colors.pink),
+                        borderRadius:
+                        const BorderRadius.all(Radius.circular(8)),
+                      ),
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              FavoriteWidget(pet:pet),
+                              if (pet.photos.isNotEmpty)
+                                Image.network(
+                                  pet.photos[0]['small'],
+                                ),
+                              if (pet.photos.isEmpty)
+                                Column(
+                                  children: [
+                                    Image.network(
+                                      'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
+                                      width: 100,
+                                      height: 100,
+                                      scale: 0.3,
+                                    ),
+                                    const Text(
+                                        'Image is credited\nto wikimedia commons',
+                                        textAlign: TextAlign.center),
+                                  ],
+                                ),
+                              const SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Name: ${pet.name}'),
+                                  Text(
+                                      '${pet.breed} - ${enumDecoder.decodeSpeciesEnum(pet.species)}'),
+                                  Text(
+                                      'Gender: ${enumDecoder.decodeGenderEnum(pet.gender)}\nAge: ${enumDecoder.decodeAgeEnum(pet.age)}'),
+                                  ElevatedButton(
+                                    child: Text('Want to adopt ${pet.name}?'),
+                                    onPressed: () {
+                                      _launchURL(pet.urlString);
+                                    },
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: () async {
+                                        int percent = await calculator.returnFinalRate(pet);
+                                        setState(() {
+                                          adoptionRateMessage = 'Over the past year, this pet has had a $percent adoption rate.';
+                                        });
+                                      },
+                                      child: Text(adoptionRateMessage))
+                                ],
+                              ),
+                            ],
+                          )),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+          ]),
+        ),
+    );
+  }
+}
 
 class FavoriteWidget extends StatefulWidget {
   final Pet pet;
@@ -407,8 +546,7 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
   @override
   Widget build(BuildContext context) {
     var listenerCommand=context.watch<ListenerClass>();
-    var favoritePetStatus=listenerCommand.petFavorited;
-    _isFavorited=favoritePetStatus;
+    var favoritePetStatus=_pet.favPet;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -421,13 +559,14 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
                 ? const Icon(Icons.favorite)
                 : const Icon(Icons.favorite_border)),
             color: Colors.pink[500],
-            onPressed:(){ _toggleFavorite(_pet, listenerCommand);},
+            onPressed:(){ _toggleFavorite(_pet, listenerCommand);
+            },
           ),
         ),
         SizedBox(
           width: 18,
           child: SizedBox(
-            child: Text('$_favoriteCount'),
+            child: Text('$favoritePetStatus+$_favoriteCount'),
           ),
         ),
       ],
