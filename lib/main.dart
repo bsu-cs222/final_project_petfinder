@@ -45,18 +45,15 @@ class ListenerClass extends ChangeNotifier{
   List<int> favoritedPetsIDs=[];
   List<dynamic> pets = [];
   dynamic currentPet;
-  bool petFavorited=false;
   void addPetIDToFavorites(Pet pet){
     int petID=pet.petID;
-    petFavorited=true;
     favoritedPetsIDs.add(petID);
     notifyListeners();
   }
   void removePetIDToFavorites(Pet pet) {
     int petID=pet.petID;
-    petFavorited=false;
     favoritedPetsIDs.remove(petID);
-
+    notifyListeners();
   }
   void updateCurrentPet(Pet pet) {
     currentPet=pet;
@@ -397,7 +394,7 @@ class FavoriteWidget extends StatefulWidget {
 
 class _FavoriteWidgetState extends State<FavoriteWidget> {
   bool _isFavorited = false;
-  //int _favoriteCount = 0;
+  int _favoriteCount = 0;
   late Pet _pet;
   _FavoriteWidgetState(Pet pet){
     _pet=pet;
@@ -407,7 +404,7 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
   @override
   Widget build(BuildContext context) {
     var listenerCommand=context.watch<ListenerClass>();
-    var favoritePetStatus=listenerCommand.petFavorited;
+    var favoritePetStatus=_pet.favPet;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -416,18 +413,18 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
           child: IconButton(
             padding: const EdgeInsets.all(0),
             alignment: Alignment.centerRight,
-            icon: (favoritePetStatus
+            icon: (_isFavorited
                 ? const Icon(Icons.favorite)
                 : const Icon(Icons.favorite_border)),
             color: Colors.pink[500],
             onPressed:(){ _toggleFavorite(_pet, listenerCommand);
-              ;},
+              },
           ),
         ),
         SizedBox(
           width: 18,
           child: SizedBox(
-            child: Text('$favoritePetStatus'),
+            child: Text('$favoritePetStatus+$_favoriteCount'),
           ),
         ),
       ],
@@ -436,11 +433,11 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
   void _toggleFavorite(Pet currentPet, ListenerClass listenerCommand) {
     setState(() {
       if (_isFavorited) {
-        //_favoriteCount -= 1;
+        _favoriteCount -= 1;
         _isFavorited = false;
         listenerCommand.addPetIDToFavorites(currentPet);
       } else {
-        //_favoriteCount += 1;
+        _favoriteCount += 1;
         _isFavorited = true;
         listenerCommand.removePetIDToFavorites(currentPet);
       }
