@@ -367,16 +367,6 @@ class PetListPageState extends State<PetListPage> {
                                       _launchURL(pet.urlString);
                                     },
                                   ),
-                                  ElevatedButton(
-                                      onPressed: () async {
-                                        int percent = await calculator
-                                            .returnFinalRate(pet);
-                                        setState(() {
-                                          adoptionRateMessage =
-                                              'Over the past year, this pet has had a $percent% adoption rate.';
-                                        });
-                                      },
-                                      child: Text(adoptionRateMessage))
                                 ],
                               ),
                             ],
@@ -444,7 +434,7 @@ class FavoritesPageState extends State<FavoritesPage> {
                 return Column(
                   children: [
                     Container(
-                      width: 600,
+                      width: 700,
                       decoration: BoxDecoration(
                         border: Border.all(width: 10, color: Colors.pink),
                         borderRadius:
@@ -497,16 +487,20 @@ class FavoritesPageState extends State<FavoritesPage> {
                                       _launchURL(pet.urlString);
                                     },
                                   ),
-                                  ElevatedButton(
-                                      onPressed: () async {
-                                        int percent = await calculator
-                                            .returnFinalRate(pet);
-                                        setState(() {
-                                          adoptionRateMessage =
-                                              'Over the past year, this pet has had a $percent adoption rate.';
-                                        });
-                                      },
-                                      child: Text(adoptionRateMessage))
+                                  const Text('Adoption Rate:'),
+                                  FutureBuilder<int>(
+                                    future: calculator.returnFinalRate(pet),
+                                    builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                                      if (snapshot.connectionState == ConnectionState.waiting) {
+                                        return const CircularProgressIndicator();
+                                      } else if (snapshot.hasError) {
+                                        return Text('Error: ${snapshot.error}');
+                                      } else {
+                                        return Text('Over the past year, this breed of pet has had a ${snapshot.data}% adoption rate.',
+                                          overflow: TextOverflow.clip,);
+                                      }
+                                    },
+                                  ),
                                 ],
                               ),
                             ],
