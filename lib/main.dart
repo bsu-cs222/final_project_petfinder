@@ -202,7 +202,7 @@ class ZipCodePage extends StatelessWidget {
                   url = queryBuilder.addFilter(filterValues, url);
                   var zipcodeRequest =
                       inputWizard.organizeZipcodeInput(zipCodeController);
-                  if (zipcodeRequest == true) {
+                  if (zipcodeRequest) {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => PetListPage(url: url),
                     ));

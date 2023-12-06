@@ -33,28 +33,18 @@ class QueryBuilder {
     return url;
   }
 
-  String pullAdoptedFound(Pet pet){
+  String pullAdoptionData(Pet pet, String status){
     final enumDecoder = EnumDecoder();
     final evaluator = InputEvaluator();
-    DateTime now = DateTime.now();
-    DateTime oneMonthAgo = now.subtract(const Duration(days: 365));
-    final formattedDate = '${oneMonthAgo.toIso8601String()}Z';
+    DateTime currentDate = DateTime.now();
+    DateTime oneYearAgo = currentDate.subtract(const Duration(days: 365));
+    final formattedDate = '${oneYearAgo.toIso8601String()}Z';
     String species = enumDecoder.decodeSpeciesEnum(pet.species);
     species = evaluator.inspectSpeciesInput(species);
     final breed = pet.breed.replaceAll(' ', '-');
-    return 'https://api.petfinder.com/v2/animals/?after=$formattedDate&status=adopted&type=$species&breed=$breed&location=46241&distance=50';
+    return 'https://api.petfinder.com/v2/animals/?after=$formattedDate&status=$status&type=$species&breed=$breed&location=46241&distance=50';
   }
-  String pullAdoptableFound(Pet pet){
-    final enumDecoder = EnumDecoder();
-    final evaluator = InputEvaluator();
-    DateTime now = DateTime.now();
-    DateTime oneMonthAgo = now.subtract(const Duration(days: 365));
-    final formattedDate = '${oneMonthAgo.toIso8601String()}Z';
-    String species = enumDecoder.decodeSpeciesEnum(pet.species);
-    species = evaluator.inspectSpeciesInput(species);
-    final breed = pet.breed.replaceAll(' ', '-');
-    return 'https://api.petfinder.com/v2/animals/?status=adoptable&type=$species&breed=$breed&location=46241&distance=50&after=$formattedDate';
-  }
+
   String pullBaseURL() {
     return 'https://api.petfinder.com/v2/animals/?limit=100&status=adoptable';
   }

@@ -22,7 +22,7 @@ class PetFinderParser {
     return pets;
   }
 
-  int parseAdoption(queryResponse) {
+  int parseTotalResults(queryResponse) {
     final decodedAPIResponse = json.decode(queryResponse);
     final totalOfAnimal = decodedAPIResponse['pagination']['total_count'];
     return totalOfAnimal;
