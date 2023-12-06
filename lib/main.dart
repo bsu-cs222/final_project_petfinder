@@ -90,7 +90,12 @@ class ZipCodePage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const FavoritesPage()),
+                  );
+                },
                 child: const Text('Favorites'),
               ),
             ),
@@ -262,7 +267,12 @@ class PetListPageState extends State<PetListPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const FavoritesPage()),
+                    );
+                  },
                   child: const Text('Favorites'),
                 ),
               ),
@@ -372,19 +382,152 @@ class PetListPageState extends State<PetListPage> {
   }
 }
 
+class FavoritesPage extends StatefulWidget {
+
+
+  const FavoritesPage({super.key,});
+
+
+  @override
+  FavoritesPageState createState() => FavoritesPageState();
+}
+
+
+class FavoritesPageState extends State<FavoritesPage> {
+  final enumDecoder = EnumDecoder();
+  List<dynamic> favPets = [];
+
+
+
+  Future<void> _launchURL(String url) async {
+    final Uri aUrl = Uri.parse(url);
+    if (await canLaunchUrl(aUrl)) {
+      await launchUrl(aUrl);
+    } else {
+      throw 'The URL for this pet profile is broken.';
+    }
+  }
+  final calculator = AdoptionRateCalculator();
+  String adoptionRateMessage = 'Check adoption rate';
+  @override
+  Widget build(BuildContext context) {
+    return Listener(
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Available pets in the area.')),
+        body: Column(children: [
+          if (favPets.isEmpty)
+            const Text.rich(
+              TextSpan(
+                // default text style
+                children: <TextSpan>[
+                  TextSpan(
+                      text:
+                      'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ZipCodePage()),
+              );
+            },
+            child: const Text('Back'),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: favPets.length,
+              itemBuilder: (BuildContext context, int index) {
+                final pet = favPets[index];
+                var listenerCommand=context.watch<ListenerClass>();
+                favPets = listenerCommand.favoritedPetsIDs;
+                return Column(
+                  children: [
+                    Container(
+                      width: 600,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 10, color: Colors.pink),
+                        borderRadius:
+                        const BorderRadius.all(Radius.circular(8)),
+                      ),
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              FavoriteWidget(pet:pet),
+                              if (pet.photos.isNotEmpty)
+                                Image.network(
+                                  pet.photos[0]['small'],
+                                ),
+                              if (pet.photos.isEmpty)
+                                Column(
+                                  children: [
+                                    Image.network(
+                                      'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019',
+                                      width: 100,
+                                      height: 100,
+                                      scale: 0.3,
+                                    ),
+                                    const Text(
+                                        'Image is credited\nto wikimedia commons',
+                                        textAlign: TextAlign.center),
+                                  ],
+                                ),
+                              const SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Name: ${pet.name}'),
+                                  Text(
+                                      '${pet.breed} - ${enumDecoder.decodeSpeciesEnum(pet.species)}'),
+                                  Text(
+                                      'Gender: ${enumDecoder.decodeGenderEnum(pet.gender)}\nAge: ${enumDecoder.decodeAgeEnum(pet.age)}'),
+                                  ElevatedButton(
+                                    child: Text('Want to adopt ${pet.name}?'),
+                                    onPressed: () {
+                                      _launchURL(pet.urlString);
+                                    },
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: () async {
+                                        int percent = await calculator.returnFinalRate(pet);
+                                        setState(() {
+                                          adoptionRateMessage = 'Over the past year, this pet has had a $percent adoption rate.';
+                                        });
+                                      },
+                                      child: Text(adoptionRateMessage))
+                                ],
+                              ),
+                            ],
+                          )),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
 class FavoriteWidget extends StatefulWidget {
   final Pet pet;
   const FavoriteWidget({required this.pet, super.key});
 
   @override
-  _FavoriteWidgetState createState() => _FavoriteWidgetState(pet);
+  FavoriteWidgetState createState() => FavoriteWidgetState(pet);
 }
 
-class _FavoriteWidgetState extends State<FavoriteWidget> {
+class FavoriteWidgetState extends State<FavoriteWidget> {
   bool _isFavorited = false;
   int _favoriteCount = 0;
   late Pet _pet;
-  _FavoriteWidgetState(Pet pet) {
+  FavoriteWidgetState(Pet pet) {
     _pet = pet;
   }
 
