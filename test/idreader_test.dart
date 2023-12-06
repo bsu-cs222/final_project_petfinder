@@ -22,6 +22,6 @@ void main() {
     for (var pet in finalPets) {
       finalPetNames += '${pet.name}';
     }
-    expect(finalPetNames, 'Count CoolmanSalem ');
+    expect(finalPetNames, 'Count CoolmanSalem');
   });
 }
