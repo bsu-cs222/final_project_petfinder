@@ -51,8 +51,6 @@ class ListenerClass extends ChangeNotifier{
     petFavorited=true;
     favoritedPetsIDs.add(petID);
     notifyListeners();
-
-
   }
   void removePetIDToFavorites(Pet pet) {
     int petID=pet.petID;
@@ -232,7 +230,7 @@ class PetListPage extends StatefulWidget {
 class PetListPageState extends State<PetListPage> {
   final enumDecoder = EnumDecoder();
   final parser = PetFinderParser();
-  List<dynamic> pets = [];
+  List<dynamic> pets = []; //List<dynamic> favPets=[];
 
 
   @override
@@ -267,8 +265,10 @@ class PetListPageState extends State<PetListPage> {
   final calculator = AdoptionRateCalculator();
   String adoptionRateMessage = 'Check adoption rate';
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { //Start Copy 1
     return Listener(
+      // // favorites pet view example: listenerCommand=context.watch<ListenerClass>();
+      // favorites pet view example: favPets=listenerCommand.
       child: Scaffold(
         appBar: AppBar(title: const Text('Available pets in the area.'),
             actions: <Widget>[
@@ -282,7 +282,7 @@ class PetListPageState extends State<PetListPage> {
         ),
       ),
     ),
-    ],),
+    ],), // END COPY 1
         body: Column(children: [
           if (pets.isEmpty)
             const Text.rich(
@@ -309,7 +309,7 @@ class PetListPageState extends State<PetListPage> {
             child: ListView.builder(
               itemCount: pets.length,
               itemBuilder: (BuildContext context, int index) {
-                final pet = pets[index];
+                final pet = pets[index]; // favorites pet view example: final pet = favPets[index]
                 var listenerCommand=context.watch<ListenerClass>();
                 listenerCommand.updateCurrentPet(pet);
                 return Column(
@@ -397,7 +397,7 @@ class FavoriteWidget extends StatefulWidget {
 
 class _FavoriteWidgetState extends State<FavoriteWidget> {
   bool _isFavorited = false;
-  int _favoriteCount = 0;
+  //int _favoriteCount = 0;
   late Pet _pet;
   _FavoriteWidgetState(Pet pet){
     _pet=pet;
@@ -408,7 +408,6 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
   Widget build(BuildContext context) {
     var listenerCommand=context.watch<ListenerClass>();
     var favoritePetStatus=listenerCommand.petFavorited;
-    _isFavorited=favoritePetStatus;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -417,17 +416,18 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
           child: IconButton(
             padding: const EdgeInsets.all(0),
             alignment: Alignment.centerRight,
-            icon: (_isFavorited
+            icon: (favoritePetStatus
                 ? const Icon(Icons.favorite)
                 : const Icon(Icons.favorite_border)),
             color: Colors.pink[500],
-            onPressed:(){ _toggleFavorite(_pet, listenerCommand);},
+            onPressed:(){ _toggleFavorite(_pet, listenerCommand);
+              ;},
           ),
         ),
         SizedBox(
           width: 18,
           child: SizedBox(
-            child: Text('$_favoriteCount'),
+            child: Text('$favoritePetStatus'),
           ),
         ),
       ],
@@ -436,11 +436,11 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
   void _toggleFavorite(Pet currentPet, ListenerClass listenerCommand) {
     setState(() {
       if (_isFavorited) {
-        _favoriteCount -= 1;
+        //_favoriteCount -= 1;
         _isFavorited = false;
         listenerCommand.addPetIDToFavorites(currentPet);
       } else {
-        _favoriteCount += 1;
+        //_favoriteCount += 1;
         _isFavorited = true;
         listenerCommand.removePetIDToFavorites(currentPet);
       }
