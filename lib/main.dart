@@ -39,24 +39,35 @@ class MyApp extends StatelessWidget {
 }
 
 class ListenerClass extends ChangeNotifier {
-  List<int> favoritedPetsIDs = [];
   List<dynamic> favoritedPets = [];
   dynamic currentPet;
   void addPetIDToFavorites(Pet pet) {
     updateCurrentPet(pet);
-    favoritedPets.add(pet);
-    print ('added:$favoritedPets');
+    bool favDuplicate=checkForDuplicates();
+    if(favDuplicate==false){
+      favoritedPets.add(pet);}
+    print (favoritedPets);
     notifyListeners();
   }
   void removePetIDToFavorites(Pet pet) {
     favoritedPets.remove(pet);
-    print (favoritedPetsIDs);
-    print ('removed:$favoritedPets');
     notifyListeners();
   }
   void updateCurrentPet(Pet pet) {
     currentPet = pet;
     notifyListeners();
+  }
+  bool checkForDuplicates(){
+    bool duplicatePet=false;
+    int currentPetID= currentPet.petID;
+    for (Pet pet in favoritedPets){
+      int testingPetID=pet.petID;
+      if(testingPetID==currentPetID){
+        duplicatePet=true;
+        return duplicatePet;
+      }
+    }
+    return duplicatePet;
   }
   @override
   void notifyListeners() {
@@ -445,7 +456,13 @@ class FavoritesPageState extends State<FavoritesPage> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              FavoriteWidget(pet:pet),
+                              IconButton(
+                                padding: const EdgeInsets.all(2),
+                                alignment: Alignment.centerRight,
+                                icon: (const Icon(Icons.favorite)),
+                                color: Colors.pink[500], onPressed: () {
+                                listenerCommand.removePetIDToFavorites(pet); },
+                              ),
                               if (pet.photos.isNotEmpty)
                                 Image.network(
                                   pet.photos[0]['small'],
@@ -522,7 +539,7 @@ class FavoriteWidgetState extends State<FavoriteWidget> {
   @override
   Widget build(BuildContext context) {
     var listenerCommand = context.watch<ListenerClass>();
-
+    bool petFavorited=_pet.favPet;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
