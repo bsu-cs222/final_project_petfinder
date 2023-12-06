@@ -426,15 +426,6 @@ class FavoritesPageState extends State<FavoritesPage> {
                 ],
               ),
             ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ZipCodePage()),
-              );
-            },
-            child: const Text('Back'),
-          ),
           Expanded(
             child: ListView.builder(
               itemCount: favPets.length,
