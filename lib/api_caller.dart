@@ -4,16 +4,16 @@ import 'package:http/http.dart' as http;
 
 class ApiCaller {
   Future<Object> makeRequestToAPI(urlFinal) async {
-    final query = TokenAuthenticator();
+    final authenticator = TokenAuthenticator();
     final response = await http.post(
       Uri.parse('https://api.petfinder.com/v2/oauth2/token'),
-      body: await query.pullQueryToken(
+      body: await authenticator.pullQueryToken(
           dotenv.env['api_id'], dotenv.env['api_secret']),
     );
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
         Uri.parse('$urlFinal'),
-        headers: query.authenticateTokenHeader(response),
+        headers: authenticator.authenticateTokenHeader(response),
       );
       return (queryResponse.body);
     } else {
