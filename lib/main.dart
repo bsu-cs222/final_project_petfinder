@@ -1,7 +1,7 @@
 import 'package:cs222_final_project_pet_finder/adoption_rate_calculator.dart';
 import 'package:cs222_final_project_pet_finder/enum_decoder.dart';
 import 'package:cs222_final_project_pet_finder/pet.dart';
-import 'package:cs222_final_project_pet_finder/query_planner.dart';
+import 'package:cs222_final_project_pet_finder/query_builder.dart';
 import 'package:cs222_final_project_pet_finder/api_caller.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -550,8 +550,7 @@ class FavoritePetIconState extends State<FavoritePetIcon> {
         ),
         const SizedBox(
           width: 18,
-          child: SizedBox(
-          ),
+          child: SizedBox(),
         ),
       ],
     );

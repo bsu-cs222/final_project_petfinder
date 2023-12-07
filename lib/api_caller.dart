@@ -1,4 +1,4 @@
-import 'package:cs222_final_project_pet_finder/query_planner.dart';
+import 'package:cs222_final_project_pet_finder/query_builder.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 

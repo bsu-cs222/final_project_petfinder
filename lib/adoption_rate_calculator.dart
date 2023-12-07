@@ -1,7 +1,7 @@
 import 'package:cs222_final_project_pet_finder/api_caller.dart';
 import 'package:cs222_final_project_pet_finder/pet.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
-import 'package:cs222_final_project_pet_finder/query_planner.dart';
+import 'package:cs222_final_project_pet_finder/query_builder.dart';
 
 class AdoptionRateCalculator {
   Future<int> returnYearlyRate(Pet pet) async {
