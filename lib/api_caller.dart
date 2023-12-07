@@ -17,7 +17,6 @@ class APICaller {
       );
       return (queryResponse.body);
     } else {
-      //We need to add exceptions.
       return ('Error: ${response.statusCode}');
     }
   }

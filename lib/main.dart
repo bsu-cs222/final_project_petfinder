@@ -156,7 +156,7 @@ class ZipCodePage extends StatelessWidget {
                       style: style,
                       controller: speciesController,
                       decoration: const InputDecoration(
-                          labelText: 'Species: (cat, dog, bird, etc.)'),
+                          labelText: 'Species: (cat, dog, bird, rodent etc.)'),
                     ),
                   ),
                 ),
