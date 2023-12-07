@@ -40,15 +40,20 @@ class MyApp extends StatelessWidget {
 
 class ListenerClass extends ChangeNotifier {
   List<dynamic> favoritedPets = [];
+  List<int>favoritedPetsIDS=[];
   dynamic currentPet;
   void addPetToFavorites(Pet pet) {
     updateCurrentPet(pet);
-    favoritedPets.add(pet);
+   bool petDuplicate=checkForDuplicates(pet.petID);
+    if(petDuplicate==false){
+    favoritedPetsIDS.add(pet.petID);
+    favoritedPets.add(pet);}
     notifyListeners();
   }
 
   void removePetToFavorites(Pet pet) {
     favoritedPets.remove(pet);
+    favoritedPetsIDS.remove(pet.petID);
     notifyListeners();
   }
 
@@ -60,6 +65,16 @@ class ListenerClass extends ChangeNotifier {
   @override
   void notifyListeners() {
     super.notifyListeners();
+  }
+
+  bool checkForDuplicates(int currentPetID) {
+    bool duplicatePet=false;
+    for(int petID in favoritedPetsIDS){
+      if(petID==currentPetID){
+        duplicatePet=true;
+      }
+    }
+    return duplicatePet;
   }
 }
 

@@ -15,7 +15,9 @@ class PetFinderParser {
           zipcode: listOfReturnedAnimals[index]['contact']['address']
               ['postcode'],
           gender: evaluateGender(listOfReturnedAnimals[index]['gender']),
-          age: evaluateAge(listOfReturnedAnimals[index]['age']));
+          age: evaluateAge(listOfReturnedAnimals[index]['age']),
+          petID: listOfReturnedAnimals[index]['id']
+      );
     });
     return pets;
   }
