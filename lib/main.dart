@@ -123,7 +123,7 @@ class ZipCodePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 350,
+                  width: 500,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
@@ -139,7 +139,7 @@ class ZipCodePage extends StatelessWidget {
                 ),
                 const Text('\nHere are some optional filters:'),
                 SizedBox(
-                    width: 350,
+                    width: 500,
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
@@ -149,26 +149,26 @@ class ZipCodePage extends StatelessWidget {
                               labelText: 'Gender: (female or male)'),
                         ))),
                 SizedBox(
-                  width: 350,
+                  width: 500,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
                       style: style,
                       controller: speciesController,
                       decoration: const InputDecoration(
-                          labelText: 'Species: (cat, dog, bird, rodent etc.)'),
+                          labelText: 'Species: (dog, cat, bird, rabbit, horse, rodent, or barnyard)'),
                     ),
                   ),
                 ),
                 SizedBox(
-                    width: 350,
+                    width: 500,
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
                           style: style,
                           controller: ageController,
                           decoration: const InputDecoration(
-                              labelText: 'Age: (baby, young, adult, senior)'),
+                              labelText: 'Age: (baby, young, adult, or senior)'),
                         ))),
               ],
             ),
