@@ -69,8 +69,8 @@ class ListenerClass extends ChangeNotifier {
 
   bool checkForDuplicates(int currentPetID) {
     bool duplicatePet=false;
-    for(int petID in favoritedPetsIDS){
-      if(petID==currentPetID){
+    for(int testedPetID in favoritedPetsIDS){
+      if(testedPetID==currentPetID){
         duplicatePet=true;
       }
     }
