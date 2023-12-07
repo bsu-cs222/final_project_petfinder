@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'input_wizard.dart';
+import 'package:cs222_final_project_pet_finder/input_wizard.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -182,7 +182,7 @@ class ZipCodePage extends StatelessWidget {
                           controller: ageController,
                           decoration: const InputDecoration(
                               labelText: 'Age: (baby, young, adult, senior)'),
-                        )))
+                        ))),
               ],
             ),
           ),
@@ -266,8 +266,6 @@ class PetListPageState extends State<PetListPage> {
     }
   }
 
-  final calculator = AdoptionRateCalculator();
-  String adoptionRateMessage = 'Check adoption rate';
   @override
   Widget build(BuildContext context) {
     return Listener(
@@ -305,15 +303,6 @@ class PetListPageState extends State<PetListPage> {
                 ],
               ),
             ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ZipCodePage()),
-              );
-            },
-            child: const Text('Back'),
-          ),
           Expanded(
             child: ListView.builder(
               itemCount: pets.length,
@@ -333,7 +322,7 @@ class PetListPageState extends State<PetListPage> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              FavoriteWidget(pet: pet),
+                              FavoritePetIcon(pet: pet),
                               if (pet.photos.isNotEmpty)
                                 Image.network(
                                   pet.photos[0]['small'],
@@ -490,14 +479,18 @@ class FavoritesPageState extends State<FavoritesPage> {
                                   const Text('Adoption Rate:'),
                                   FutureBuilder<int>(
                                     future: calculator.returnFinalRate(pet),
-                                    builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                                      if (snapshot.connectionState == ConnectionState.waiting) {
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<int> snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
                                         return const CircularProgressIndicator();
                                       } else if (snapshot.hasError) {
                                         return Text('Error: ${snapshot.error}');
                                       } else {
-                                        return Text('Over the past year, this breed of pet has had a ${snapshot.data}% adoption rate.',
-                                          overflow: TextOverflow.clip,);
+                                        return Text(
+                                          'Over the past year, this breed of pet has had a ${snapshot.data}% adoption rate.',
+                                          overflow: TextOverflow.clip,
+                                        );
                                       }
                                     },
                                   ),
@@ -517,19 +510,20 @@ class FavoritesPageState extends State<FavoritesPage> {
   }
 }
 
-class FavoriteWidget extends StatefulWidget {
+class FavoritePetIcon extends StatefulWidget {
   final Pet pet;
-  const FavoriteWidget({required this.pet, super.key});
+  const FavoritePetIcon({required this.pet, super.key});
 
   @override
-  FavoriteWidgetState createState() => FavoriteWidgetState(pet);
+  // ignore: no_logic_in_create_state
+  FavoritePetIconState createState() => FavoritePetIconState(pet);
 }
 
-class FavoriteWidgetState extends State<FavoriteWidget> {
+class FavoritePetIconState extends State<FavoritePetIcon> {
   bool _isFavorited = false;
   int _favoriteCount = 0;
   late Pet _pet;
-  FavoriteWidgetState(Pet pet) {
+  FavoritePetIconState(Pet pet) {
     _pet = pet;
   }
 
