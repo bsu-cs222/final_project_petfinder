@@ -1,4 +1,6 @@
-class InputEvaluator {
+import 'package:cs222_final_project_pet_finder/pet.dart';
+
+class DataEvaluator {
   bool evaluateZipcodeInput(String zipcodeBarInput) {
     if (zipcodeBarInput != '') {
       return true;
@@ -53,4 +55,47 @@ class InputEvaluator {
       return 'blank';
     }
   }
+
+  GenderType evaluateGender(petListedGender) {
+    switch (petListedGender) {
+      case 'Male':
+        return GenderType.male;
+      default:
+        return GenderType.female;
+    }
+  }
+
+  AgeType evaluateAge(petListedAge) {
+    switch (petListedAge) {
+      case 'Baby':
+        return AgeType.baby;
+      case 'Young':
+        return AgeType.young;
+      case 'Adult':
+        return AgeType.adult;
+      default:
+        return AgeType.senior;
+    }
+  }
+
+  SpeciesType evaluateSpecies(petListedSpecies) {
+    switch (petListedSpecies) {
+      case 'Dog':
+        return SpeciesType.dog;
+      case 'Cat':
+        return SpeciesType.cat;
+      case 'Small-furry' ||'Small & Furry'|| 'Rat' || 'Gerbil' || 'Guinea Pig':
+        return SpeciesType.rodent;
+      case 'Barnyard' || 'Goat' || 'Pot Bellied':
+        return SpeciesType.barnyard;
+      case 'Bird':
+        return SpeciesType.bird;
+      case 'Rabbit':
+        return SpeciesType.rabbit;
+      case 'Horse':
+        return SpeciesType.horse;
+      default:
+        return SpeciesType.other;
+    }
+}
 }

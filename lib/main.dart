@@ -1,7 +1,7 @@
 import 'package:cs222_final_project_pet_finder/adoption_rate_calculator.dart';
 import 'package:cs222_final_project_pet_finder/enum_decoder.dart';
 import 'package:cs222_final_project_pet_finder/pet.dart';
-import 'package:cs222_final_project_pet_finder/query_planner.dart';
+import 'package:cs222_final_project_pet_finder/query_constructor.dart';
 import 'package:cs222_final_project_pet_finder/api_caller.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -84,12 +84,12 @@ class ZipCodePage extends StatelessWidget {
   final TextEditingController speciesController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
   final inputOrganizer = InputOrganizer();
-  final urlCustomizer = UrlCustomizer();
+  final urlCustomizer = QueryConstructor();
   ZipCodePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String url = urlCustomizer.pullBaseURL();
+    String url = urlCustomizer.returnBaseURL();
     final theme = Theme.of(context);
     final style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.primaryContainer,
@@ -138,7 +138,7 @@ class ZipCodePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 350,
+                  width: 500,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
@@ -154,7 +154,7 @@ class ZipCodePage extends StatelessWidget {
                 ),
                 const Text('\nHere are some optional filters:'),
                 SizedBox(
-                    width: 350,
+                    width: 500,
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
@@ -164,26 +164,26 @@ class ZipCodePage extends StatelessWidget {
                               labelText: 'Gender: (female or male)'),
                         ))),
                 SizedBox(
-                  width: 350,
+                  width: 500,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
                       style: style,
                       controller: speciesController,
                       decoration: const InputDecoration(
-                          labelText: 'Species: (cat, dog, bird, rodent etc.)'),
+                          labelText: 'Species: (dog, cat, bird, rabbit, horse, rodent, or barnyard)'),
                     ),
                   ),
                 ),
                 SizedBox(
-                    width: 350,
+                    width: 500,
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
                           style: style,
                           controller: ageController,
                           decoration: const InputDecoration(
-                              labelText: 'Age: (baby, young, adult, senior)'),
+                              labelText: 'Age: (baby, young, adult, or senior)'),
                         ))),
               ],
             ),
@@ -565,8 +565,7 @@ class FavoritePetIconState extends State<FavoritePetIcon> {
         ),
         const SizedBox(
           width: 18,
-          child: SizedBox(
-          ),
+          child: SizedBox(),
         ),
       ],
     );

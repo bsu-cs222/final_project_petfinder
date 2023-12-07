@@ -1,20 +1,20 @@
 import 'package:cs222_final_project_pet_finder/api_caller.dart';
 import 'package:cs222_final_project_pet_finder/pet.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
-import 'package:cs222_final_project_pet_finder/query_planner.dart';
+import 'package:cs222_final_project_pet_finder/query_constructor.dart';
 
 class AdoptionRateCalculator {
   Future<int> returnYearlyRate(Pet pet) async {
     final caller = ApiCaller();
-    final query = UrlCustomizer();
+    final query = QueryConstructor();
     final parser = PetFinderParser();
 
     final adoptedPetData =
-        await caller.makeRequestToAPI(query.pullAdoptionData(pet, 'adopted'));
+        await caller.makeRequestToAPI(query.constructAdoptionQuery(pet, 'adopted'));
     final totalAdopted = parser.parseTotalResults(adoptedPetData);
 
     final adoptablePetData =
-        await caller.makeRequestToAPI(query.pullAdoptionData(pet, 'adoptable'));
+        await caller.makeRequestToAPI(query.constructAdoptionQuery(pet, 'adoptable'));
     final totalAdoptable = parser.parseTotalResults(adoptablePetData);
 
     final yearlyRate = calculateAdoptionRate(totalAdopted, totalAdoptable);

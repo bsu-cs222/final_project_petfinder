@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:cs222_final_project_pet_finder/enum_decoder.dart';
-import 'package:cs222_final_project_pet_finder/input_evaluator.dart';
+import 'package:cs222_final_project_pet_finder/data_evaluator.dart';
 import 'package:cs222_final_project_pet_finder/pet.dart';
 
-class TokenAuthenticator {
-  Future<Map<String, String>> pullQueryToken(id, secret) async {
+class TokenRequestor {
+  Future<Map<String, String>> constructQueryForToken(id, secret) async {
     final Map<String, String> tokenResponse = {
       'grant_type': 'client_credentials',
       'client_id': '$id',
@@ -13,22 +13,21 @@ class TokenAuthenticator {
     };
     return (tokenResponse);
   }
+}
 
-  Map<String, String> authenticateTokenHeader(tokenResponse) {
+class QueryConstructor {
+  Map<String, String> constructQueryHeader(tokenResponse) {
     final Map<String, dynamic> decodedTokenResponse =
-        json.decode(tokenResponse.body);
+    json.decode(tokenResponse.body);
     final String accessToken = decodedTokenResponse['access_token'];
     final Map<String, String> header = {
       'Authorization': 'Bearer $accessToken',
     };
     return (header);
   }
-}
-
-class UrlCustomizer {
-  String pullAdoptionData(Pet pet, String status) {
+  String constructAdoptionQuery(Pet pet, String status) {
     final enumDecoder = EnumDecoder();
-    final evaluator = InputEvaluator();
+    final evaluator = DataEvaluator();
     DateTime currentDate = DateTime.now();
     DateTime oneYearAgo = currentDate.subtract(const Duration(days: 365));
     final formattedDate = '${oneYearAgo.toIso8601String()}Z';
@@ -47,7 +46,7 @@ class UrlCustomizer {
     return url;
   }
 
-  String pullBaseURL() {
+  String returnBaseURL() {
     return 'https://api.petfinder.com/v2/animals/?limit=100&status=adoptable';
   }
 }

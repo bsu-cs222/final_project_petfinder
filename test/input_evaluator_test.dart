@@ -1,8 +1,8 @@
-import 'package:cs222_final_project_pet_finder/input_evaluator.dart';
+import 'package:cs222_final_project_pet_finder/data_evaluator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final inputEvaluator = InputEvaluator();
+  final inputEvaluator = DataEvaluator();
   List<String> testingGenderInputs = ['Female', 'Male,Female', 'fmale'];
   List<String> expectedGenderInputs = ['female', 'male,female', 'male,female'];
   int index = 0;
