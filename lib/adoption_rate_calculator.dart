@@ -9,14 +9,16 @@ class AdoptionRateCalculator {
     final query = QueryBuilder();
     final parser = PetFinderParser();
 
-    final adoptedPetData = await caller.makeRequestToAPI(query.pullAdoptionData(pet, 'adopted'));
+    final adoptedPetData = await caller.
+        makeRequestToAPI(query.pullAdoptionData(pet, 'adopted'));
     final totalAdopted = parser.parseTotalResults(adoptedPetData);
 
-    final adoptablePetData =
-        await caller.makeRequestToAPI(query.pullAdoptionData(pet, 'adoptable'));
+    final adoptablePetData = await caller.
+        makeRequestToAPI(query.pullAdoptionData(pet, 'adoptable'));
     final totalAdoptable = parser.parseTotalResults(adoptablePetData);
 
-    final yearlyRate = calculateAdoptionRate(totalAdopted, totalAdoptable);
+    final yearlyRate = calculateAdoptionRate
+        (totalAdopted, totalAdoptable);
     return (yearlyRate);
   }
   int calculateAdoptionRate(int adopted, int adoptable) {

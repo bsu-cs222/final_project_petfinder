@@ -8,15 +8,14 @@ class PetFinderParser {
     List<Pet> pets = List<Pet>.generate(listOfReturnedAnimals.length, (index) {
       return Pet(
           name: listOfReturnedAnimals[index]['name'],
-          species: evaluateSpecies(listOfReturnedAnimals[index]['species']),
+          species: evaluateSpecies(listOfReturnedAnimals[index]['type']),
           breed: listOfReturnedAnimals[index]['breeds']['primary'],
           urlString: listOfReturnedAnimals[index]['url'],
           photos: listOfReturnedAnimals[index]['photos'],
           zipcode: listOfReturnedAnimals[index]['contact']['address']
               ['postcode'],
           gender: evaluateGender(listOfReturnedAnimals[index]['gender']),
-          age: evaluateAge(listOfReturnedAnimals[index]['age']),
-          petID: listOfReturnedAnimals[index]['id']);
+          age: evaluateAge(listOfReturnedAnimals[index]['age']));
     });
     return pets;
   }

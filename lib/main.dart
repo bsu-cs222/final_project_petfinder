@@ -41,13 +41,13 @@ class MyApp extends StatelessWidget {
 class ListenerClass extends ChangeNotifier {
   List<dynamic> favoritedPets = [];
   dynamic currentPet;
-  void addPetIDToFavorites(Pet pet) {
+  void addPetToFavorites(Pet pet) {
     updateCurrentPet(pet);
     favoritedPets.add(pet);
     notifyListeners();
   }
 
-  void removePetIDToFavorites(Pet pet) {
+  void removePetToFavorites(Pet pet) {
     favoritedPets.remove(pet);
     notifyListeners();
   }
@@ -56,20 +56,6 @@ class ListenerClass extends ChangeNotifier {
     currentPet = pet;
     notifyListeners();
   }
-
-  bool checkForFavorited() {
-    bool favoritedPet = false;
-    int currentPetID = currentPet.petID;
-    for (Pet pet in favoritedPets) {
-      int testingPetID = pet.petID;
-      if (testingPetID == currentPetID) {
-        favoritedPet = true;
-        return favoritedPet;
-      }
-    }
-    return favoritedPet;
-  }
-
   @override
   void notifyListeners() {
     super.notifyListeners();
@@ -440,7 +426,7 @@ class FavoritesPageState extends State<FavoritesPage> {
                                 icon: (const Icon(Icons.favorite)),
                                 color: Colors.pink[500],
                                 onPressed: () {
-                                  listenerCommand.removePetIDToFavorites(pet);
+                                  listenerCommand.removePetToFavorites(pet);
                                 },
                               ),
                               if (pet.photos.isNotEmpty)
@@ -545,10 +531,9 @@ class FavoritePetIconState extends State<FavoritePetIcon> {
             onPressed: () {
               int result = _toggleFavorite();
               if (result == 1) {
-                listenerCommand.addPetIDToFavorites(_pet);
-                _isFavorited = listenerCommand.checkForFavorited();
+                listenerCommand.addPetToFavorites(_pet);
               } else {
-                listenerCommand.removePetIDToFavorites(_pet);
+                listenerCommand.removePetToFavorites(_pet);
               }
             },
           ),
