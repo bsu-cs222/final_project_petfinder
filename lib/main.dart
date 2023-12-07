@@ -297,7 +297,7 @@ class PetListPageState extends State<PetListPage> {
                 MaterialPageRoute(builder: (context) => ZipCodePage()),
               );
             },
-            child: const Text('Back'),
+            child: const Text('New Search'),
           ),
           Expanded(
             child: ListView.builder(
