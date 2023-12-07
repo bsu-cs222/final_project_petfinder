@@ -7,8 +7,8 @@ class APICaller {
     final query = QueryBuilder();
     final response = await http.post(
       Uri.parse('https://api.petfinder.com/v2/oauth2/token'),
-      body: await query.constructTokenQuery(dotenv.env['api_id'],
-          dotenv.env['api_secret']),
+      body: await query.constructTokenQuery(
+          dotenv.env['api_id'], dotenv.env['api_secret']),
     );
     if (response.statusCode == 200) {
       final queryResponse = await http.get(
@@ -17,7 +17,8 @@ class APICaller {
       );
       return (queryResponse.body);
     } else {
-      return ('Error: ${response.statusCode}');
+      throw Exception('Error: ${response.statusCode}');
     }
+    //We need to add exceptions.
   }
 }

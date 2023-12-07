@@ -1,5 +1,5 @@
 class InputEvaluator {
-  bool inspectZipcodeInput(String zipcodeBarInput) {
+  bool evaluateZipcodeInput(String zipcodeBarInput) {
     if (zipcodeBarInput != '') {
       return true;
     } else {
@@ -7,7 +7,7 @@ class InputEvaluator {
     }
   }
 
-  String inspectGenderInput(String genderBarInput) {
+  String evaluateGenderInput(String genderBarInput) {
     if (genderBarInput == 'Male' || genderBarInput == 'male') {
       return 'male';
     } else if (genderBarInput == 'Female' || genderBarInput == 'female') {
@@ -17,7 +17,7 @@ class InputEvaluator {
     }
   }
 
-  String inspectAgeInput(String ageBarInput) {
+  String evaluateAgeInput(String ageBarInput) {
     if (ageBarInput == 'baby' || ageBarInput == 'Baby') {
       return 'baby';
     } else if (ageBarInput == 'young' || ageBarInput == 'Young') {
@@ -31,7 +31,7 @@ class InputEvaluator {
     }
   }
 
-  String inspectSpeciesInput(String speciesInputBody) {
+  String evaluateSpeciesInput(String speciesInputBody) {
     if (speciesInputBody == 'dog' || speciesInputBody == 'Dog') {
       return 'dog';
     } else if (speciesInputBody == 'cat' || speciesInputBody == 'Cat') {
