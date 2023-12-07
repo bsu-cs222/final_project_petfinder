@@ -1,7 +1,7 @@
 import 'package:cs222_final_project_pet_finder/adoption_rate_calculator.dart';
 import 'package:cs222_final_project_pet_finder/enum_decoder.dart';
 import 'package:cs222_final_project_pet_finder/pet.dart';
-import 'package:cs222_final_project_pet_finder/query_builder.dart';
+import 'package:cs222_final_project_pet_finder/query_planner.dart';
 import 'package:cs222_final_project_pet_finder/api_caller.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -69,12 +69,12 @@ class ZipCodePage extends StatelessWidget {
   final TextEditingController speciesController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
   final inputOrganizer = InputOrganizer();
-  final queryBuilder = QueryBuilder();
+  final urlCustomizer = UrlCustomizer();
   ZipCodePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String url = queryBuilder.pullBaseURL();
+    String url = urlCustomizer.pullBaseURL();
     final theme = Theme.of(context);
     final style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.primaryContainer,
@@ -180,7 +180,8 @@ class ZipCodePage extends StatelessWidget {
                 onPressed: () {
                   var genderFilter =
                       inputOrganizer.organizeGenderInput(genderController);
-                  var ageFilter = inputOrganizer.organizeAgeInput(ageController);
+                  var ageFilter =
+                      inputOrganizer.organizeAgeInput(ageController);
                   var speciesFilter =
                       inputOrganizer.organizeSpeciesInput(speciesController);
                   final filterValues = {
@@ -190,7 +191,7 @@ class ZipCodePage extends StatelessWidget {
                     'type': speciesFilter,
                     'age': ageFilter
                   };
-                  url = queryBuilder.addFilter(filterValues, url);
+                  url = urlCustomizer.addFilter(filterValues, url);
                   var zipcodeRequest =
                       inputOrganizer.organizeZipcodeInput(zipCodeController);
                   if (zipcodeRequest) {
@@ -480,7 +481,8 @@ class FavoritesPageState extends State<FavoritesPage> {
                                           ConnectionState.waiting) {
                                         return const CircularProgressIndicator();
                                       } else if (snapshot.hasError) {
-                                        return const Text('The adoption rate for this breed is unknown!');
+                                        return const Text(
+                                            'The adoption rate for this breed is unknown!');
                                       } else {
                                         return Text(
                                           'Over the past year, this breed of pet has had a ${snapshot.data}% adoption rate.',
