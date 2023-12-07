@@ -178,17 +178,17 @@ class ZipCodePage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  var genderRequest =
+                  var genderFilter =
                       inputWizard.organizeGenderInput(genderController);
-                  var ageRequest = inputWizard.organizeAgeInput(ageController);
-                  var speciesRequest =
+                  var ageFilter = inputWizard.organizeAgeInput(ageController);
+                  var speciesFilter =
                       inputWizard.organizeSpeciesInput(speciesController);
                   final filterValues = {
-                    'gender': genderRequest,
+                    'gender': genderFilter,
                     'location': zipCodeController.text,
-                    'distance': 50,
-                    'type': speciesRequest,
-                    'age': ageRequest
+                    'distance': 50, //50 miles radius
+                    'type': speciesFilter,
+                    'age': ageFilter
                   };
                   url = queryBuilder.addFilter(filterValues, url);
                   var zipcodeRequest =
