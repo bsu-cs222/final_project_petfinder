@@ -474,7 +474,7 @@ class FavoritesPageState extends State<FavoritesPage> {
                                   ),
                                   const Text('Adoption Rate:'),
                                   FutureBuilder<int>(
-                                    future: calculator.returnFinalRate(pet),
+                                    future: calculator.returnYearlyRate(pet),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<int> snapshot) {
                                       if (snapshot.connectionState ==
