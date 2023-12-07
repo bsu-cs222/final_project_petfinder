@@ -573,11 +573,11 @@ class FavoriteWidgetState extends State<FavoriteWidget> {
     if (_isFavorited) {
       _favoriteCount -= 1;
       _isFavorited = false;
-      return 2; //remove pet
+      return 2;
     } else {
       _favoriteCount += 1;
       _isFavorited = true;
-      return 1; //add pet
+      return 1;
     }
   }
 }
