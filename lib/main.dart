@@ -56,6 +56,7 @@ class ListenerClass extends ChangeNotifier {
     currentPet = pet;
     notifyListeners();
   }
+
   @override
   void notifyListeners() {
     super.notifyListeners();
@@ -289,6 +290,15 @@ class PetListPageState extends State<PetListPage> {
                 ],
               ),
             ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ZipCodePage()),
+              );
+            },
+            child: const Text('Back'),
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: pets.length,
