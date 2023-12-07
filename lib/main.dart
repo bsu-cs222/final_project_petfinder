@@ -548,7 +548,7 @@ class FavoritePetIconState extends State<FavoritePetIcon> {
             },
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 18,
           child: SizedBox(
           ),
