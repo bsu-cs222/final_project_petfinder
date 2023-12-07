@@ -3,17 +3,19 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   final inputEvaluator = InputEvaluator();
-  List<String>testingGenderInputs=['Female','Male,Female','fmale'];
-  List<String>expectedGenderInputs=['female','male,female','male,female'];
-  int index=0;
+  List<String> testingGenderInputs = ['Female', 'Male,Female', 'fmale'];
+  List<String> expectedGenderInputs = ['female', 'male,female', 'male,female'];
+  int index = 0;
   String result;
-  for(String testingGender in testingGenderInputs){
-    test('When given the input ${testingGenderInputs[index]} the evaluator reads it as ${expectedGenderInputs[index]}',(){
-      result=inputEvaluator.inspectGenderInput(testingGender);
-      String expectedGender=expectedGenderInputs[index];
-      expect(result,expectedGender);
+  for (String testingGender in testingGenderInputs) {
+    test(
+        'When given the input ${testingGenderInputs[index]} the evaluator reads it as ${expectedGenderInputs[index]}',
+        () {
+      result = inputEvaluator.evaluateGenderInput(testingGender);
+      String expectedGender = expectedGenderInputs[index];
+      expect(result, expectedGender);
       index++;
-  });
+    });
   }
   final ageTestInputs = {'baby', 'young', 'adult', 'senior', 'alutd'};
   final expectedTestInputs = {
@@ -28,14 +30,14 @@ void main() {
     String currentAgeInput = ageInput;
     test('When given input young the evaluator reads it as $currentAgeInput',
         () {
-      final result = inputEvaluator.inspectAgeInput(currentAgeInput);
+      final result = inputEvaluator.evaluateAgeInput(currentAgeInput);
       expect(result, expectedTestInputs.elementAt(ageCounter));
       ageCounter++;
     });
   }
   test('When given input cat the evaluator reads it as cat', () {
     String species = 'Cat';
-    final result = inputEvaluator.inspectSpeciesInput(species);
+    final result = inputEvaluator.evaluateSpeciesInput(species);
     expect(result, 'cat');
   });
 }

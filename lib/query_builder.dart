@@ -16,7 +16,7 @@ class QueryBuilder {
 
   Map<String, String> petFinderCallBuilder(tokenRequestResponse) {
     final Map<String, dynamic> decodedTokenRequestResponse =
-    json.decode(tokenRequestResponse.body);
+        json.decode(tokenRequestResponse.body);
     final String accessToken = decodedTokenRequestResponse['access_token'];
     final Map<String, String> header = {
       'Authorization': 'Bearer $accessToken',
@@ -24,23 +24,23 @@ class QueryBuilder {
     return (header);
   }
 
-  String addFilter(Map filters, String url){
-    for(final filter in filters.entries){
-      if(filter.value!='blank') {
+  String addFilter(Map filters, String url) {
+    for (final filter in filters.entries) {
+      if (filter.value != 'blank') {
         url += '&${filter.key}=${filter.value}';
       }
     }
     return url;
   }
 
-  String pullAdoptionData(Pet pet, String status){
+  String pullAdoptionData(Pet pet, String status) {
     final enumDecoder = EnumDecoder();
     final evaluator = InputEvaluator();
     DateTime currentDate = DateTime.now();
     DateTime oneYearAgo = currentDate.subtract(const Duration(days: 365));
     final formattedDate = '${oneYearAgo.toIso8601String()}Z';
     String species = enumDecoder.decodeSpeciesEnum(pet.species);
-    species = evaluator.inspectSpeciesInput(species);
+    species = evaluator.evaluateSpeciesInput(species);
     final breed = pet.breed.replaceAll(' ', '-');
     return 'https://api.petfinder.com/v2/animals/?after=$formattedDate&status=$status&type=$species&breed=$breed&location=46241&distance=50';
   }
