@@ -518,7 +518,6 @@ class FavoritePetIcon extends StatefulWidget {
 
 class FavoritePetIconState extends State<FavoritePetIcon> {
   bool _isFavorited = false;
-  int _favoriteCount = 0;
   late Pet _pet;
   FavoritePetIconState(Pet pet) {
     _pet = pet;
@@ -552,7 +551,6 @@ class FavoritePetIconState extends State<FavoritePetIcon> {
         SizedBox(
           width: 18,
           child: SizedBox(
-            child: Text('$_favoriteCount'),
           ),
         ),
       ],
@@ -561,11 +559,9 @@ class FavoritePetIconState extends State<FavoritePetIcon> {
 
   int _toggleFavorite() {
     if (_isFavorited) {
-      _favoriteCount -= 1;
       _isFavorited = false;
       return 2;
     } else {
-      _favoriteCount += 1;
       _isFavorited = true;
       return 1;
     }
