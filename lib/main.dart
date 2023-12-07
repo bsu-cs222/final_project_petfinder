@@ -233,7 +233,7 @@ class PetListPageState extends State<PetListPage> {
   }
 
   Future<void> fetchData() async {
-    final caller = APICaller();
+    final caller = ApiCaller();
     final response = await caller.makeRequestToAPI(
       widget.url,
     );
