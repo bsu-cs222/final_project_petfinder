@@ -3,22 +3,18 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   final inputEvaluator = InputEvaluator();
-  test('When given the input female the evaluator reads it as Female', () {
-    String gender = 'female';
-    final result = inputEvaluator.inspectGenderInput(gender);
-    expect(result, 'female');
+  List<String>testingGenderInputs=['Female','Male,Female','fmale'];
+  List<String>expectedGenderInputs=['female','male,female','male,female'];
+  int index=0;
+  String result;
+  for(String testingGender in testingGenderInputs){
+    test('When given the input ${testingGenderInputs[index]} the evaluator reads it as ${expectedGenderInputs[index]}',(){
+      result=inputEvaluator.inspectGenderInput(testingGender);
+      String expectedGender=expectedGenderInputs[index];
+      expect(result,expectedGender);
+      index++;
   });
-  test('When given no input the evaluator read it as male,female', () {
-    String gender = '';
-    final result = inputEvaluator.inspectGenderInput(gender);
-    expect(result, 'male,female');
-  });
-  test('When given a misspelled input the evaluator reads it as male,female',
-      () {
-    String gender = 'fmale';
-    final result = inputEvaluator.inspectGenderInput(gender);
-    expect(result, 'male,female');
-  });
+  }
   final ageTestInputs = {'baby', 'young', 'adult', 'senior', 'alutd'};
   final expectedTestInputs = {
     'baby',
