@@ -1,8 +1,8 @@
-import 'package:cs222_final_project_pet_finder/input_evaluator.dart';
+import 'package:cs222_final_project_pet_finder/data_evaluator.dart';
 import 'package:flutter/material.dart';
 
 class InputOrganizer {
-  final inputEvaluator = InputEvaluator();
+  final inputEvaluator = DataEvaluator();
   bool organizeZipcodeInput(TextEditingController zipcodeController) {
     String zipcodeInputBody = zipcodeController.text;
     bool zipcodeResult = inputEvaluator.evaluateZipcodeInput(zipcodeInputBody);

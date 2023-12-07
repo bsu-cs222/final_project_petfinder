@@ -1,21 +1,23 @@
 import 'dart:convert';
 import 'package:cs222_final_project_pet_finder/pet.dart';
+import 'package:cs222_final_project_pet_finder/data_evaluator.dart';
 
 class PetFinderParser {
+  final evaluator = DataEvaluator();
   List parsePetInfo(queryResponse) {
     final decodedAPIResponse = json.decode(queryResponse);
     final listOfReturnedAnimals = decodedAPIResponse['animals'];
     List<Pet> pets = List<Pet>.generate(listOfReturnedAnimals.length, (index) {
       return Pet(
           name: listOfReturnedAnimals[index]['name'],
-          species: evaluateSpecies(listOfReturnedAnimals[index]['type']),
+          species: evaluator.evaluateSpecies(listOfReturnedAnimals[index]['type']),
           breed: listOfReturnedAnimals[index]['breeds']['primary'],
           urlString: listOfReturnedAnimals[index]['url'],
           photos: listOfReturnedAnimals[index]['photos'],
           zipcode: listOfReturnedAnimals[index]['contact']['address']
               ['postcode'],
-          gender: evaluateGender(listOfReturnedAnimals[index]['gender']),
-          age: evaluateAge(listOfReturnedAnimals[index]['age']));
+          gender: evaluator.evaluateGender(listOfReturnedAnimals[index]['gender']),
+          age: evaluator.evaluateAge(listOfReturnedAnimals[index]['age']));
     });
     return pets;
   }
@@ -24,48 +26,5 @@ class PetFinderParser {
     final decodedAPIResponse = json.decode(queryResponse);
     final totalOfAnimal = decodedAPIResponse['pagination']['total_count'];
     return totalOfAnimal;
-  }
-
-  GenderType evaluateGender(petListedGender) {
-    switch (petListedGender) {
-      case 'Male':
-        return GenderType.male;
-      default:
-        return GenderType.female;
-    }
-  }
-
-  AgeType evaluateAge(petListedAge) {
-    switch (petListedAge) {
-      case 'Baby':
-        return AgeType.baby;
-      case 'Young':
-        return AgeType.young;
-      case 'Adult':
-        return AgeType.adult;
-      default:
-        return AgeType.senior;
-    }
-  }
-
-  SpeciesType evaluateSpecies(petListedSpecies) {
-    switch (petListedSpecies) {
-      case 'Dog':
-        return SpeciesType.dog;
-      case 'Cat':
-        return SpeciesType.cat;
-      case 'Small-furry' ||'Small & Furry'|| 'Rat' || 'Gerbil' || 'Guinea Pig':
-        return SpeciesType.rodent;
-      case 'Barnyard' || 'Goat' || 'Pot Bellied':
-        return SpeciesType.barnyard;
-      case 'Bird':
-        return SpeciesType.bird;
-      case 'Rabbit':
-        return SpeciesType.rabbit;
-      case 'Horse':
-        return SpeciesType.horse;
-      default:
-        return SpeciesType.other;
-    }
   }
 }

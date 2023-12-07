@@ -1,7 +1,7 @@
 import 'package:cs222_final_project_pet_finder/adoption_rate_calculator.dart';
 import 'package:cs222_final_project_pet_finder/enum_decoder.dart';
 import 'package:cs222_final_project_pet_finder/pet.dart';
-import 'package:cs222_final_project_pet_finder/query_builder.dart';
+import 'package:cs222_final_project_pet_finder/query_constructor.dart';
 import 'package:cs222_final_project_pet_finder/api_caller.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -69,12 +69,12 @@ class ZipCodePage extends StatelessWidget {
   final TextEditingController speciesController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
   final inputOrganizer = InputOrganizer();
-  final urlCustomizer = UrlCustomizer();
+  final urlCustomizer = QueryConstructor();
   ZipCodePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String url = urlCustomizer.pullBaseURL();
+    String url = urlCustomizer.returnBaseURL();
     final theme = Theme.of(context);
     final style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.primaryContainer,
