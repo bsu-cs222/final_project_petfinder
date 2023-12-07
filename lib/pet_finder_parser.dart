@@ -17,7 +17,8 @@ class PetFinderParser {
           zipcode: listOfReturnedAnimals[index]['contact']['address']
               ['postcode'],
           gender: evaluator.evaluateGender(listOfReturnedAnimals[index]['gender']),
-          age: evaluator.evaluateAge(listOfReturnedAnimals[index]['age']));
+          age: evaluator.evaluateAge(listOfReturnedAnimals[index]['age']),
+      petID: listOfReturnedAnimals[index]['id']);
     });
     return pets;
   }
