@@ -4,7 +4,7 @@ import 'package:cs222_final_project_pet_finder/enum_decoder.dart';
 import 'package:cs222_final_project_pet_finder/input_evaluator.dart';
 import 'package:cs222_final_project_pet_finder/pet.dart';
 
-class QueryBuilder {
+class TokenAuthenticator {
   Future<Map<String, String>> pullQueryToken(id, secret) async {
     final Map<String, String> tokenResponse = {
       'grant_type': 'client_credentials',
@@ -23,7 +23,9 @@ class QueryBuilder {
     };
     return (header);
   }
+}
 
+class QueryBuilder {
   String pullAdoptionData(Pet pet, String status) {
     final enumDecoder = EnumDecoder();
     final evaluator = InputEvaluator();

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class ApiCaller {
   Future<Object> makeRequestToAPI(urlFinal) async {
-    final query = QueryBuilder();
+    final query = TokenAuthenticator();
     final response = await http.post(
       Uri.parse('https://api.petfinder.com/v2/oauth2/token'),
       body: await query.pullQueryToken(
