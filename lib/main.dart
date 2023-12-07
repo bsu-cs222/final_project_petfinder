@@ -391,7 +391,6 @@ class FavoritesPageState extends State<FavoritesPage> {
   }
 
   final calculator = AdoptionRateCalculator();
-  String adoptionRateMessage = 'Check adoption rate';
   @override
   Widget build(BuildContext context) {
     var listenerCommand = context.watch<ListenerClass>();
@@ -481,7 +480,7 @@ class FavoritesPageState extends State<FavoritesPage> {
                                           ConnectionState.waiting) {
                                         return const CircularProgressIndicator();
                                       } else if (snapshot.hasError) {
-                                        return Text('Error: ${snapshot.error}');
+                                        return const Text('The adoption rate for this breed is unknown!');
                                       } else {
                                         return Text(
                                           'Over the past year, this breed of pet has had a ${snapshot.data}% adoption rate.',
