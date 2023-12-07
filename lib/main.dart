@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:cs222_final_project_pet_finder/pet_finder_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:cs222_final_project_pet_finder/input_wizard.dart';
+import 'package:cs222_final_project_pet_finder/input_organizer.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -68,7 +68,7 @@ class ZipCodePage extends StatelessWidget {
   final TextEditingController genderController = TextEditingController();
   final TextEditingController speciesController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
-  final inputWizard = InputWizard();
+  final inputOrganizer = InputOrganizer();
   final queryBuilder = QueryBuilder();
   ZipCodePage({super.key});
 
@@ -179,10 +179,10 @@ class ZipCodePage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   var genderFilter =
-                      inputWizard.organizeGenderInput(genderController);
-                  var ageFilter = inputWizard.organizeAgeInput(ageController);
+                      inputOrganizer.organizeGenderInput(genderController);
+                  var ageFilter = inputOrganizer.organizeAgeInput(ageController);
                   var speciesFilter =
-                      inputWizard.organizeSpeciesInput(speciesController);
+                      inputOrganizer.organizeSpeciesInput(speciesController);
                   final filterValues = {
                     'gender': genderFilter,
                     'location': zipCodeController.text,
@@ -192,7 +192,7 @@ class ZipCodePage extends StatelessWidget {
                   };
                   url = queryBuilder.addFilter(filterValues, url);
                   var zipcodeRequest =
-                      inputWizard.organizeZipcodeInput(zipCodeController);
+                      inputOrganizer.organizeZipcodeInput(zipCodeController);
                   if (zipcodeRequest) {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => PetListPage(url: url),
